@@ -35,3 +35,5 @@ public:
 			object.m_time = ObjectTime + delay;
 	}
 };
+
+float Object::ObjectTime = 0.0f;

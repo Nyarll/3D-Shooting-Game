@@ -3,7 +3,10 @@
 
 // <コンストラクタ>
 GridFloor::GridFloor(ID3D11Device * device, ID3D11DeviceContext * context, DirectX::CommonStates * states, float size, int divs)
+	:m_size(size)
+	, m_divs(divs)
 {
+	m_states = states;
 	// <エフェクトの生成>
 	m_basicEffect = std::make_unique<DirectX::BasicEffect>(device);
 	// <頂点カラー(有効)>
@@ -30,7 +33,8 @@ GridFloor::~GridFloor()
 }
 
 // <描画>
-void GridFloor::draw(ID3D11DeviceContext * context, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj, DirectX::GXMVECTOR color)
+void GridFloor::draw(ID3D11DeviceContext* context, const DirectX::SimpleMath::Matrix& view,
+	const DirectX::SimpleMath::Matrix& proj, DirectX::GXMVECTOR color)
 {
 	DirectX::SimpleMath::Matrix world;
 

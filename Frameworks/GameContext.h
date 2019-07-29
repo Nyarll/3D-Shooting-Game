@@ -72,7 +72,7 @@ private:
 			T* Get() const override { return m_context; }
 		};
 
-		std::unordered_map<type_id_t, std::unique_ptr<IContextHolder>> m_contexts;
+		std::unordered_map<Type_ID, std::unique_ptr<IContextHolder>> m_contexts;
 
 		template <typename T> T* Get()
 		{

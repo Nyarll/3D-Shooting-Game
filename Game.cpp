@@ -5,15 +5,19 @@
 #include "pch.h"
 #include "Game.h"
 
+#include "Frameworks/Object.h"
+
 extern void ExitGame();
 
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
 
 using Microsoft::WRL::ComPtr;
 
 Game::Game() noexcept(false)
 {
 	Register(std::make_unique<DX::StepTimer>());
+	Object::ObjectTime = float(Get<DX::StepTimer>().GetTotalSeconds());
 
 	Register(std::make_unique<DX::DeviceResources>());
     m_deviceResources = &Get<DX::DeviceResources>();
@@ -23,6 +27,11 @@ Game::Game() noexcept(false)
 // Initialize the Direct3D resources required to run.
 void Game::Initialize(HWND window, int width, int height)
 {
+	Register(std::make_unique<Mouse>());
+	Get<Mouse>().SetWindow(window);
+
+	Register(std::make_unique<Keyboard>());
+
     m_deviceResources->SetWindow(window, width, height);
 
     m_deviceResources->CreateDeviceResources();
@@ -31,12 +40,17 @@ void Game::Initialize(HWND window, int width, int height)
     m_deviceResources->CreateWindowSizeDependentResources();
     CreateWindowSizeDependentResources();
 
-    // TODO: Change the timer settings if you want something other than the default variable timestep mode.
-    // e.g. for 60 FPS fixed timestep update logic, call:
-    /*
-    m_timer.SetFixedTimeStep(true);
-    m_timer.SetTargetElapsedSeconds(1.0 / 60);
-    */
+	auto device = m_deviceResources->GetD3DDevice();
+	auto context = m_deviceResources->GetD3DDeviceContext();
+	{
+		// <コモンステートの作成>
+		Register(std::make_unique<CommonStates>(device));
+		// <エフェクトファクトリ>
+		Register(std::make_unique<EffectFactory>(device));
+		Get<EffectFactory>().SetDirectory(L"Resources/Models");
+	}
+
+	m_gridFloor = std::make_unique<GridFloor>(device, context, &Get<CommonStates>(), 10, 10);
 }
 
 #pragma region Frame Update
@@ -79,6 +93,21 @@ void Game::Render()
 
     // TODO: Add your rendering code here.
     context;
+
+	Vector3 eye(0.0f, 8.0f, 12.0f);
+	Vector3 target = Vector3::Zero;
+	Vector3 up(0.0f, 1.0f, 0.0f);
+	auto view = Matrix::CreateLookAt(eye, target, up);
+
+	RECT size = m_deviceResources->GetOutputSize();
+	float aspectRatio = float(size.right) / float(size.bottom);
+	float fovAngleY = XMConvertToRadians(45.0f);
+	auto proj = Matrix::CreatePerspectiveFieldOfView(
+		fovAngleY, aspectRatio,
+		0.01f, 10000.0f
+	);
+
+	m_gridFloor->draw(context, view, proj);
 
     m_deviceResources->PIXEndEvent();
 

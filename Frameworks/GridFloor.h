@@ -35,7 +35,7 @@ public:
 	~GridFloor();
 
 	// <•`‰æ>
-	void draw(ID3D11DeviceContext* context, DirectX::SimpleMath::Matrix view,
-		DirectX::SimpleMath::Matrix proj, DirectX::GXMVECTOR color = DirectX::Colors::Gray);
+	void draw(ID3D11DeviceContext* context, const DirectX::SimpleMath::Matrix& view,
+		const DirectX::SimpleMath::Matrix& proj, DirectX::GXMVECTOR color = DirectX::Colors::Gray);
 };
 
