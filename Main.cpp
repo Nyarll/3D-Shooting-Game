@@ -221,37 +221,56 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         PostQuitMessage(0);
         break;
 
-    case WM_SYSKEYDOWN:
-        if (wParam == VK_RETURN && (lParam & 0x60000000) == 0x20000000)
-        {
-            // Implements the classic ALT+ENTER fullscreen toggle
-            if (s_fullscreen)
-            {
-                SetWindowLongPtr(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-                SetWindowLongPtr(hWnd, GWL_EXSTYLE, 0);
+	case WM_INPUT:
+	case WM_MOUSEMOVE:
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONUP:
+	case WM_MBUTTONDOWN:
+	case WM_MBUTTONUP:
+	case WM_MOUSEWHEEL:
+	case WM_XBUTTONDOWN:
+	case WM_XBUTTONUP:
+	case WM_MOUSEHOVER:
+		Mouse::ProcessMessage(message, wParam, lParam);
+		break;
 
-                int width = 800;
-                int height = 600;
-                if (game)
-                    game->GetDefaultSize(width, height);
+	case WM_SYSKEYDOWN:
+		if (wParam == VK_RETURN && (lParam & 0x60000000) == 0x20000000)
+		{
+			// Implements the classic ALT+ENTER fullscreen toggle
+			if (s_fullscreen)
+			{
+				SetWindowLongPtr(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+				SetWindowLongPtr(hWnd, GWL_EXSTYLE, 0);
 
-                ShowWindow(hWnd, SW_SHOWNORMAL);
+				int width = 800;
+				int height = 600;
+				if (game)
+					game->GetDefaultSize(width, height);
 
-                SetWindowPos(hWnd, HWND_TOP, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
-            }
-            else
-            {
-                SetWindowLongPtr(hWnd, GWL_STYLE, 0);
-                SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
+				ShowWindow(hWnd, SW_SHOWNORMAL);
 
-                SetWindowPos(hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+				SetWindowPos(hWnd, HWND_TOP, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
+			}
+			else
+			{
+				SetWindowLongPtr(hWnd, GWL_STYLE, 0);
+				SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
 
-                ShowWindow(hWnd, SW_SHOWMAXIMIZED);
-            }
+				SetWindowPos(hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
-            s_fullscreen = !s_fullscreen;
-        }
-        break;
+				ShowWindow(hWnd, SW_SHOWMAXIMIZED);
+			}
+
+			s_fullscreen = !s_fullscreen;
+		}
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		Keyboard::ProcessMessage(message, wParam, lParam);
+		break;
 
     case WM_MENUCHAR:
         // A menu is active and the user presses a key that does not correspond

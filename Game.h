@@ -9,8 +9,6 @@
 
 #include "Frameworks/GameContext.h"
 
-#include "Frameworks/GridFloor.h"
-
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -54,5 +52,5 @@ private:
     // Device resources.
     DX::DeviceResources*				    m_deviceResources;
 
-	std::unique_ptr<GridFloor>				m_gridFloor;
+	//std::unique_ptr<GridFloor>				m_gridFloor;
 };

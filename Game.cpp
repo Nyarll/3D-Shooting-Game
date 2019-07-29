@@ -6,6 +6,8 @@
 #include "Game.h"
 
 #include "Frameworks/Object.h"
+#include "Frameworks/DebugCamera.h"
+#include "Frameworks/GridFloorWrapper.h"
 
 extern void ExitGame();
 
@@ -29,6 +31,7 @@ void Game::Initialize(HWND window, int width, int height)
 {
 	Register(std::make_unique<Mouse>());
 	Get<Mouse>().SetWindow(window);
+	Register(std::make_unique<Mouse::ButtonStateTracker>());
 
 	Register(std::make_unique<Keyboard>());
 
@@ -48,9 +51,15 @@ void Game::Initialize(HWND window, int width, int height)
 		// <エフェクトファクトリ>
 		Register(std::make_unique<EffectFactory>(device));
 		Get<EffectFactory>().SetDirectory(L"Resources/Models");
+
+		Register(std::make_unique<DebugCamera>());
+		Get<DebugCamera>().Initialize(*this);
+
+		Register(std::make_unique<GridFloorWrapper>());
+		Get<GridFloorWrapper>().Initialize(*this);
 	}
 
-	m_gridFloor = std::make_unique<GridFloor>(device, context, &Get<CommonStates>(), 10, 10);
+	//m_gridFloor = std::make_unique<GridFloor>(device, context, &Get<CommonStates>(), 10, 100);
 }
 
 #pragma region Frame Update
@@ -60,6 +69,8 @@ void Game::Tick()
 	auto& timer = Get<DX::StepTimer>();
     timer.Tick([&]()
     {
+		Get<Keyboard>().GetState();
+		Get<Mouse::ButtonStateTracker>().Update(Get<Mouse>().GetState());
         Update(timer);
     });
 
@@ -73,6 +84,13 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     elapsedTime;
+
+	if (Get<DirectX::Keyboard>().GetState().Escape)
+	{
+		ExitGame();
+	}
+
+	Get<DebugCamera>().Update(*this);
 }
 #pragma endregion
 
@@ -94,20 +112,9 @@ void Game::Render()
     // TODO: Add your rendering code here.
     context;
 
-	Vector3 eye(0.0f, 8.0f, 12.0f);
-	Vector3 target = Vector3::Zero;
-	Vector3 up(0.0f, 1.0f, 0.0f);
-	auto view = Matrix::CreateLookAt(eye, target, up);
+	Get<GridFloorWrapper>().Render(*this);
 
-	RECT size = m_deviceResources->GetOutputSize();
-	float aspectRatio = float(size.right) / float(size.bottom);
-	float fovAngleY = XMConvertToRadians(45.0f);
-	auto proj = Matrix::CreatePerspectiveFieldOfView(
-		fovAngleY, aspectRatio,
-		0.01f, 10000.0f
-	);
-
-	m_gridFloor->draw(context, view, proj);
+	//m_gridFloor->draw(context, view, proj);
 
     m_deviceResources->PIXEndEvent();
 

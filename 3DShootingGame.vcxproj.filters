@@ -41,6 +41,30 @@
     <ClInclude Include="Frameworks\TypeID.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Frameworks\InfinityGridFloor.h">
+      <Filter>Framework\DebugTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\GridFloorWrapper.h">
+      <Filter>Framework\DebugTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Transform.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Property.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\ObjectField.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\GameObject.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Camera.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\DebugCamera.h">
+      <Filter>Framework\DebugTools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -53,6 +77,15 @@
     </ClCompile>
     <ClCompile Include="Frameworks\GridFloor.cpp">
       <Filter>Framework\DebugTools</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\GridFloorWrapper.cpp">
+      <Filter>Framework\DebugTools</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\DebugCamera.cpp">
+      <Filter>Framework\DebugTools</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Object.cpp">
+      <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
