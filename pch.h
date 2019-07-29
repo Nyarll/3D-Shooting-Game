@@ -26,28 +26,67 @@
 // WinHelp is deprecated
 #define NOHELP
 
+// <Windows>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+// <COM>
 #include <wrl/client.h>
 
+// <DirectX>
 #include <d3d11_1.h>
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+#include <DirectXCollision.h>
 
+// <DXGI>
 #if defined(NTDDI_WIN10_RS2)
 #include <dxgi1_6.h>
 #else
 #include <dxgi1_5.h>
 #endif
 
-#include <DirectXMath.h>
-#include <DirectXColors.h>
-
-#include <algorithm>
+// <STL>
 #include <exception>
 #include <memory>
 #include <stdexcept>
 
-#include <stdio.h>
+#include <cstdio>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+
+#include <algorithm>
+#include <random>
+
+#include <vector>
+#include <list>
+#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
+#include <queue>
+#include <deque>
+
+// <DirectXTK>
+#include <Keyboard.h>
+#include <Mouse.h>
+#include <SimpleMath.h>
+#include <CommonStates.h>
+#include <WICTextureLoader.h>
+#include <SpriteBatch.h>
+#include <SpriteFont.h>
+#include <Effects.h>
+#include <PrimitiveBatch.h>
+#include <VertexTypes.h>
+#include <SimpleMath.h>
+#include <SpriteBatch.h>
+#include <SpriteFont.h>
+#include <GeometricPrimitive.h>
+#include <WICTextureLoader.h>
+#include <CommonStates.h>
+#include <Effects.h>
+#include <Model.h>
 
 #ifdef _DEBUG
 #include <dxgidebug.h>

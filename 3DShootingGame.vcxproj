@@ -161,12 +161,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DeviceResources.h" />
+    <ClInclude Include="Frameworks\Component.h" />
+    <ClInclude Include="Frameworks\GameContext.h" />
+    <ClInclude Include="Frameworks\GridFloor.h" />
+    <ClInclude Include="Frameworks\Object.h" />
+    <ClInclude Include="Frameworks\TypeID.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StepTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp" />
+    <ClCompile Include="Frameworks\GridFloor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">

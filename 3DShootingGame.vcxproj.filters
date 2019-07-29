@@ -8,23 +8,51 @@
       <UniqueIdentifier>ef4ced20-92ff-433f-899b-b1236301888e</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{9044cf73-4e6e-462a-af1c-3a3d75e4353b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\DebugTools">
+      <UniqueIdentifier>{8a19221a-7b0f-4089-84cd-6f650f3ce56b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="StepTimer.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="DeviceResources.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\GridFloor.h">
+      <Filter>Framework\DebugTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Object.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Component.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\GameContext.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\TypeID.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DeviceResources.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\GridFloor.cpp">
+      <Filter>Framework\DebugTools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
