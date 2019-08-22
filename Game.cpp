@@ -51,9 +51,16 @@ void Game::Initialize(HWND window, int width, int height)
 		// <エフェクトファクトリ>
 		Register(std::make_unique<EffectFactory>(device));
 		Get<EffectFactory>().SetDirectory(L"Resources/Models");
-
-		Register(std::make_unique<DebugCamera>());
-		Get<DebugCamera>().Initialize(*this);
+		// <カメラ>
+		// Register(std::make_unique<DebugCamera>());
+		// Get<DebugCamera>().Initialize(*this);
+		Register(std::make_unique<DebugFollowCamera>(
+			DirectX::SimpleMath::Vector3(0, 2, -10),
+			DirectX::SimpleMath::Vector3(0, 0, 0),
+			window
+			)
+		);
+		Get<DebugFollowCamera>().Initialize(*this);
 
 		Register(std::make_unique<GridFloorWrapper>());
 		Get<GridFloorWrapper>().Initialize(*this);
@@ -90,7 +97,9 @@ void Game::Update(DX::StepTimer const& timer)
 		ExitGame();
 	}
 
-	Get<DebugCamera>().Update(*this);
+	// Get<DebugCamera>().Update(*this);
+	Get<DebugFollowCamera>().SetTarget({ 0,0,0 });
+	Get<DebugFollowCamera>().Update(*this);
 }
 #pragma endregion
 
@@ -113,8 +122,6 @@ void Game::Render()
     context;
 
 	Get<GridFloorWrapper>().Render(*this);
-
-	//m_gridFloor->draw(context, view, proj);
 
     m_deviceResources->PIXEndEvent();
 

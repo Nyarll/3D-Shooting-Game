@@ -1,4 +1,4 @@
-#include "pch.h"
+
 
 #include "GridFloorWrapper.h"
 #include "GameContext.h"
@@ -15,5 +15,5 @@ void GridFloorWrapper::Initialize(GameContext& context)
 void GridFloorWrapper::Render(GameContext& context)
 {
 	auto& deviceResources = context.Get<DX::DeviceResources>();
-	m_gridFloor->draw(deviceResources.GetD3DDeviceContext(), context.Get<DebugCamera>().m_view, context.Get<DebugCamera>().m_proj);
+	m_gridFloor->draw(deviceResources.GetD3DDeviceContext(), context.Get<DebugFollowCamera>().m_view, context.Get<DebugFollowCamera>().m_proj);
 }

@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "GridFloor.h"
 
 // <コンストラクタ>
