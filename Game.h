@@ -9,6 +9,8 @@
 
 #include "Frameworks/GameContext.h"
 
+#include "Frameworks/ResourceManager.h"
+
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -53,4 +55,6 @@ private:
     DX::DeviceResources*				    m_deviceResources;
 
 	//std::unique_ptr<GridFloor>				m_gridFloor;
+
+	std::unique_ptr<ResourceManager>		m_resourceManager;
 };

@@ -65,7 +65,8 @@ void Game::Initialize(HWND window, int width, int height)
 		Register(std::make_unique<GridFloorWrapper>());
 		Get<GridFloorWrapper>().Initialize(*this);
 	}
-
+	m_resourceManager = std::make_unique<ResourceManager>();
+	m_resourceManager->Initialize(*this, window);
 	//m_gridFloor = std::make_unique<GridFloor>(device, context, &Get<CommonStates>(), 10, 100);
 }
 
@@ -122,6 +123,17 @@ void Game::Render()
     context;
 
 	Get<GridFloorWrapper>().Render(*this);
+
+	auto& dr = Get<DX::DeviceResources>();
+	Matrix w = Matrix::Identity;
+	//w *= Matrix::CreateScale(0.01f);
+
+	auto model = m_resourceManager->GetFbxModel(ResourceManager::ResourceID::TestModel);
+	model.lock()->Draw(
+		dr.GetD3DDeviceContext(),
+		w, 
+		Get<DebugFollowCamera>().m_view,
+		Get<DebugFollowCamera>().m_proj);
 
     m_deviceResources->PIXEndEvent();
 
