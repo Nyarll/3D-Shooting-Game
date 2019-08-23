@@ -65,6 +65,12 @@
     <ClInclude Include="Frameworks\DebugCamera.h">
       <Filter>Framework\DebugTools</Filter>
     </ClInclude>
+    <ClInclude Include="Frameworks\ResourceManager.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\FBXModel.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -87,6 +93,12 @@
     <ClCompile Include="Frameworks\Object.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
+    <ClCompile Include="Frameworks\ResourceManager.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\FBXModel.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -100,5 +112,10 @@
     <Manifest Include="settings.manifest">
       <Filter>Assets</Filter>
     </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader.hlsl">
+      <Filter>Framework</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
