@@ -126,10 +126,13 @@ void Game::Render()
 
 	auto& dr = Get<DX::DeviceResources>();
 	Matrix w = Matrix::Identity;
+	w *= Matrix::CreateScale(0.02f);
 	//w *= Matrix::CreateScale(0.01f);
+	//w *= Matrix::CreateRotationX(DirectX::XMConvertToRadians(270.0f));
 
 	auto model = m_resourceManager->GetFbxModel(ResourceManager::ResourceID::TestModel);
 	model.lock()->Draw(
+		dr.GetD3DDevice(),
 		dr.GetD3DDeviceContext(),
 		w, 
 		Get<DebugFollowCamera>().m_view,

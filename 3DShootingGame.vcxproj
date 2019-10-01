@@ -166,7 +166,7 @@
     <ClInclude Include="Frameworks\Camera.h" />
     <ClInclude Include="Frameworks\Component.h" />
     <ClInclude Include="Frameworks\DebugCamera.h" />
-    <ClInclude Include="Frameworks\FBXModel.h" />
+    <ClInclude Include="Frameworks\FbxModel.h" />
     <ClInclude Include="Frameworks\GameContext.h" />
     <ClInclude Include="Frameworks\GameObject.h" />
     <ClInclude Include="Frameworks\GridFloor.h" />
@@ -185,7 +185,7 @@
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp" />
     <ClCompile Include="Frameworks\DebugCamera.cpp" />
-    <ClCompile Include="Frameworks\FBXModel.cpp" />
+    <ClCompile Include="Frameworks\FbxModel.cpp" />
     <ClCompile Include="Frameworks\GridFloor.cpp" />
     <ClCompile Include="Frameworks\GridFloorWrapper.cpp" />
     <ClCompile Include="Frameworks\Object.cpp" />

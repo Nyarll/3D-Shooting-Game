@@ -19,6 +19,7 @@ class Game : public DX::IDeviceNotify, public GameContext
 public:
 
     Game() noexcept(false);
+	virtual ~Game() = default;
 
     // Initialization and management
     void Initialize(HWND window, int width, int height);

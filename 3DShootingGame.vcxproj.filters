@@ -68,7 +68,7 @@
     <ClInclude Include="Frameworks\ResourceManager.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Frameworks\FBXModel.h">
+    <ClInclude Include="Frameworks\FbxModel.h">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
@@ -96,7 +96,7 @@
     <ClCompile Include="Frameworks\ResourceManager.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Frameworks\FBXModel.cpp">
+    <ClCompile Include="Frameworks\FbxModel.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
