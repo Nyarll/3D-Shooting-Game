@@ -41,6 +41,11 @@ public:
 	// <シーン変更要求>
 	void RequestScene(SceneID _sceneID);
 
+	IScene& GetActiveScene()
+	{
+		return *m_activeScene;
+	}
+
 private:
 	// <シーン変更>
 	void ChangeScene(GameContext& context, SceneID _sceneID);

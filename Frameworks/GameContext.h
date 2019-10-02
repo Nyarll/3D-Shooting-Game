@@ -8,6 +8,9 @@
 #include "../DeviceResources.h"
 #include "../StepTimer.h"
 
+#include "Camera.h"
+#include "DebugCamera.h"
+
 #include "TypeID.h"
 
 // <ServiceLocator ƒpƒ^[ƒ“>
@@ -183,5 +186,17 @@ public:
 	void Register(ObjectType&& context)
 	{
 		m_locator.Register(std::forward<ObjectType>(context));
+	}
+
+	DX::DeviceResources& GetDR()
+	{
+		return Get<DX::DeviceResources>();
+	}
+
+	
+
+	ICamera& GetFollowCamera()
+	{
+		return Get<DebugFollowCamera>();
 	}
 };

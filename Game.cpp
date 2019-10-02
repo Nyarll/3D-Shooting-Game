@@ -65,9 +65,6 @@ void Game::Initialize(HWND window, int width, int height)
 			)
 		);
 		Get<DebugFollowCamera>().Initialize(*this);
-
-		Register(std::make_unique<GridFloorWrapper>());
-		Get<GridFloorWrapper>().Initialize(*this);
 	}
 	Register(std::make_unique<ResourceManager>());
 	Get<ResourceManager>().Initialize(*this, window);

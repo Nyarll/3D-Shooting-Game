@@ -14,9 +14,11 @@ public:
 	{
 		Hitogata,
 		Idle,
-		Kick,
 		Flair,
 		Walk,
+		RightWalk,
+		LeftWalk,
+		Back,
 		BreakDance,
 		SkyDome,
 	};

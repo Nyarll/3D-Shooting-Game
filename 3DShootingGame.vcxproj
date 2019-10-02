@@ -193,9 +193,11 @@
     <ClCompile Include="Frameworks\FbxModel.cpp" />
     <ClCompile Include="Frameworks\GridFloor.cpp" />
     <ClCompile Include="Frameworks\GridFloorWrapper.cpp" />
+    <ClCompile Include="Frameworks\InfinityGridFloor.cpp" />
     <ClCompile Include="Frameworks\Object.cpp" />
     <ClCompile Include="Frameworks\ResourceManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Game\Scene.cpp" />
     <ClCompile Include="Game\SceneManager.cpp" />
     <ClCompile Include="Game\ScenePlay.cpp" />
     <ClCompile Include="Main.cpp" />

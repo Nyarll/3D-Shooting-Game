@@ -14,9 +14,11 @@ void ResourceManager::Initialize(GameContext& context, HWND window)
 	//this->AnimationModelRegister(context, window, ResourceID::TestModel, "Resources/Models/humanoid.fbx", 1);
 	this->ModelRegister(context, window, ResourceID::Hitogata, "Resources/Models/hitogata/hitogata.FBX");
 	this->AnimationModelRegister(context, window, ResourceID::Idle, "Resources/Models/hitogata/Idle.fbx", 1);
-	this->AnimationModelRegister(context, window, ResourceID::Kick, "Resources/Models/hitogata/Kick.fbx", 1);
 	this->AnimationModelRegister(context, window, ResourceID::Flair, "Resources/Models/hitogata/Flair.fbx", 1);
 	this->AnimationModelRegister(context, window, ResourceID::Walk, "Resources/Models/hitogata/Walking.fbx", 1);
+	this->AnimationModelRegister(context, window, ResourceID::RightWalk, "Resources/Models/hitogata/RightWalk.fbx", 1);
+	this->AnimationModelRegister(context, window, ResourceID::LeftWalk, "Resources/Models/hitogata/LeftWalk.fbx", 1);
+	this->AnimationModelRegister(context, window, ResourceID::Back, "Resources/Models/hitogata/Back.fbx", 1);
 	this->AnimationModelRegister(context, window, ResourceID::BreakDance, "Resources/Models/hitogata/BreakDance.fbx", 1);
 	this->CmoModelRegister(context, ResourceID::SkyDome, L"Resources/Models", L"Resources/Models/SkyDoom.cmo");
 }

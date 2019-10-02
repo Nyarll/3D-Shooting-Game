@@ -2,11 +2,11 @@
 
 #include "Scene.h"
 
+class GameObject;
+
 // <Scene Play>
 class ScenePlay : public IScene
 {
-private:
-
 
 public:
 	ScenePlay();
@@ -21,6 +21,4 @@ public:
 	virtual void Update(GameContext& context)override;
 	virtual void Render(GameContext& context)override;
 	virtual void Finalize(GameContext& context) override;
-
-private:
 };
