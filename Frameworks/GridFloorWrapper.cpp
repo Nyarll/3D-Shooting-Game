@@ -9,7 +9,7 @@ void GridFloorWrapper::Initialize(GameContext& context)
 	auto& deviceResources = context.Get<DX::DeviceResources>();
 	// <ƒOƒŠƒbƒh°‚Ìì¬>
 	m_gridFloor = std::make_unique<GridFloor>(deviceResources.GetD3DDevice(), deviceResources.GetD3DDeviceContext(),
-		&context.Get<DirectX::CommonStates>(), 10.0f, 10);
+		&context.Get<DirectX::CommonStates>(), 300.0f, 300);
 }
 
 void GridFloorWrapper::Render(GameContext& context)

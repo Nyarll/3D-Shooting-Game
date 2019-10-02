@@ -12,7 +12,12 @@ class ResourceManager final
 public:
 	enum ResourceID
 	{
-		TestModel,
+		Hitogata,
+		Idle,
+		Kick,
+		Flair,
+		Walk,
+		BreakDance,
 		SkyDome,
 	};
 
