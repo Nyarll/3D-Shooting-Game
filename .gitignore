@@ -2,6 +2,7 @@
 # Created by https://www.gitignore.io/api/c,git,c++,unity,csharp
 # Edit at https://www.gitignore.io/?templates=c,git,c++,unity,csharp
 
+*.dds
 ### C ###
 # Prerequisites
 *.d
