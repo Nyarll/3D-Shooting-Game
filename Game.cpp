@@ -20,6 +20,8 @@ using namespace DirectX::SimpleMath;
 
 using Microsoft::WRL::ComPtr;
 
+const int Game::PROGRESS_END = 7;
+
 Game::Game() noexcept(false)
 {
 	Register(std::make_unique<DX::StepTimer>());
@@ -33,49 +35,24 @@ Game::Game() noexcept(false)
 // Initialize the Direct3D resources required to run.
 void Game::Initialize(HWND window, int width, int height)
 {
-	Register(std::make_unique<Mouse>());
-	Get<Mouse>().SetWindow(window);
-	Register(std::make_unique<Mouse::ButtonStateTracker>());
-
-	Register(std::make_unique<Keyboard>());
-
-	m_deviceResources->SetWindow(window, width, height);
-
-	m_deviceResources->CreateDeviceResources();
-	CreateDeviceDependentResources();
-
-	m_deviceResources->CreateWindowSizeDependentResources();
-	CreateWindowSizeDependentResources();
-
-	auto device = m_deviceResources->GetD3DDevice();
-	auto context = m_deviceResources->GetD3DDeviceContext();
+	// <DeviceResourcesの初期化など>
+	this->FirstInit(window, width, height);
+	// <ロード画面>
 	{
-		// <コモンステートの作成>
-		Register(std::make_unique<CommonStates>(device));
-		// <エフェクトファクトリ>
-		Register(std::make_unique<EffectFactory>(device));
-		Get<EffectFactory>().SetDirectory(L"Resources/Models");
-		// <カメラ>
-		// Register(std::make_unique<DebugCamera>());
-		// Get<DebugCamera>().Initialize(*this);
-		Register(std::make_unique<DebugFollowCamera>(
-			DirectX::SimpleMath::Vector3(0, 2, -10),
-			DirectX::SimpleMath::Vector3(0, 0, 0),
-			window
-			)
-		);
-		Get<DebugFollowCamera>().Initialize(*this);
+		std::thread th1(
+			[&](HWND w, int wid, int hei)
+		{
+			this->InitDatas(w, wid, hei);
+		}, window, width, height);
+		std::thread th2(
+			[&](int wid, int hei)
+		{
+			this->RenderInit(wid, hei);
+		}, width, height);
+
+		th1.join();
+		th2.join();
 	}
-	Register(std::make_unique<ResourceManager>());
-	Get<ResourceManager>().Initialize(*this, window);
-
-	Register(std::make_unique<SceneManager>());
-	auto& scene_manager = Get<SceneManager>();
-	//scene_manager.RegisterScene(new [Scene]);
-	scene_manager.RegisterScene(SceneID::ScenePlay, ScenePlay::Create);
-
-	scene_manager.SetStartScene(*this, SceneID::ScenePlay);
-
 }
 
 #pragma region Frame Update
@@ -91,6 +68,82 @@ void Game::Tick()
 	});
 
 	Render();
+}
+
+void Game::FirstInit(HWND window, int width, int height)
+{
+	Register(std::make_unique<Mouse>());
+	Get<Mouse>().SetWindow(window);
+	Register(std::make_unique<Mouse::ButtonStateTracker>());
+	Register(std::make_unique<Keyboard>());
+	m_deviceResources->SetWindow(window, width, height);
+	m_deviceResources->CreateDeviceResources();
+	CreateDeviceDependentResources();
+	m_deviceResources->CreateWindowSizeDependentResources();
+	CreateWindowSizeDependentResources();
+
+	Register(std::make_unique<GameFont>());
+	Get<GameFont>().Load(*this, L"Resources/Fonts/Arial.spritefont");
+}
+
+void Game::InitDatas(HWND window, int width, int height)
+{
+	auto device = m_deviceResources->GetD3DDevice();
+	auto context = m_deviceResources->GetD3DDeviceContext();
+	{
+		// <コモンステートの作成>
+		Register(std::make_unique<CommonStates>(device));
+		this->Progress();
+		// <エフェクトファクトリ>
+		Register(std::make_unique<EffectFactory>(device));
+		Get<EffectFactory>().SetDirectory(L"Resources/Models");
+		this->Progress();
+		// <カメラ>
+		// Register(std::make_unique<DebugCamera>());
+		// Get<DebugCamera>().Initialize(*this);
+		Register(std::make_unique<DebugFollowCamera>(
+			DirectX::SimpleMath::Vector3(0, 2, -10),
+			DirectX::SimpleMath::Vector3(0, 0, 0),
+			window
+			)
+		);
+		this->Progress();
+		Get<DebugFollowCamera>().Initialize(*this);
+		this->Progress();
+	}
+	Register(std::make_unique<ResourceManager>());
+	Get<ResourceManager>().Initialize(*this, window);
+	this->Progress();
+
+	Register(std::make_unique<SceneManager>());
+	auto& scene_manager = Get<SceneManager>();
+	//scene_manager.RegisterScene(new [Scene]);
+	scene_manager.RegisterScene(SceneID::ScenePlay, ScenePlay::Create);
+	this->Progress();
+
+	scene_manager.SetStartScene(*this, SceneID::ScenePlay);
+	this->Progress();
+
+	// Progress : 7
+}
+
+void Game::RenderInit(int width, int height)
+{
+	auto& font = Get<GameFont>();
+	DirectX::SimpleMath::Vector2 pos((width / 2) - (width / 8), (height / 2));
+	while (m_initProgress < PROGRESS_END)
+	{
+		Clear();
+		m_deviceResources->PIXBeginEvent(L"Render");
+
+		// <描画>
+		font.Draw(pos, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
+
+		m_deviceResources->PIXEndEvent();
+
+		// Show the new frame.
+		m_deviceResources->Present();
+	}
 }
 
 // Updates the world.
@@ -126,7 +179,7 @@ void Game::Render()
 
 	Get<SceneManager>().RenderActiveScene(*this);
 
-	
+
 	m_deviceResources->PIXEndEvent();
 
 	// Show the new frame.
@@ -218,6 +271,16 @@ void Game::CreateDeviceDependentResources()
 void Game::CreateWindowSizeDependentResources()
 {
 	// TODO: Initialize windows-size dependent objects here.
+}
+
+void Game::Progress()
+{
+	// ロード画面用
+	for (int i = 0; i < 10000; i++)
+	{
+		for (int j = 0; j < 10000; j++);
+	}
+	m_initProgress++;
 }
 
 void Game::OnDeviceLost()

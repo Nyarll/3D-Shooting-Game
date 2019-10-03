@@ -83,6 +83,9 @@
     <ClInclude Include="Game\ScenePlay.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Frameworks\GameFont.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -122,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="Frameworks\InfinityGridFloor.cpp">
       <Filter>Framework\DebugTools</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\GameFont.cpp">
+      <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -170,6 +170,7 @@
     <ClInclude Include="Frameworks\DebugCamera.h" />
     <ClInclude Include="Frameworks\FbxModel.h" />
     <ClInclude Include="Frameworks\GameContext.h" />
+    <ClInclude Include="Frameworks\GameFont.h" />
     <ClInclude Include="Frameworks\GameObject.h" />
     <ClInclude Include="Frameworks\GridFloor.h" />
     <ClInclude Include="Frameworks\GridFloorWrapper.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="DeviceResources.cpp" />
     <ClCompile Include="Frameworks\DebugCamera.cpp" />
     <ClCompile Include="Frameworks\FbxModel.cpp" />
+    <ClCompile Include="Frameworks\GameFont.cpp" />
     <ClCompile Include="Frameworks\GridFloor.cpp" />
     <ClCompile Include="Frameworks\GridFloorWrapper.cpp" />
     <ClCompile Include="Frameworks\InfinityGridFloor.cpp" />

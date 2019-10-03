@@ -10,6 +10,7 @@
 #include "Frameworks/GameContext.h"
 
 #include "Frameworks/ResourceManager.h"
+#include "Frameworks/GameFont.h"
 
 #include "Game/SceneManager.h"
 
@@ -46,6 +47,10 @@ public:
 
 private:
 
+	void FirstInit(HWND window, int width, int height);
+	void InitDatas(HWND window, int width, int height);
+	void RenderInit(int width, int height);
+
     void Update(DX::StepTimer const& timer);
     void Render();
 
@@ -54,6 +59,12 @@ private:
     void CreateDeviceDependentResources();
     void CreateWindowSizeDependentResources();
 
+	void Progress();
+
+	static const int PROGRESS_END;
+
     // Device resources.
     DX::DeviceResources*				    m_deviceResources;
+
+	int										m_initProgress = 0;
 };
