@@ -16,7 +16,7 @@ bool GameFont::Load(GameContext & ctx, const wchar_t * file_name)
 	return true;
 }
 
-void GameFont::Draw(DirectX::SimpleMath::Vector2 pos, std::string fmt_str, ...)
+void GameFont::Draw(DirectX::SimpleMath::Vector2 pos, DirectX::FXMVECTOR color, std::string fmt_str, ...)
 {
 	int final_n, n = ((int)fmt_str.size()) * 2;
 	std::unique_ptr<char[]> formatted;
@@ -39,7 +39,7 @@ void GameFont::Draw(DirectX::SimpleMath::Vector2 pos, std::string fmt_str, ...)
 
 	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_state->NonPremultiplied());
 	m_spriteFont->DrawString(m_spriteBatch.get(), result.c_str(),
-		pos,DirectX::Colors::DarkGreen, 
+		pos, color,
 		0, DirectX::SimpleMath::Vector3::Zero, scale);
 	m_spriteBatch->End();
 }

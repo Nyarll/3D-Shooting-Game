@@ -172,6 +172,7 @@
     <ClInclude Include="Frameworks\GameContext.h" />
     <ClInclude Include="Frameworks\GameFont.h" />
     <ClInclude Include="Frameworks\GameObject.h" />
+    <ClInclude Include="Frameworks\GameSprite.h" />
     <ClInclude Include="Frameworks\GridFloor.h" />
     <ClInclude Include="Frameworks\GridFloorWrapper.h" />
     <ClInclude Include="Frameworks\InfinityGridFloor.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="Frameworks\DebugCamera.cpp" />
     <ClCompile Include="Frameworks\FbxModel.cpp" />
     <ClCompile Include="Frameworks\GameFont.cpp" />
+    <ClCompile Include="Frameworks\GameSprite.cpp" />
     <ClCompile Include="Frameworks\GridFloor.cpp" />
     <ClCompile Include="Frameworks\GridFloorWrapper.cpp" />
     <ClCompile Include="Frameworks\InfinityGridFloor.cpp" />

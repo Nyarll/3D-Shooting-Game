@@ -3,6 +3,7 @@
 #include "GameContext.h"
 #include <string>
 
+// <GameFont>
 class GameFont
 {
 private:
@@ -16,5 +17,5 @@ public:
 
 	bool Load(GameContext& ctx, const wchar_t* file_name);
 
-	void Draw(DirectX::SimpleMath::Vector2 pos, std::string fmt_str, ...);
+	void Draw(DirectX::SimpleMath::Vector2 pos,DirectX::FXMVECTOR color, std::string fmt_str, ...);
 };

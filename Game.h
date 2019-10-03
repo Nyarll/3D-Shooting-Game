@@ -57,7 +57,7 @@ private:
     void Update(DX::StepTimer const& timer);
     void Render();
 
-    void Clear();
+    void Clear(const FLOAT* backColor = DirectX::Colors::CornflowerBlue);
 
     void CreateDeviceDependentResources();
     void CreateWindowSizeDependentResources();
@@ -71,6 +71,9 @@ private:
 
     // Device resources.
     DX::DeviceResources*				    m_deviceResources;
+
+	DirectX::SimpleMath::Vector2			m_windowSize;
+	DirectX::SimpleMath::Vector2			m_windowCenter;
 
 	int										m_initProgress = 0;
 };

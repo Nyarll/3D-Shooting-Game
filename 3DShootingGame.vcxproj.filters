@@ -86,6 +86,9 @@
     <ClInclude Include="Frameworks\GameFont.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Frameworks\GameSprite.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -127,6 +130,9 @@
       <Filter>Framework\DebugTools</Filter>
     </ClCompile>
     <ClCompile Include="Frameworks\GameFont.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\GameSprite.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>

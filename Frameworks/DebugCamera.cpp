@@ -148,6 +148,7 @@ void DebugFollowCamera::Update(GameContext & context)
 		Move(move);
 	}
 	SetCursorPos(cx, cy);
+	context.Get<DirectX::Mouse>().SetVisible(false);
 	m_x = cx;	m_y = cy;
 
 	// <ビュー行列を算出>

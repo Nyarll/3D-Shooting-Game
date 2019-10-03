@@ -13,6 +13,8 @@
 
 #include "Game/ScenePlay.h"
 
+#include "Frameworks/GameSprite.h"
+
 extern void ExitGame();
 
 using namespace DirectX;
@@ -35,6 +37,9 @@ Game::Game() noexcept(false)
 // Initialize the Direct3D resources required to run.
 void Game::Initialize(HWND window, int width, int height)
 {
+	m_windowSize.x = static_cast<float>(width);
+	m_windowSize.y = static_cast<float>(height);
+	m_windowCenter = m_windowSize / 2;
 	// <DeviceResources‚Ì‰Šú‰»‚È‚Ç>
 	this->FirstInit(window, width, height);
 	// <ƒ[ƒh‰æ–Ê>
@@ -134,14 +139,18 @@ void Game::RenderInit(int width, int height)
 {
 	auto& font = Get<GameFont>();
 	DirectX::SimpleMath::Vector2 pos((width / 2) - (width / 8), (height / 2));
+
+	std::unique_ptr<GameSprite2D> sprite = std::make_unique<GameSprite2D>();
+	sprite->Load(*this, L"Resources/Sprite/Sample.png", 1.5f);
 	while (m_initProgress < PROGRESS_END)
 	{
-		Clear();
+		Clear(DirectX::Colors::DarkBlue);
 		m_deviceResources->PIXBeginEvent(L"Render");
 
 		// <•`‰æ>
-		font.Draw(DirectX::SimpleMath::Vector2::Zero, "Loading...");
-		font.Draw(pos, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
+		//sprite->Draw(m_windowCenter);
+		font.Draw(DirectX::SimpleMath::Vector2::Zero, DirectX::Colors::White, "Loading...");
+		font.Draw(pos, DirectX::Colors::White, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
 
 		m_deviceResources->PIXEndEvent();
 
@@ -191,7 +200,7 @@ void Game::Render()
 }
 
 // Helper method to clear the back buffers.
-void Game::Clear()
+void Game::Clear(const FLOAT* backColor)
 {
 	m_deviceResources->PIXBeginEvent(L"Clear");
 
@@ -200,7 +209,7 @@ void Game::Clear()
 	auto renderTarget = m_deviceResources->GetRenderTargetView();
 	auto depthStencil = m_deviceResources->GetDepthStencilView();
 
-	context->ClearRenderTargetView(renderTarget, Colors::CornflowerBlue);
+	context->ClearRenderTargetView(renderTarget, backColor);
 	context->ClearDepthStencilView(depthStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	context->OMSetRenderTargets(1, &renderTarget, depthStencil);
 
