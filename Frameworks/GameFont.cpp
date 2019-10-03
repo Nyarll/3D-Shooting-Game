@@ -39,7 +39,7 @@ void GameFont::Draw(DirectX::SimpleMath::Vector2 pos, std::string fmt_str, ...)
 
 	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_state->NonPremultiplied());
 	m_spriteFont->DrawString(m_spriteBatch.get(), result.c_str(),
-		pos,DirectX::Colors::Black, 
+		pos,DirectX::Colors::DarkGreen, 
 		0, DirectX::SimpleMath::Vector3::Zero, scale);
 	m_spriteBatch->End();
 }

@@ -47,8 +47,11 @@ public:
 
 private:
 
+	// <すべてのデータのために必要なものを最初に初期化>
 	void FirstInit(HWND window, int width, int height);
+	// <ゲームに必要なものを読み込む>
 	void InitDatas(HWND window, int width, int height);
+	// <ロード画面描画>
 	void RenderInit(int width, int height);
 
     void Update(DX::StepTimer const& timer);
@@ -59,7 +62,10 @@ private:
     void CreateDeviceDependentResources();
     void CreateWindowSizeDependentResources();
 
+	// <ロードの進捗>
 	void Progress();
+	// <遅延>
+	void Delay();
 
 	static const int PROGRESS_END;
 

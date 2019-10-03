@@ -94,10 +94,12 @@ void Game::InitDatas(HWND window, int width, int height)
 		// <コモンステートの作成>
 		Register(std::make_unique<CommonStates>(device));
 		this->Progress();
+
 		// <エフェクトファクトリ>
 		Register(std::make_unique<EffectFactory>(device));
 		Get<EffectFactory>().SetDirectory(L"Resources/Models");
 		this->Progress();
+
 		// <カメラ>
 		// Register(std::make_unique<DebugCamera>());
 		// Get<DebugCamera>().Initialize(*this);
@@ -108,6 +110,7 @@ void Game::InitDatas(HWND window, int width, int height)
 			)
 		);
 		this->Progress();
+
 		Get<DebugFollowCamera>().Initialize(*this);
 		this->Progress();
 	}
@@ -137,6 +140,7 @@ void Game::RenderInit(int width, int height)
 		m_deviceResources->PIXBeginEvent(L"Render");
 
 		// <描画>
+		font.Draw(DirectX::SimpleMath::Vector2::Zero, "Loading...");
 		font.Draw(pos, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
 
 		m_deviceResources->PIXEndEvent();
@@ -275,12 +279,16 @@ void Game::CreateWindowSizeDependentResources()
 
 void Game::Progress()
 {
-	// ロード画面用
+	Delay();
+	m_initProgress++;
+}
+
+void Game::Delay()
+{
 	for (int i = 0; i < 10000; i++)
 	{
 		for (int j = 0; j < 10000; j++);
 	}
-	m_initProgress++;
 }
 
 void Game::OnDeviceLost()
