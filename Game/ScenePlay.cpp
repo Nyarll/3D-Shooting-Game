@@ -5,6 +5,7 @@
 
 #include "../DeviceResources.h"
 #include "../Frameworks/ResourceManager.h"
+#include "SceneManager.h"
 
 ScenePlay::ScenePlay()
 {
@@ -70,6 +71,61 @@ void ScenePlay::Initialize(GameContext & context)
 	auto& sky = this->AddGameObject(L"Sky");
 	sky->AddComponent<Sky>();
 
+	struct Shoot : public Component
+	{
+	private:
+		int m_lifeTime;
+		DirectX::SimpleMath::Vector3 m_vel;
+
+	public:
+		void Initialize(GameContext& context)
+		{
+			m_vel = DirectX::SimpleMath::Vector3::Zero;
+
+			DirectX::SimpleMath::Vector3 force = DirectX::SimpleMath::Vector3::Zero;
+			DirectX::SimpleMath::Vector3 s, t;
+			DirectX::SimpleMath::Quaternion rotation;
+			context.Get<DebugFollowCamera>().m_view.Decompose(s, rotation, t);
+			rotation.Inverse(rotation);
+			force = DirectX::SimpleMath::Vector3::Transform(force, rotation);
+			force.Normalize();
+			force *= 0.1f;
+
+			m_vel = force;
+			m_lifeTime = 60;
+
+			auto& scene = context.Get<SceneManager>().GetActiveScene();
+			gameObject->transform = scene.Find(L"Player")->transform;
+
+			//DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateRotationX(DirectX::XMConvertToRadians(90.f));
+			//gameObject->transform->localRotation = DirectX::SimpleMath::Quaternion::CreateFromRotationMatrix(rot);
+		}
+		void Update(GameContext& context)
+		{
+			if (m_lifeTime <= 0)
+			{
+				auto& scene = context.Get<SceneManager>().GetActiveScene();
+				scene.ObjectDestroy(*gameObject);
+			}
+			//gameObject->transform->localPosition += m_vel;
+			m_lifeTime -= 1;
+		}
+		void Render(GameContext& context)
+		{
+			auto& rm = context.Get<ResourceManager>();
+			auto& dr = context.GetDR();
+
+			auto mat = gameObject->transform->GetMatrix();
+			mat = DirectX::SimpleMath::Matrix::Identity;
+
+			rm.GetFbxModel(ResourceManager::ResourceID::Star).lock()->Draw(
+				dr.GetD3DDevice(), dr.GetD3DDeviceContext(),
+				mat,
+				context.Get<DebugFollowCamera>().m_view,
+				context.Get<DebugFollowCamera>().m_proj);
+		}
+	};
+
 	struct Player : public Component
 	{
 	private:
@@ -122,6 +178,11 @@ void ScenePlay::Initialize(GameContext & context)
 			if (key.Z)
 			{
 				m_playerState = playerState::BreakDance;
+				// ToDo : ’e(Star)‚ð”­ŽË‚·‚é
+				auto& scene = context.Get<SceneManager>().GetActiveScene();
+				auto& obj = scene.AddGameObject(L"Star");
+				obj->AddComponent<Shoot>();
+				obj->Initialize(context);
 			}
 
 			DirectX::SimpleMath::Vector3 s, t;
@@ -204,6 +265,7 @@ void ScenePlay::Initialize(GameContext & context)
 			}
 		}
 	};
+
 	auto& player = this->AddGameObject(L"Player");
 	player->AddComponent<Player>();
 

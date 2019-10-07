@@ -139,17 +139,15 @@ void Game::RenderInit(int width, int height)
 {
 	auto& font = Get<GameFont>();
 	DirectX::SimpleMath::Vector2 pos((width / 2) - (width / 8), (height / 2));
-
-	std::unique_ptr<GameSprite2D> sprite = std::make_unique<GameSprite2D>();
-	sprite->Load(*this, L"Resources/Sprite/Sample.png", 1.5f);
+	DirectX::SimpleMath::Vector2 str_pos(static_cast<float>(width - sizeof("Data Loading...") * 12), static_cast<float>(height - 40));
 	while (m_initProgress < PROGRESS_END)
 	{
 		Clear(DirectX::Colors::DarkBlue);
 		m_deviceResources->PIXBeginEvent(L"Render");
 
 		// <•`‰æ>
-		//sprite->Draw(m_windowCenter);
-		font.Draw(DirectX::SimpleMath::Vector2::Zero, DirectX::Colors::White, "Loading...");
+		
+		font.Draw(str_pos, DirectX::Colors::White, "Data Loading...");
 		font.Draw(pos, DirectX::Colors::White, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
 
 		m_deviceResources->PIXEndEvent();

@@ -20,6 +20,9 @@ void ResourceManager::Initialize(GameContext& context, HWND window)
 	this->AnimationModelRegister(context, window, ResourceID::LeftWalk, "Resources/Models/hitogata/LeftWalk.fbx", 1);
 	this->AnimationModelRegister(context, window, ResourceID::Back, "Resources/Models/hitogata/Back.fbx", 1);
 	this->AnimationModelRegister(context, window, ResourceID::BreakDance, "Resources/Models/hitogata/BreakDance.fbx", 1);
+
+	bool data = this->ModelRegister(context, window, ResourceID::Star, "Resources/Models/star.fbx");
+
 	this->CmoModelRegister(context, ResourceID::SkyDome, L"Resources/Models", L"Resources/Models/SkyDoom.cmo");
 }
 
@@ -42,11 +45,11 @@ void ResourceManager::Destroy()
 	m_fbxModels.clear();
 }
 
-void ResourceManager::ModelRegister(GameContext& context, HWND window, ResourceID id, const char * file_path)
+bool ResourceManager::ModelRegister(GameContext& context, HWND window, ResourceID id, const char * file_path)
 {
 	m_fbxModels[id] = std::make_shared<FBX_LOADER::FbxModel>();
 	auto& dr = context.Get<DX::DeviceResources>();
-	m_fbxModels[id]->Load(window,
+	return m_fbxModels[id]->Load(window,
 		dr.GetD3DDevice(),
 		dr.GetD3DDeviceContext(),
 		dr.GetRenderTargetView(),

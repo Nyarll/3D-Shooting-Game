@@ -10,6 +10,7 @@ class IScene
 private:
 	std::vector<ObjectHolder<GameObject>> m_gameObjects;
 	std::vector<ObjectHolder<GameObject>> m_addingObjects;
+	std::vector<GameObject*> m_killObjects;
 	std::unordered_multimap<std::wstring, ObjectField<GameObject>> m_objectMap;
 
 public:
@@ -27,6 +28,11 @@ public:
 	virtual void Render(GameContext& context) = 0;
 	virtual void Finalize(GameContext& context) = 0;
 
+	void ObjectDestroy(GameObject& object)
+	{
+		m_killObjects.push_back(&object);
+	}
+
 protected:
 	void InitializeGameObject(GameContext& context)
 	{
@@ -42,10 +48,17 @@ protected:
 	}
 	void UpdateGameObject(GameContext& context)
 	{
+		for (auto& obj : m_addingObjects)
+		{
+			obj->Initialize(context);
+			m_gameObjects.push_back(std::move(obj));
+		}
+		m_addingObjects.clear();
 		for (auto& obj : m_gameObjects)
 		{
 			obj->Update(context);
 		}
+		KillObjectsDestroy(context);
 	}
 	void RenderGameObject(GameContext& context)
 	{
@@ -60,5 +73,29 @@ protected:
 		{
 			obj->Finalize(context);
 		}
+	}
+
+	void KillObjectsDestroy(GameContext& context)
+	{
+		for (auto& obj : m_killObjects)
+		{
+			obj->Finalize(context);
+		}
+
+		int i = 0;
+		for (auto& kill : m_killObjects)
+		{
+			for (auto& obj : m_gameObjects)
+			{
+				if (obj.GetWeakPtr().lock().get() == kill)
+				{
+					m_gameObjects.erase(m_gameObjects.begin() + i);
+					break;
+				}
+				i++;
+			}
+			i = 0;
+		}
+		m_killObjects.clear();
 	}
 };

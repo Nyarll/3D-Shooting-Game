@@ -20,6 +20,8 @@ public:
 		LeftWalk,
 		Back,
 		BreakDance,
+
+		Star,
 		SkyDome,
 	};
 
@@ -40,7 +42,7 @@ public:
 	void Destroy();
 
 private:
-	void ModelRegister(GameContext& context, HWND window, ResourceID id, const char* file_path);
+	bool ModelRegister(GameContext& context, HWND window, ResourceID id, const char* file_path);
 	void AnimationModelRegister(GameContext& context, HWND window, ResourceID id, const char* file_path, int animStackNumber);
 	void CmoModelRegister(GameContext& context, ResourceID id, const wchar_t* directory, const wchar_t* file_path);
 };
