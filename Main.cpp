@@ -4,6 +4,7 @@
 
 #include "pch.h"
 #include "Game.h"
+#include "GameSystem.h"
 
 using namespace DirectX;
 
@@ -34,6 +35,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     if (FAILED(hr))
         return 1;
 
+	GameSystem::SetDebugMode(true);
     g_game = std::make_unique<Game>();
 
     // Register class and create window

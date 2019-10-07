@@ -7,6 +7,10 @@
 #include "../Frameworks/ResourceManager.h"
 #include "SceneManager.h"
 
+#include "GridComponent.h"
+#include "SkyComponent.h"
+#include "BulletComponent.h"
+
 ScenePlay::ScenePlay()
 {
 }
@@ -17,59 +21,11 @@ ScenePlay::~ScenePlay()
 
 void ScenePlay::Initialize(GameContext & context)
 {
-	struct DrawGrid : public Component
-	{
-		void Initialize(GameContext& context)
-		{
-			context.Register(std::make_unique<InfinityGridFloor>());
-			context.Get<InfinityGridFloor>().init(context, 1.f, { 300.f,300.f });
-		}
-		void Render(GameContext& context)
-		{
-			context.Get<InfinityGridFloor>().draw(context);
-		}
-	};
 	auto& grid = this->AddGameObject(L"Grid");
-	grid->AddComponent<DrawGrid>();
+	grid->AddComponent<GridComponent>();
 
-	struct Sky : public Component
-	{
-		void Update(GameContext& context)
-		{
-			auto model = context.Get<ResourceManager>().GetCmoModel(ResourceManager::ResourceID::SkyDome);
-			model.lock()->UpdateEffects([&](DirectX::IEffect* effect)
-			{
-				DirectX::IEffectLights* lights = dynamic_cast<DirectX::IEffectLights*>(effect);
-				if (lights)
-				{
-					lights->SetAmbientLightColor(DirectX::SimpleMath::Vector3(0, 0, 0));
-					//lights->SetLightingEnabled(false);
-					lights->SetLightEnabled(0, false);
-					lights->SetLightEnabled(1, false);
-					lights->SetLightEnabled(2, false);
-				}
-				DirectX::BasicEffect* basic_effect = dynamic_cast<DirectX::BasicEffect*>(effect);
-				if (basic_effect)
-				{
-					basic_effect->SetEmissiveColor(DirectX::SimpleMath::Vector3(1, 1, 1));
-				}
-			});
-		}
-
-		void Render(GameContext& context)
-		{
-			auto& dr = context.GetDR();
-			auto model = context.Get<ResourceManager>().GetCmoModel(ResourceManager::ResourceID::SkyDome);
-			model.lock()->Draw(
-				dr.GetD3DDeviceContext(),
-				context.Get<DirectX::CommonStates>(),
-				DirectX::SimpleMath::Matrix::Identity,
-				context.Get<DebugFollowCamera>().m_view,
-				context.Get<DebugFollowCamera>().m_proj);
-		}
-	};
 	auto& sky = this->AddGameObject(L"Sky");
-	sky->AddComponent<Sky>();
+	sky->AddComponent<SkyComponent>();
 
 	struct Shoot : public Component
 	{
@@ -141,6 +97,9 @@ void ScenePlay::Initialize(GameContext & context)
 
 		DirectX::SimpleMath::Vector3 m_accele, m_velocity;
 
+		int m_shotCount = 0;
+		const int ShotDelayCount = 10;
+
 	public:
 		void Initialize(GameContext& context)
 		{
@@ -178,11 +137,29 @@ void ScenePlay::Initialize(GameContext & context)
 			if (key.Z)
 			{
 				m_playerState = playerState::BreakDance;
-				// ToDo : ’e(Star)‚ð”­ŽË‚·‚é
-				auto& scene = context.Get<SceneManager>().GetActiveScene();
-				auto& obj = scene.AddGameObject(L"Star");
-				obj->AddComponent<Shoot>();
-				obj->Initialize(context);
+				
+				if (m_shotCount > ShotDelayCount)
+				{
+					m_shotCount = 0;
+
+					auto& scene = context.Get<SceneManager>().GetActiveScene();
+					auto& obj = scene.AddGameObject(L"Star");
+					obj->AddComponent<NormalBulletComponent>();
+
+					DirectX::SimpleMath::Vector3 dir = { 0,0,-1 };
+					DirectX::SimpleMath::Vector3 s, t;
+					DirectX::SimpleMath::Quaternion rotation;
+					context.Get<DebugFollowCamera>().m_view.Decompose(s, rotation, t);
+					rotation.Inverse(rotation);
+					dir = DirectX::SimpleMath::Vector3::Transform(dir, rotation);
+					dir.Normalize();
+
+					obj->GetComponent<NormalBulletComponent>()->SetDirection(dir);
+					DirectX::SimpleMath::Vector3 bullet_pos = gameObject->transform->localPosition;
+					bullet_pos.y += 1.f;
+					obj->GetComponent<NormalBulletComponent>()->SetStartPosition(bullet_pos);
+					obj->Initialize(context);
+				}
 			}
 
 			DirectX::SimpleMath::Vector3 s, t;
@@ -203,6 +180,7 @@ void ScenePlay::Initialize(GameContext & context)
 			gameObject->transform->localRotation = flatRotation;
 
 			gameObject->transform->localPosition += force * 0.1f;
+			m_shotCount++;
 		}
 
 		void Render(GameContext& context)

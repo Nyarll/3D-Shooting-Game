@@ -15,6 +15,8 @@
 
 #include "Frameworks/GameSprite.h"
 
+#include "GameSystem.h"
+
 extern void ExitGame();
 
 using namespace DirectX;
@@ -292,9 +294,12 @@ void Game::Progress()
 
 void Game::Delay()
 {
-	for (int i = 0; i < 10000; i++)
+	if (!GameSystem::GetDebugMode())
 	{
-		for (int j = 0; j < 10000; j++);
+		for (int i = 0; i < 10000; i++)
+		{
+			for (int j = 0; j < 10000; j++);
+		}
 	}
 }
 

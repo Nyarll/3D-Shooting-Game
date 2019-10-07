@@ -17,6 +17,9 @@
     <Filter Include="Game">
       <UniqueIdentifier>{336672e8-a121-4b71-915c-dfa90aec0b95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameComponents">
+      <UniqueIdentifier>{5c6d3243-784f-488e-83fb-55dcdceef5aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -89,6 +92,18 @@
     <ClInclude Include="Frameworks\GameSprite.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Game\GridComponent.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\SkyComponent.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BulletComponent.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSystem.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -133,6 +148,18 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Frameworks\GameSprite.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GridComponent.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\SkyComponent.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BulletComponent.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSystem.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
