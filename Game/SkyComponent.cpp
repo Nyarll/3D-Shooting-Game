@@ -2,6 +2,7 @@
 #include "SkyComponent.h"
 #include "../Frameworks/ResourceManager.h"
 
+
 void SkyComponent::Update(GameContext & context)
 {
 	auto model = context.Get<ResourceManager>().GetCmoModel(ResourceManager::ResourceID::SkyDome);
@@ -28,10 +29,13 @@ void SkyComponent::Render(GameContext & context)
 {
 	auto& dr = context.GetDR();
 	auto model = context.Get<ResourceManager>().GetCmoModel(ResourceManager::ResourceID::SkyDome);
+
+	DirectX::SimpleMath::Matrix mat = DirectX::SimpleMath::Matrix::CreateTranslation(gameObject->transform->localPosition);
+
 	model.lock()->Draw(
 		dr.GetD3DDeviceContext(),
 		context.Get<DirectX::CommonStates>(),
-		DirectX::SimpleMath::Matrix::Identity,
+		mat,
 		context.Get<DebugFollowCamera>().m_view,
 		context.Get<DebugFollowCamera>().m_proj);
 }

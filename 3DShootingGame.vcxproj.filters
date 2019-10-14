@@ -20,6 +20,9 @@
     <Filter Include="Game\GameComponents">
       <UniqueIdentifier>{5c6d3243-784f-488e-83fb-55dcdceef5aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Utility">
+      <UniqueIdentifier>{09bc8fa7-db80-4731-ac64-99f7107d7cab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -35,16 +38,7 @@
     <ClInclude Include="Frameworks\GridFloor.h">
       <Filter>Framework\DebugTools</Filter>
     </ClInclude>
-    <ClInclude Include="Frameworks\Object.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\Component.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Frameworks\GameContext.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\TypeID.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Frameworks\InfinityGridFloor.h">
@@ -53,28 +47,10 @@
     <ClInclude Include="Frameworks\GridFloorWrapper.h">
       <Filter>Framework\DebugTools</Filter>
     </ClInclude>
-    <ClInclude Include="Frameworks\Transform.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\Property.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\ObjectField.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\GameObject.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\Camera.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Frameworks\DebugCamera.h">
       <Filter>Framework\DebugTools</Filter>
     </ClInclude>
     <ClInclude Include="Frameworks\ResourceManager.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\FbxModel.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Game\SceneManager.h">
@@ -89,9 +65,6 @@
     <ClInclude Include="Frameworks\GameFont.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Frameworks\GameSprite.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Game\GridComponent.h">
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
@@ -102,6 +75,45 @@
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="GameSystem.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\GameObject.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Camera.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Component.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\FbxModel.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Property.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Transform.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\TypeID.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\ObjectField.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Object.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\GameSprite.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\PlayerComponent.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameAreaComponent.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\ShaderFileImporter.h">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
@@ -123,13 +135,7 @@
     <ClCompile Include="Frameworks\DebugCamera.cpp">
       <Filter>Framework\DebugTools</Filter>
     </ClCompile>
-    <ClCompile Include="Frameworks\Object.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Frameworks\ResourceManager.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Frameworks\FbxModel.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Game\SceneManager.cpp">
@@ -147,9 +153,6 @@
     <ClCompile Include="Frameworks\GameFont.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Frameworks\GameSprite.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Game\GridComponent.cpp">
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
@@ -160,6 +163,24 @@
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="GameSystem.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\FbxModel.cpp">
+      <Filter>Framework\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Object.cpp">
+      <Filter>Framework\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\GameSprite.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\PlayerComponent.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameAreaComponent.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\ShaderFileImporter.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,6 +200,12 @@
   <ItemGroup>
     <FxCompile Include="shader.hlsl">
       <Filter>Framework</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\GameSpritePolygonPS.hlsl">
+      <Filter>Assets</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\GameSpritePolygonVS.hlsl">
+      <Filter>Assets</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

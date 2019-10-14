@@ -180,12 +180,15 @@
     <ClInclude Include="Frameworks\ObjectField.h" />
     <ClInclude Include="Frameworks\Property.h" />
     <ClInclude Include="Frameworks\ResourceManager.h" />
+    <ClInclude Include="Frameworks\ShaderFileImporter.h" />
     <ClInclude Include="Frameworks\Transform.h" />
     <ClInclude Include="Frameworks\TypeID.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameSystem.h" />
     <ClInclude Include="Game\BulletComponent.h" />
+    <ClInclude Include="Game\GameAreaComponent.h" />
     <ClInclude Include="Game\GridComponent.h" />
+    <ClInclude Include="Game\PlayerComponent.h" />
     <ClInclude Include="Game\Scene.h" />
     <ClInclude Include="Game\SceneManager.h" />
     <ClInclude Include="Game\ScenePlay.h" />
@@ -204,10 +207,13 @@
     <ClCompile Include="Frameworks\InfinityGridFloor.cpp" />
     <ClCompile Include="Frameworks\Object.cpp" />
     <ClCompile Include="Frameworks\ResourceManager.cpp" />
+    <ClCompile Include="Frameworks\ShaderFileImporter.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="Game\BulletComponent.cpp" />
+    <ClCompile Include="Game\GameAreaComponent.cpp" />
     <ClCompile Include="Game\GridComponent.cpp" />
+    <ClCompile Include="Game\PlayerComponent.cpp" />
     <ClCompile Include="Game\Scene.cpp" />
     <ClCompile Include="Game\SceneManager.cpp" />
     <ClCompile Include="Game\ScenePlay.cpp" />
@@ -230,11 +236,26 @@
     <Manifest Include="settings.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\Shader\GameSpritePolygonPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Shader/%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\GameSpritePolygonVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Shader/%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
     <FxCompile Include="shader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Shader/%(Filename).cso</ObjectFileOutput>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

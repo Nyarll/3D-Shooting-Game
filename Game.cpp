@@ -192,7 +192,6 @@ void Game::Render()
 
 	Get<SceneManager>().RenderActiveScene(*this);
 
-
 	m_deviceResources->PIXEndEvent();
 
 	// Show the new frame.

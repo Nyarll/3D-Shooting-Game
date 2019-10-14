@@ -7,7 +7,6 @@ class GameObject;
 // <Scene Play>
 class ScenePlay : public IScene
 {
-
 public:
 	ScenePlay();
 	virtual ~ScenePlay();
