@@ -45,42 +45,44 @@ void GameSpritePolygon::Load(GameContext & ctx, const wchar_t * file_name)
 	auto context = ctx.GetDR().GetD3DDeviceContext();
 	DirectX::CreateWICTextureFromFile(device, file_name, nullptr, m_texture.GetAddressOf());
 
-	//ShaderFileImporter VS_data = ShaderFileImporter::LoadFile(L"Resources/Shader/GameSpritePolygonVS.cso");
-	//ShaderFileImporter PS_data = ShaderFileImporter::LoadFile(L"Resources/Shader/GameSpritePolygonPS.cso");
+	ShaderFileImporter VS_data = ShaderFileImporter::LoadFile(L"Resources/Shader/GameSpritePolygonVS.cso");
+	ShaderFileImporter PS_data = ShaderFileImporter::LoadFile(L"Resources/Shader/GameSpritePolygonPS.cso");
 
-	//device->CreateVertexShader(VS_data.GetData(), VS_data.GetSize(), NULL, m_VertexShader.GetAddressOf());
-	//device->CreatePixelShader(PS_data.GetData(), PS_data.GetSize(), NULL, m_PixelShader.GetAddressOf());
+	device->CreateVertexShader(VS_data.GetData(), VS_data.GetSize(), NULL, m_VertexShader.GetAddressOf());
+	device->CreatePixelShader(PS_data.GetData(), PS_data.GetSize(), NULL, m_PixelShader.GetAddressOf());
 
-	//// <頂点レイアウト>
-	//std::vector<D3D11_INPUT_ELEMENT_DESC> layout =
-	//{
-	//	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	//	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, sizeof(DirectX::SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	//	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(DirectX::SimpleMath::Vector3) + sizeof(DirectX::SimpleMath::Vector4), D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	//};
-	//device->CreateInputLayout(
-	//	&layout[0],
-	//	layout.size(),
-	//	VS_data.GetData(),
-	//	VS_data.GetSize(),
-	//	&m_inputLayout);
+	// <頂点レイアウト>
+	std::vector<D3D11_INPUT_ELEMENT_DESC> layout =
+	{
+		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, sizeof(DirectX::SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(DirectX::SimpleMath::Vector3) + sizeof(DirectX::SimpleMath::Vector4), D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+	device->CreateInputLayout(
+		&layout[0],
+		layout.size(),
+		VS_data.GetData(),
+		VS_data.GetSize(),
+		&m_inputLayout);
 
 	m_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>>(context);
 
 	// <定数バッファの設定>
-	D3D11_BUFFER_DESC cb;
-	cb.ByteWidth = sizeof(ConstBuffer);
-	cb.Usage = D3D11_USAGE_DYNAMIC;
-	cb.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	cb.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	cb.MiscFlags = 0;
-	cb.StructureByteStride = 0;
-	(device->CreateBuffer(&cb, NULL, &m_constantBuffer));
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(ConstBuffer);
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags = 0;
+
+	bool result = FAILED(device->CreateBuffer(&bd, nullptr, &m_constantBuffer));
+	assert(!result && "Creation failed.");
+
 
 	return;
 }
 
-void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Matrix world)
+void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Vector3 pos, DirectX::SimpleMath::Matrix world)
 {
 	auto context = ctx.GetDR().GetD3DDeviceContext();
 
@@ -90,10 +92,11 @@ void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Matrix world
 	cbuff.matProj = ctx.Get<DebugFollowCamera>().m_proj.Transpose();
 	cbuff.matWorld = world.Transpose();
 
-	auto timer = ctx.Get<DX::StepTimer>();
+	auto& timer = ctx.Get<DX::StepTimer>();
 	//Time		x:経過時間(トータル秒)	y:1Fの経過時間(秒）	z:反復（サインカーブ） w:未使用（暫定で１）
 	cbuff.Time = DirectX::SimpleMath::Vector4(timer.GetTotalSeconds(), timer.GetElapsedSeconds(), sinf(timer.GetTotalSeconds()), 1);
 
+	// <定数バッファの更新>
 	context->UpdateSubresource(m_constantBuffer, 0, NULL, &cbuff, 0, 0);
 
 	auto& states = ctx.Get<DirectX::CommonStates>();
@@ -106,7 +109,7 @@ void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Matrix world
 	context->RSSetState(states.CullCounterClockwise());
 
 	// <定数バッファをシェーダに渡す>
-	ID3D11Buffer* cb[1] = { m_constantBuffer };
+	ID3D11Buffer* cb[] = { m_constantBuffer };
 	context->VSSetConstantBuffers(0, 1, cb);
 	context->PSSetConstantBuffers(0, 1, cb);
 
@@ -120,7 +123,14 @@ void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Matrix world
 	//入力レイアウトを反映
 	context->IASetInputLayout(m_inputLayout.Get());
 
+	DirectX::SimpleMath::Vector3 zero = DirectX::SimpleMath::Vector3::Zero;
+	DirectX::VertexPositionColorTexture vertex = DirectX::VertexPositionColorTexture(pos, zero, zero);
+
 	m_batch->Begin();
-	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST, &m_vertex[0], m_vertex.size());
+	m_batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST, &vertex, 1);
 	m_batch->End();
+
+	context->VSSetShader(nullptr, nullptr, 0);
+	context->GSSetShader(nullptr, nullptr, 0);
+	context->PSSetShader(nullptr, nullptr, 0);
 }

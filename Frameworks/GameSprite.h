@@ -53,7 +53,6 @@ private:
 	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColorTexture>> m_batch;
 	// <入力レイアウト>
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
-	std::vector<DirectX::VertexPositionColorTexture>  m_vertex;
 
 public:
 	GameSpritePolygon() = default;
@@ -61,5 +60,5 @@ public:
 
 	void Load(GameContext& ctx, const wchar_t* file_name);
 
-	void Draw(GameContext& ctx, DirectX::SimpleMath::Matrix world);
+	void Draw(GameContext& ctx, DirectX::SimpleMath::Vector3 pos, DirectX::SimpleMath::Matrix world);
 };

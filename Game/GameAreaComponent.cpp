@@ -14,7 +14,8 @@ void GameAreaComponent::Initialize(GameContext & context)
 void GameAreaComponent::Render(GameContext & context)
 {
 	{
-		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateTranslation(AreaLimit.range.x / 2, AreaLimit.range.y / 2, AreaLimit.range.z / 2);
-		m_polygon->Draw(context, world);
+		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
+		DirectX::SimpleMath::Vector3 pos = { this->AreaLimit.center };
+		m_polygon->Draw(context, pos, world);
 	}
 }
