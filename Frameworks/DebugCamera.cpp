@@ -1,4 +1,7 @@
 
+#pragma warning(disable : 4189)
+#pragma warning(disable : 4244)
+
 #include "../DeviceResources.h"
 #include "GameContext.h"
 #include "DebugCamera.h"

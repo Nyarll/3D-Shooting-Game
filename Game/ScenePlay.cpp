@@ -1,3 +1,5 @@
+#pragma warning(disable : 4239)
+
 #include "ScenePlay.h"
 
 #include "../Frameworks/DebugCamera.h"

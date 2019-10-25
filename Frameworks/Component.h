@@ -1,4 +1,7 @@
 #pragma once
+
+#pragma warning(disable : 4100)
+
 #include "Object.h"
 
 class GameContext;
