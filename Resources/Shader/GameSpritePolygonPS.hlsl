@@ -1,16 +1,4 @@
-struct PS_INPUT
-{
-	float4 Pos : SV_POSITION;
-	float4 Color : COLOR;
-	float2 Tex : TEXCOORD;
-};
-cbuffer ConstBuffer	: register(b0)
-{
-	matrix matWorld;
-	matrix matView;
-	matrix matProj;
-	float4 Time;
-};
+#include "GameSpritePolygon.hlsli"
 
 Texture2D tex : register(t0);
 SamplerState samLinear : register(s0);

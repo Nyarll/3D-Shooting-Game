@@ -44,6 +44,7 @@ void Game::Initialize(HWND window, int width, int height)
 	m_windowCenter = m_windowSize / 2;
 	// <DeviceResources‚Ì‰Šú‰»‚È‚Ç>
 	this->FirstInit(window, width, height);
+
 	// <ƒ[ƒh‰æ–Ê>
 	{
 		std::thread th1(
@@ -90,7 +91,10 @@ void Game::FirstInit(HWND window, int width, int height)
 	CreateWindowSizeDependentResources();
 
 	Register(std::make_unique<GameFont>());
-	Get<GameFont>().Load(*this, L"Resources/Fonts/Arial.spritefont");
+	if (!(Get<GameFont>().Load(*this, L"Resources/Fonts/Arial.spritefont")))
+	{
+		assert(false && "Missing");
+	}
 }
 
 void Game::InitDatas(HWND window, int width, int height)
@@ -140,6 +144,10 @@ void Game::InitDatas(HWND window, int width, int height)
 void Game::RenderInit(int width, int height)
 {
 	auto& font = Get<GameFont>();
+
+	std::unique_ptr<GameSprite2D> sprite = std::make_unique<GameSprite2D>();
+	sprite->Load(*this, L"Resources/Sprite/Flag_of_Austria-Hungary.png", 0.5f);
+
 	DirectX::SimpleMath::Vector2 pos((width / 2) - (width / 8), (height / 2));
 	DirectX::SimpleMath::Vector2 str_pos(static_cast<float>(width - sizeof("Data Loading...") * 12), static_cast<float>(height - 40));
 	while (m_initProgress < PROGRESS_END)
@@ -149,6 +157,8 @@ void Game::RenderInit(int width, int height)
 
 		// <•`‰æ>
 		
+		sprite->Draw(DirectX::SimpleMath::Vector2(width / 2, height / 2));
+
 		font.Draw(str_pos, DirectX::Colors::White, "Data Loading...");
 		font.Draw(pos, DirectX::Colors::White, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
 

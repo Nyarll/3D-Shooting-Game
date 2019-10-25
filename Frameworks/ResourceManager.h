@@ -21,6 +21,8 @@ public:
 		Back,
 		BreakDance,
 
+		Fighter,
+
 		Star,
 		SkyDome,
 	};

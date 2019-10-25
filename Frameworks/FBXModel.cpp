@@ -271,6 +271,9 @@ bool FBX_LOADER::FbxModel::DrawAnimation(FbxNode * pNode,
 		IndBuffer->Release();
 		IndBuffer = nullptr;
 	}
+	m_context->VSSetShader(nullptr, nullptr, 0);
+	m_context->GSSetShader(nullptr, nullptr, 0);
+	m_context->PSSetShader(nullptr, nullptr, 0);
 	return true;
 }
 

@@ -2,17 +2,15 @@
 #include "BulletComponent.h"
 #include "SceneManager.h"
 
+#include "GameAreaComponent.h"
+
 void NormalBulletComponent::Initialize(GameContext & context)
 {
-	m_vel = m_direction;
+	m_vel = m_direction * 25.0f;
 	std::random_device seedGenerator;
 	std::mt19937 engine(seedGenerator());
 	{
-		std::uniform_real_distribution<float> randVelocity(0.2f, 0.8f);
-		float lx = randVelocity(engine);
-		float ly = randVelocity(engine);
-		float lz = randVelocity(engine);
-		gameObject->transform->localScale = DirectX::SimpleMath::Vector3(lx, ly, lz);
+		gameObject->transform->localScale = DirectX::SimpleMath::Vector3(1.f, 1.f, 1.f);
 	}
 	{
 		std::uniform_real_distribution<float> randVelocity(0.0f, 1.0f);
@@ -37,25 +35,42 @@ void NormalBulletComponent::Update(GameContext & context)
 		auto& scene = context.Get<SceneManager>().GetActiveScene();
 		scene.ObjectDestroy(*gameObject);
 	}
+	DirectX::SimpleMath::Vector3 pos = gameObject->transform->localPosition;
+	DirectX::SimpleMath::Vector3 limit = GameAreaComponent::AreaLimit.range;
+	if (((pos.x < limit.x / 2 && pos.x > -limit.x / 2) && (pos.y < limit.y / 2 && pos.y > -limit.y / 2) &&
+		(pos.z < limit.z / 2 && pos.z > -limit.z / 2)))
+	{
+
+	}
+	else
+	{
+		auto& scene = context.Get<SceneManager>().GetActiveScene();
+		scene.ObjectDestroy(*gameObject);
+	}
 	gameObject->transform->localPosition += m_vel;
 	m_lifeTime -= 1;
 	m_angle += DirectX::XMConvertToRadians(5.f);
+
 	rotate = DirectX::SimpleMath::Matrix::CreateRotationZ(m_angle);
 }
 
 void NormalBulletComponent::Render(GameContext & context)
 {
 	auto& rm = context.Get<ResourceManager>();
-			auto& dr = context.GetDR();
+	auto& dr = context.GetDR();
 
-			auto mat = rotate; 
-			mat *= gameObject->transform->GetMatrix();
+	auto& camera = context.GetFollowCamera();
 
-			rm.GetFbxModel(ResourceManager::ResourceID::Star).lock()->Draw(
-				dr.GetD3DDevice(), dr.GetD3DDeviceContext(),
-				mat,
-				context.Get<DebugFollowCamera>().m_view,
-				context.Get<DebugFollowCamera>().m_proj);
+	DirectX::SimpleMath::Matrix mat = rotate * DirectX::SimpleMath::Matrix::CreateBillboard(
+		gameObject->transform->localPosition,
+		camera.m_eye,
+		DirectX::SimpleMath::Vector3::UnitY); 
+
+	rm.GetFbxModel(ResourceManager::ResourceID::Star).lock()->Draw(
+		dr.GetD3DDevice(), dr.GetD3DDeviceContext(),
+		mat,
+		context.Get<DebugFollowCamera>().m_view,
+		context.Get<DebugFollowCamera>().m_proj);
 }
 
 void NormalBulletComponent::SetDirection(const DirectX::SimpleMath::Vector3 & direction)

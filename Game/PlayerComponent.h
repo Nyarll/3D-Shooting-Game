@@ -35,4 +35,7 @@ public:
 
 	float GetSpeed() { return m_forwardSpeed; }
 	DirectX::SimpleMath::Vector3 GetLocalPosition() { return gameObject->transform->localPosition; }
+
+private:
+	void Fire(GameContext& context, DirectX::SimpleMath::Vector3 shot_pos);
 };

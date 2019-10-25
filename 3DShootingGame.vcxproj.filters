@@ -207,8 +207,19 @@
     <FxCompile Include="Resources\Shader\GameSpritePolygonVS.hlsl">
       <Filter>Assets</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shader\GameSpritePolygonGS.hlsl">
+      <Filter>Assets</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Shader\GameSpritePolygon.hlsli">
+      <Filter>Assets</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Resources\Models\f.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
     <MeshContentTask Include="Resources\Models\SkyDoom.FBX">
       <Filter>Assets</Filter>
     </MeshContentTask>

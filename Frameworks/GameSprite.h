@@ -46,6 +46,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_VertexShader;
 	// <ピクセルシェーダ>
 	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_PixelShader;
+	// <ジオメトリシェーダ>
+	Microsoft::WRL::ComPtr<ID3D11GeometryShader> m_GeometryShader;
 	// <定数バッファ>
 	ID3D11Buffer *m_constantBuffer;
 
@@ -60,5 +62,7 @@ public:
 
 	void Load(GameContext& ctx, const wchar_t* file_name);
 
-	void Draw(GameContext& ctx, DirectX::SimpleMath::Vector3 pos, DirectX::SimpleMath::Matrix world);
+	void Draw(GameContext& ctx, DirectX::SimpleMath::Vector3 pos,
+		DirectX::SimpleMath::Matrix world, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj);
+
 };

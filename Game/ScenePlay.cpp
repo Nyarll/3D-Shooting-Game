@@ -27,12 +27,11 @@ void ScenePlay::Initialize(GameContext & context)
 	auto& grid = this->AddGameObject(L"Grid");
 	grid->AddComponent<GridComponent>();
 
-	auto& area = this->AddGameObject(L"LimitArea");
-	area->AddComponent<GameAreaComponent>();
-	
-
 	auto& sky = this->AddGameObject(L"Sky");
 	sky->AddComponent<SkyComponent>();
+
+	auto& area = this->AddGameObject(L"LimitArea");
+	area->AddComponent<GameAreaComponent>();
 
 	auto& player = this->AddGameObject(L"Player");
 	player->AddComponent<PlayerComponent>();

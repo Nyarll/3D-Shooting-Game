@@ -194,8 +194,8 @@ void DebugFollowCamera::Move(const DirectX::SimpleMath::Vector2 & move)
 		m_xAngle += xAngle / 10;
 		m_yAngle -= yAngle / 10;
 
-		if (m_xAngle > (90.0f * DirectX::XM_PI / 180.0f))m_xAngle = (90.0f * DirectX::XM_PI / 180.0f);
-		if (m_xAngle < (-90.0f * DirectX::XM_PI / 180.0f))m_xAngle = (-90.0f * DirectX::XM_PI / 180.0f);
+		//if (m_xAngle > (90.0f * DirectX::XM_PI / 180.0f))m_xAngle = (90.0f * DirectX::XM_PI / 180.0f);
+		//if (m_xAngle < (-90.0f * DirectX::XM_PI / 180.0f))m_xAngle = (-90.0f * DirectX::XM_PI / 180.0f);
 	}
 }
 

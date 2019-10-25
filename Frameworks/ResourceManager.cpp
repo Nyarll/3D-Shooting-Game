@@ -21,7 +21,9 @@ void ResourceManager::Initialize(GameContext& context, HWND window)
 	this->AnimationModelRegister(context, window, ResourceID::Back, "Resources/Models/hitogata/Back.fbx", 1);
 	this->AnimationModelRegister(context, window, ResourceID::BreakDance, "Resources/Models/hitogata/BreakDance.fbx", 1);
 
-	bool data = this->ModelRegister(context, window, ResourceID::Star, "Resources/Models/star.fbx");
+	this->ModelRegister(context, window, ResourceID::Fighter, "Resources/Models/f.FBX");
+
+	this->ModelRegister(context, window, ResourceID::Star, "Resources/Models/star.fbx");
 
 	this->CmoModelRegister(context, ResourceID::SkyDome, L"Resources/Models", L"Resources/Models/SkyDoom.cmo");
 }

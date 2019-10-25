@@ -30,7 +30,8 @@ void SkyComponent::Render(GameContext & context)
 	auto& dr = context.GetDR();
 	auto model = context.Get<ResourceManager>().GetCmoModel(ResourceManager::ResourceID::SkyDome);
 
-	DirectX::SimpleMath::Matrix mat = DirectX::SimpleMath::Matrix::CreateTranslation(gameObject->transform->localPosition);
+	DirectX::SimpleMath::Matrix mat = DirectX::SimpleMath::Matrix::CreateScale(5.f);
+	mat *= DirectX::SimpleMath::Matrix::CreateTranslation(gameObject->transform->localPosition);
 
 	model.lock()->Draw(
 		dr.GetD3DDeviceContext(),
