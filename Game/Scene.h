@@ -3,6 +3,7 @@
 #include "../Frameworks/GameContext.h"
 #include "../Frameworks/GameObject.h"
 
+#include "Collider.h"
 
 // <Scene Interface>
 class IScene
@@ -58,6 +59,7 @@ protected:
 		{
 			obj->Update(context);
 		}
+		this->CheckCollision();
 		KillObjectsDestroy(context);
 	}
 	void RenderGameObject(GameContext& context)
@@ -72,6 +74,28 @@ protected:
 		for (auto& obj : m_gameObjects)
 		{
 			obj->Finalize(context);
+		}
+	}
+
+	void CheckCollision()
+	{
+		for (int i = 0; i < m_gameObjects.size(); i++)
+		{
+			auto& obj = m_gameObjects[i];
+			auto col = obj->GetComponent<Collider>();
+			// <Collider を持っているかチェック>
+			if (col)
+			{
+				for (int j = (i + 1); j < m_gameObjects.size(); j++)
+				{
+					auto& obj2 = m_gameObjects[j];
+					auto col2 = obj2->GetComponent<Collider>();
+					if (col2)
+					{
+						col->OnHitCollision(*col2);
+					}
+				}
+			}
 		}
 	}
 

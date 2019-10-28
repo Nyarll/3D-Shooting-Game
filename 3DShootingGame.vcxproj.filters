@@ -116,6 +116,9 @@
     <ClInclude Include="Frameworks\ShaderFileImporter.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Collider.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -182,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="Frameworks\ShaderFileImporter.cpp">
       <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Collider.cpp">
+      <Filter>Game\GameComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

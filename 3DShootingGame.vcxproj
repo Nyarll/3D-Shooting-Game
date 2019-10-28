@@ -186,6 +186,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameSystem.h" />
     <ClInclude Include="Game\BulletComponent.h" />
+    <ClInclude Include="Game\Collider.h" />
     <ClInclude Include="Game\GameAreaComponent.h" />
     <ClInclude Include="Game\GridComponent.h" />
     <ClInclude Include="Game\PlayerComponent.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="Game\BulletComponent.cpp" />
+    <ClCompile Include="Game\Collider.cpp" />
     <ClCompile Include="Game\GameAreaComponent.cpp" />
     <ClCompile Include="Game\GridComponent.cpp" />
     <ClCompile Include="Game\PlayerComponent.cpp" />

@@ -36,7 +36,15 @@ void ScenePlay::Initialize(GameContext & context)
 	area->AddComponent<GameAreaComponent>();
 
 	auto& player = this->AddGameObject(L"Player");
+	auto& empty = this->AddGameObject(L"Empty");
+
+	empty->transform->parent = *(player->transform);
+
 	player->AddComponent<PlayerComponent>();
+
+	empty->transform->localPosition = { 0,0,0 };
+	empty->AddComponent<SphereCollider>();
+	empty->GetComponent<SphereCollider>()->SetRadius(10.f);
 
 	this->InitializeGameObject(context);
 }
@@ -57,6 +65,7 @@ void ScenePlay::Update(GameContext & context)
 
 void ScenePlay::Render(GameContext & context)
 {
+	SphereCollider::IsDraw(true);
 	this->RenderGameObject(context);
 
 	auto player = Find(L"Player")->GetComponent<PlayerComponent>();
@@ -69,4 +78,5 @@ void ScenePlay::Finalize(GameContext & context)
 {
 	this->FinalizeGameObject(context);
 }
+
 
