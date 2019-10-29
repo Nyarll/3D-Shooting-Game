@@ -91,10 +91,7 @@ void Game::FirstInit(HWND window, int width, int height)
 	CreateWindowSizeDependentResources();
 
 	Register(std::make_unique<GameFont>());
-	if (!(Get<GameFont>().Load(*this, L"Resources/Fonts/Arial.spritefont")))
-	{
-		assert(false && "Missing");
-	}
+	Get<GameFont>().Load(*this, L"Resources/Fonts/Arial.spritefont");
 }
 
 void Game::InitDatas(HWND window, int width, int height)

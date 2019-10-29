@@ -8,7 +8,7 @@ class PlayerComponent : public Component
 private:
 	const int ShotDelayCount = 10;
 	const float MaxSpeed = 1.5f;
-	const float MinSpeed = 0.1f;
+	const float MinSpeed = 0.01f;
 
 private:
 	enum playerState
@@ -24,7 +24,7 @@ private:
 	DirectX::SimpleMath::Vector3 m_accele, m_velocity;
 
 	int m_shotCount = 0;
-	float m_forwardSpeed = 0.1f;
+	float m_forwardSpeed = 0.0f;
 
 public:
 	void Initialize(GameContext& context);

@@ -36,15 +36,10 @@ void ScenePlay::Initialize(GameContext & context)
 	area->AddComponent<GameAreaComponent>();
 
 	auto& player = this->AddGameObject(L"Player");
-	auto& empty = this->AddGameObject(L"Empty");
-
-	empty->transform->parent = *(player->transform);
-
 	player->AddComponent<PlayerComponent>();
-
-	empty->transform->localPosition = { 0,0,0 };
-	empty->AddComponent<SphereCollider>();
-	empty->GetComponent<SphereCollider>()->SetRadius(10.f);
+	player->AddComponent<SphereCollider>();
+	player->GetComponent<SphereCollider>()->SetRadius(0.5f);
+	player->GetComponent<SphereCollider>()->SetOffset(DirectX::SimpleMath::Vector3(0, 1, 0));
 
 	this->InitializeGameObject(context);
 }

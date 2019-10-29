@@ -77,11 +77,13 @@ void PlayerComponent::Update(GameContext & context)
 	DirectX::SimpleMath::Vector3 pos = gameObject->transform->localPosition;
 	DirectX::SimpleMath::Vector3 limit = GameAreaComponent::AreaLimit.range;
 
+	force *= m_forwardSpeed;
+
 	if ((pos.x < limit.x / 2 && pos.x > -limit.x / 2) && (pos.y < limit.y / 2 && pos.y > -limit.y / 2) &&
 		(pos.z < limit.z / 2 && pos.z > -limit.z / 2))
 	{
 		// <ƒGƒŠƒAŒÀŠE‚É“ž’B‚µ‚Ä‚¢‚È‚¯‚ê‚ÎˆÚ“®‚·‚é>
-		gameObject->transform->localPosition += force * m_forwardSpeed;
+		gameObject->transform->localPosition += force;
 	}
 	else
 	{

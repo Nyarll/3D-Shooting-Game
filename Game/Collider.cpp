@@ -8,7 +8,10 @@ bool Collider::isDraw = false;
 void Collider::Render(GameContext & context)
 {
 	auto& camera = context.GetFollowCamera();
-	m_colliderRange->Draw(gameObject->transform->GetMatrix(),
+	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
+	world *= DirectX::SimpleMath::Matrix::CreateScale(m_scale);
+	world *= DirectX::SimpleMath::Matrix::CreateTranslation(gameObject->transform->localPosition + m_positionOffset);
+	m_colliderRange->Draw(world,
 		camera.m_view,
 		camera.m_proj,
 		DirectX::Colors::Red,
@@ -20,6 +23,8 @@ void SphereCollider::Initialize(GameContext & ctx)
 {
 	auto context = ctx.GetDR().GetD3DDeviceContext();
 	m_colliderRange = DirectX::GeometricPrimitive::CreateSphere(context, m_radius * 2);
+	float s = (m_radius * 2) / 2;
+	m_scale = { s,s,s };
 }
 
 void SphereCollider::Update(GameContext& context)
@@ -50,6 +55,7 @@ void BoxCollider::Initialize(GameContext & ctx)
 {
 	auto context = ctx.GetDR().GetD3DDeviceContext();
 	m_colliderRange = DirectX::GeometricPrimitive::CreateBox(context, m_size);
+	m_scale = m_size;
 }
 
 void BoxCollider::Update(GameContext& context)

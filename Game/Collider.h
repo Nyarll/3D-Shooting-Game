@@ -16,6 +16,8 @@ class Collider : public Component
 protected:
 
 	std::unique_ptr<DirectX::GeometricPrimitive>	m_colliderRange;
+	DirectX::SimpleMath::Vector3 m_scale = { 1.f,1.f,1.f };
+	DirectX::SimpleMath::Vector3 m_positionOffset = { 0,0,0 };
 	bool m_isHit = false;
 
 	static bool isDraw;
@@ -32,6 +34,11 @@ public:
 	bool IsHit()
 	{
 		return m_isHit;
+	}
+
+	void SetOffset(const DirectX::SimpleMath::Vector3& offset)
+	{
+		m_positionOffset = offset;
 	}
 
 public:
