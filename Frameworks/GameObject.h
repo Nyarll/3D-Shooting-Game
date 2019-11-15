@@ -26,12 +26,17 @@ public:
 class GameObject final : public Object, public std::enable_shared_from_this<GameObject>
 {
 private:
+	// <コンポーネントリスト>
 	std::list<ObjectHolder<Component>> m_components;
+	// <追加されるコンポーネントリスト>
 	std::list<ObjectHolder<Component>> m_addComponents;
+	// <検索用>
 	std::unordered_map<type_id_t, ObjectField<Component>> m_componentMap;
+	// <オブジェクト名>
 	std::wstring m_name;
 
 public:
+	// <scale, rotation, position>
 	ObjectField<Transform> transform;
 
 private:
@@ -61,6 +66,7 @@ private:
 	};
 
 public:
+	// <コンポーネントを追加>
 	template<typename ObjectType, typename... Args>
 	ObjectField<ObjectType> AddComponent(Args&& ... args)
 	{
@@ -72,6 +78,7 @@ public:
 		return field;
 	}
 
+	// <コンポーネントを取得>
 	template<typename ObjectType>
 	ObjectField<ObjectType> GetComponent()
 	{
@@ -87,7 +94,22 @@ public:
 		return nullptr;
 	}
 
+	// <type のコンポーネントを取得>
+	template<typename ObjectType>
+	ObjectField<ObjectType> GetComponentFind(std::wstring type)
+	{
+		for (auto& component : m_components)
+		{
+			if (component->GetType() == type)
+			{
+				return ObjectField<ObjectType>(component);
+			}
+		}
+		return nullptr;
+	}
+
 private:
+	// <コンストラクタ>
 	GameObject(const std::wstring & name)
 		: m_name(name)
 	{
@@ -95,25 +117,29 @@ private:
 	}
 
 public:
+	// <デストラクタ>
 	~GameObject() = default;
 
+	// <ゲームオブジェクト作成>
 	static ObjectHolder<GameObject> Create(const std::wstring & name = L"GameObject")
 	{
 		return ObjectHolder<GameObject>::CreateFromUniqueSharedPtr(std::shared_ptr<GameObject>(new GameObject(name)));
 	}
 
+	// <オブジェクト名取得>
 	std::wstring GetName() const override { return m_name; }
+	// <オブジェクトタイプ取得>
 	std::wstring GetType() const override { return L"GameObject"; }
 
 public:
-	// 生成
+	// <初期化>
 	void Initialize(GameContext & context)
 	{
 		for (auto& component : m_components)
 			component->Initialize(context);
 	}
 
-	// 更新
+	// <更新>
 	void Update(GameContext & context)
 	{
 		for (auto& component : m_addComponents)
@@ -138,14 +164,14 @@ public:
 		}
 	}
 
-	// 描画
+	// <描画>
 	void Render(GameContext & context)
 	{
 		for (auto& component : m_components)
 			component->Render(context);
 	}
 
-	// 破棄
+	// <破棄>
 	void Finalize(GameContext & context)
 	{
 		for (auto& component : m_components)

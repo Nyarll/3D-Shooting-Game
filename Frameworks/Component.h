@@ -17,11 +17,11 @@ public:
 public:
 	GameObject* gameObject = nullptr;
 
-	std::wstring GetType()const override
+	virtual std::wstring GetType()const override
 	{
 		return L"Component";
 	}
-	std::wstring GetName()const override
+	virtual std::wstring GetName()const override
 	{
 		return L"Component";
 	}

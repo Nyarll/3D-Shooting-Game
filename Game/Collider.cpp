@@ -7,16 +7,19 @@ bool Collider::isDraw = false;
 
 void Collider::Render(GameContext & context)
 {
-	auto& camera = context.GetFollowCamera();
-	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
-	world *= DirectX::SimpleMath::Matrix::CreateScale(m_scale);
-	world *= DirectX::SimpleMath::Matrix::CreateTranslation(gameObject->transform->localPosition + m_positionOffset);
-	m_colliderRange->Draw(world,
-		camera.m_view,
-		camera.m_proj,
-		DirectX::Colors::Red,
-		nullptr,
-		true);
+	if (isDraw)
+	{
+		auto& camera = context.GetFollowCamera();
+		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
+		world *= DirectX::SimpleMath::Matrix::CreateScale(m_scale);
+		world *= DirectX::SimpleMath::Matrix::CreateTranslation(gameObject->transform->localPosition + m_positionOffset);
+		m_colliderRange->Draw(world,
+			camera.m_view,
+			camera.m_proj,
+			DirectX::Colors::Red,
+			nullptr,
+			true);
+	}
 }
 
 void SphereCollider::Initialize(GameContext & ctx)
@@ -35,9 +38,16 @@ void SphereCollider::Update(GameContext& context)
 bool SphereCollider::OnHitCollision(Collider* other)
 {
 	auto sp = dynamic_cast<SphereCollider*>(other);
+	m_hitObjectName = L"null";
+	auto name = gameObject->GetName();
+	
 	if (sp)
 	{
 		m_isHit = m_bounding.Intersects(sp->GetBounding());
+		if (m_isHit)
+		{
+			m_hitObjectName = other->gameObject->GetName();
+		}
 		return m_isHit;
 	}
 
@@ -45,9 +55,13 @@ bool SphereCollider::OnHitCollision(Collider* other)
 	if (box)
 	{
 		m_isHit = m_bounding.Intersects(box->GetBounding());
+		if (m_isHit)
+		{
+			m_hitObjectName = other->gameObject->GetName();
+		}
 		return m_isHit;
 	}
-
+	
 	return false;
 }
 
@@ -70,6 +84,10 @@ bool BoxCollider::OnHitCollision(Collider * other)
 	if (box)
 	{
 		m_isHit = m_bounding.Intersects(box->GetBounding());
+		if (m_isHit)
+		{
+			m_hitObjectName = other->gameObject->GetName();
+		}
 		return m_isHit;
 	}
 
@@ -77,8 +95,12 @@ bool BoxCollider::OnHitCollision(Collider * other)
 	if (sp)
 	{
 		m_isHit = m_bounding.Intersects(sp->GetBounding());
+		if (m_isHit)
+		{
+			m_hitObjectName = other->gameObject->GetName();
+		}
 		return m_isHit;
 	}
-
+	m_hitObjectName = L"null";
 	return m_isHit;
 }

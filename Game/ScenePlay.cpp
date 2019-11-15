@@ -35,11 +35,18 @@ void ScenePlay::Initialize(GameContext & context)
 	auto& area = this->AddGameObject(L"LimitArea");
 	area->AddComponent<GameAreaComponent>();
 
+	auto& enemy = this->AddGameObject(L"Enemy");
+	enemy->transform->localPosition = { 10,10,10 };
+	enemy->AddComponent<SphereCollider>();
+	enemy->GetComponent<SphereCollider>()->SetRadius(1.f);
+
 	auto& player = this->AddGameObject(L"Player");
 	player->AddComponent<PlayerComponent>();
 	player->AddComponent<SphereCollider>();
 	player->GetComponent<SphereCollider>()->SetRadius(0.5f);
 	player->GetComponent<SphereCollider>()->SetOffset(DirectX::SimpleMath::Vector3(0, 1, 0));
+
+	Collider::IsDraw(true);
 
 	this->InitializeGameObject(context);
 }

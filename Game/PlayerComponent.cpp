@@ -88,8 +88,13 @@ void PlayerComponent::Update(GameContext & context)
 	else
 	{
 		// <‰ŠúˆÊ’u‚Ö–ß‚é>
-		gameObject->transform->localPosition = DirectX::SimpleMath::Vector3::Zero;
-		m_forwardSpeed = 0.1f;
+		this->SetStartPosition();
+	}
+
+	auto col = gameObject->GetComponent<SphereCollider>();
+	if (col->IsHit() && col->GetHitObjectName() == L"Enemy")
+	{
+		this->SetStartPosition();
 	}
 	
 	m_shotCount++;
@@ -173,4 +178,10 @@ void PlayerComponent::Fire(GameContext& context, DirectX::SimpleMath::Vector3 sh
 
 	obj->GetComponent<NormalBulletComponent>()->SetStartPosition(shot_pos);
 	obj->Initialize(context);
+}
+
+void PlayerComponent::SetStartPosition()
+{
+	gameObject->transform->localPosition = DirectX::SimpleMath::Vector3::Zero;
+	m_forwardSpeed = 0.1f;
 }

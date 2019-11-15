@@ -9,19 +9,29 @@
 class IScene
 {
 private:
+	// <シーン上に存在するゲームオブジェクト>
 	std::vector<ObjectHolder<GameObject>> m_gameObjects;
+	// <追加されるゲームオブジェクト>
 	std::vector<ObjectHolder<GameObject>> m_addingObjects;
+	// <削除されるゲームオブジェクト>
 	std::vector<GameObject*> m_killObjects;
+	// <検索用>
 	std::unordered_multimap<std::wstring, ObjectField<GameObject>> m_objectMap;
 
 public:
+	// <コンストラクタ>
 	IScene() = default;
+	// <デストラクタ>
 	virtual ~IScene() = default;
 
+	// <ゲームオブジェクトの追加>
 	ObjectField<GameObject> Add(ObjectHolder<GameObject>&& obj);
+	// <ゲームオブジェクトの名前で検索>
 	ObjectField<GameObject> Find(const std::wstring& name);
 	std::vector<ObjectField<GameObject>> FindAll(const std::wstring& name);
+	// <ゲームオブジェクトを追加>
 	ObjectField<GameObject> AddGameObject(const std::wstring& objname = L"GameObject");
+	// <全てのゲームオブジェクトを取得>
 	std::vector<ObjectHolder<GameObject>>& GetObjects() { return m_gameObjects; }
 
 	virtual void Initialize(GameContext& context) = 0;
@@ -29,12 +39,16 @@ public:
 	virtual void Render(GameContext& context) = 0;
 	virtual void Finalize(GameContext& context) = 0;
 
+	// <ゲームオブジェクトの削除>
 	void ObjectDestroy(GameObject& object)
 	{
 		m_killObjects.push_back(&object);
 	}
 
 protected:
+	// <ゲームオブジェクト関連>
+
+	// <初期化>
 	void InitializeGameObject(GameContext& context)
 	{
 		for (auto& obj : m_addingObjects)
@@ -47,6 +61,7 @@ protected:
 			obj->Initialize(context);
 		}
 	}
+	// <更新>
 	void UpdateGameObject(GameContext& context)
 	{
 		for (auto& obj : m_addingObjects)
@@ -62,6 +77,7 @@ protected:
 		this->CheckCollision();
 		KillObjectsDestroy(context);
 	}
+	// <描画>
 	void RenderGameObject(GameContext& context)
 	{
 		for (auto& obj : m_gameObjects)
@@ -69,6 +85,7 @@ protected:
 			obj->Render(context);
 		}
 	}
+	// <終了処理>
 	void FinalizeGameObject(GameContext& context)
 	{
 		for (auto& obj : m_gameObjects)
@@ -76,29 +93,32 @@ protected:
 			obj->Finalize(context);
 		}
 	}
-
+	// <当たり判定>
 	void CheckCollision()
 	{
 		for (int i = 0; i < m_gameObjects.size(); i++)
 		{
 			auto& obj = m_gameObjects[i];
-			auto col = obj->GetComponent<Collider>();
+			auto col = obj->GetComponentFind<Collider>(L"Collider");
 			// <Collider を持っているかチェック>
 			if (col)
 			{
-				for (int j = (i + 1); j < m_gameObjects.size(); j++)
+				for (int j = 0; j < m_gameObjects.size(); j++)
 				{
 					auto& obj2 = m_gameObjects[j];
-					auto col2 = obj2->GetComponent<Collider>();
-					if (col2)
+					if (obj.GetWeakPtr()._Get() != obj2.GetWeakPtr()._Get())
 					{
-						col->OnHitCollision(*col2);
+						auto col2 = obj2->GetComponentFind<Collider>(L"Collider");
+						if (col2)
+						{
+							col->OnHitCollision(*col2);
+						}
 					}
 				}
 			}
 		}
 	}
-
+	// <削除>
 	void KillObjectsDestroy(GameContext& context)
 	{
 		for (auto& obj : m_killObjects)

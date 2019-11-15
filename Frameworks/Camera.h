@@ -2,10 +2,12 @@
 
 #include <SimpleMath.h>
 
+#include "Object.h"
+
 class GameContext;
 
 // <カメラのインターフェイス>
-class ICamera
+class ICamera : public Object
 {
 public:
 	DirectX::SimpleMath::Vector3 m_eye;
@@ -40,5 +42,15 @@ public:
 		//rayDirection.Normalize();
 
 		return DirectX::SimpleMath::Ray(DirectX::SimpleMath::Vector3(rayNear), DirectX::SimpleMath::Vector3(rayDirection));
+	}
+
+	virtual std::wstring GetType()const
+	{
+		return L"Camera";
+	}
+
+	virtual std::wstring GetName()const
+	{
+		return L"Camera";
 	}
 };

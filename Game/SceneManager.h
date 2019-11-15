@@ -19,12 +19,18 @@ class SceneManager final
 private:
 	using FactoryMethod = IScene*(*)();
 	
+private:
+	// <現在のシーン>
 	std::unique_ptr<IScene>	m_activeScene;
+	// <次のシーン>(Noneじゃなければ遷移させる)
 	SceneID	m_nextSceneID;
+	// <シーン作成用>
 	FactoryMethod m_sceneFactoryMethods[SceneID::NumScenes];
 
 public:
+	// <コンストラクタ>
 	SceneManager();
+	// <デストラクタ>
 	~SceneManager();
 
 public:
@@ -41,6 +47,7 @@ public:
 	// <シーン変更要求>
 	void RequestScene(SceneID _sceneID);
 
+	// <現在アクティブなシーンを取得>
 	IScene& GetActiveScene()
 	{
 		return *m_activeScene;

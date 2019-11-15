@@ -38,4 +38,6 @@ public:
 
 private:
 	void Fire(GameContext& context, DirectX::SimpleMath::Vector3 shot_pos);
+
+	void SetStartPosition();
 };
