@@ -47,17 +47,8 @@ void Game::Initialize(HWND window, int width, int height)
 
 	// <ƒ[ƒh‰æ–Ê>
 	{
-		std::thread th1(
-			[&](HWND w, int wid, int hei)
-		{
-			this->InitDatas(w, wid, hei);
-		}, window, width, height);
-		std::thread th2(
-			[&](int wid, int hei)
-		{
-			this->RenderInit(wid, hei);
-		}, width, height);
-
+		std::thread th1(&Game::InitDatas, this, window, width, height);
+		std::thread th2(&Game::RenderInit, this, GetPtr<GameFont>(), width, height);
 		th1.join();
 		th2.join();
 	}
@@ -138,10 +129,8 @@ void Game::InitDatas(HWND window, int width, int height)
 	// Progress : 7
 }
 
-void Game::RenderInit(int width, int height)
+void Game::RenderInit(GameFont* font, int width, int height)
 {
-	auto& font = Get<GameFont>();
-
 	std::unique_ptr<GameSprite2D> sprite = std::make_unique<GameSprite2D>();
 	sprite->Load(*this, L"Resources/Sprite/Flag_of_Austria-Hungary.png", 0.5f);
 
@@ -156,8 +145,8 @@ void Game::RenderInit(int width, int height)
 		
 		sprite->Draw(DirectX::SimpleMath::Vector2(width / 2, height / 2));
 
-		font.Draw(str_pos, DirectX::Colors::White, "Data Loading...");
-		font.Draw(pos, DirectX::Colors::White, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
+		font->Draw(str_pos, DirectX::Colors::White, "Data Loading...");
+		font->Draw(pos, DirectX::Colors::White, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
 
 		m_deviceResources->PIXEndEvent();
 

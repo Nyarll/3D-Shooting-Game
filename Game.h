@@ -52,7 +52,7 @@ private:
 	// <ゲームに必要なものを読み込む>
 	void InitDatas(HWND window, int width, int height);
 	// <ロード画面描画>
-	void RenderInit(int width, int height);
+	void RenderInit(GameFont* font, int width, int height);
 
     void Update(DX::StepTimer const& timer);
     void Render();

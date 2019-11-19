@@ -36,7 +36,7 @@ void NormalBulletComponent::Update(GameContext & context)
 		scene.ObjectDestroy(*gameObject);
 	}
 	DirectX::SimpleMath::Vector3 pos = gameObject->transform->localPosition;
-	DirectX::SimpleMath::Vector3 limit = GameAreaComponent::AreaLimit.range;
+	DirectX::SimpleMath::Vector3 limit = AreaLimit.range;
 	if (((pos.x < limit.x / 2 && pos.x > -limit.x / 2) && (pos.y < limit.y / 2 && pos.y > -limit.y / 2) &&
 		(pos.z < limit.z / 2 && pos.z > -limit.z / 2)))
 	{

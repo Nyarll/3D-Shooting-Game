@@ -75,7 +75,7 @@ void PlayerComponent::Update(GameContext & context)
 	gameObject->transform->localRotation = flatRotation;
 
 	DirectX::SimpleMath::Vector3 pos = gameObject->transform->localPosition;
-	DirectX::SimpleMath::Vector3 limit = GameAreaComponent::AreaLimit.range;
+	DirectX::SimpleMath::Vector3 limit = AreaLimit.range;
 
 	force *= m_forwardSpeed;
 
@@ -87,8 +87,7 @@ void PlayerComponent::Update(GameContext & context)
 	}
 	else
 	{
-		// <‰ŠúˆÊ’u‚Ö–ß‚é>
-		this->SetStartPosition();
+		gameObject->transform->localPosition -= force;
 	}
 
 	auto col = gameObject->GetComponent<SphereCollider>();

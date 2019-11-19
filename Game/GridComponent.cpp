@@ -6,7 +6,7 @@
 void GridComponent::Initialize(GameContext & context)
 {
 	context.Register(std::make_unique<InfinityGridFloor>());
-	context.Get<InfinityGridFloor>().init(context, 1.f, { GameAreaComponent::AreaLimit.range.x, GameAreaComponent::AreaLimit.range.z });
+	context.Get<InfinityGridFloor>().init(context, 1.f, { AreaLimit.range.x, AreaLimit.range.z });
 }
 
 void GridComponent::Render(GameContext & context)
