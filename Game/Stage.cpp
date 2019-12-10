@@ -28,19 +28,19 @@ void Stage::Initialize(GameContext & context)
 	auto& dr = context.GetDR();
 
 	DirectX::EffectFactory factory(dr.GetD3DDevice());
-	factory.SetDirectory(L"Resources/Models");
-	m_model = DirectX::Model::CreateFromCMO(dr.GetD3DDevice(), L"Resources/Models/Panel1.cmo", factory);
+	factory.SetDirectory(L"Resources/Models/Panel");
+	m_model = DirectX::Model::CreateFromCMO(dr.GetD3DDevice(), L"Resources/Models/Panel/Panel1.cmo", factory);
 
 	for (int y = 0; y < m_stage.size(); y++)
 	{
 		for (int x = 0; x < m_stage[y].size(); x++)
 		{
 			auto& obj = scene.AddGameObject(L"Floor");
-			obj->AddComponent<ModelRenderer>();
-			obj->GetComponent<ModelRenderer>()->SetFloorModel(m_model.get());
+			obj->AddComponent<CMOModelRenderer>();
+			obj->GetComponent<CMOModelRenderer>()->SetFloorModel(m_model.get());
 			float _x = -(static_cast<float>(m_stage[y].size()) / 2.f) + static_cast<float>(x) + 0.5f;
 			float _y = -(static_cast<float>(m_stage.size()) / 2.f) + static_cast<float>(y) + 0.5f;
-			float scale = 0.028f;
+			float scale = 0.0285f;
 
 			obj->transform->localScale = DirectX::SimpleMath::Vector3(scale, scale, scale);
 			obj->transform->localPosition = DirectX::SimpleMath::Vector3(_x, 0.f, _y);

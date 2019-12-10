@@ -3,7 +3,7 @@
 #include "../Frameworks/Component.h"
 #include "../Frameworks/GameContext.h"
 
-class ModelRenderer : public Component
+class CMOModelRenderer : public Component
 {
 	DirectX::Model*	m_model;
 

@@ -191,6 +191,7 @@
     <ClInclude Include="Game\SceneManager.h" />
     <ClInclude Include="Game\ScenePlay.h" />
     <ClInclude Include="Game\SceneTitle.h" />
+    <ClInclude Include="Game\Sky.h" />
     <ClInclude Include="Game\Stage.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StepTimer.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Game\SceneManager.cpp" />
     <ClCompile Include="Game\ScenePlay.cpp" />
     <ClCompile Include="Game\SceneTitle.cpp" />
+    <ClCompile Include="Game\Sky.cpp" />
     <ClCompile Include="Game\Stage.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -268,11 +270,11 @@
     <MeshContentTask Include="Resources\Models\f.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Models/%(Filename).cmo</ContentOutput>
     </MeshContentTask>
-    <MeshContentTask Include="Resources\Models\Panel1.FBX">
-      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Models/%(Filename).cmo</ContentOutput>
+    <MeshContentTask Include="Resources\Models\Panel\Panel1.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Models/Panel/%(Filename).cmo</ContentOutput>
     </MeshContentTask>
-    <MeshContentTask Include="Resources\Models\SkyDoom.FBX">
-      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Models/%(Filename).cmo</ContentOutput>
+    <MeshContentTask Include="Resources\Models\Sky\SkyDoom.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Models/Sky/%(Filename).cmo</ContentOutput>
     </MeshContentTask>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

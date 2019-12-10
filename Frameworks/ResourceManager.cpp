@@ -25,7 +25,7 @@ void ResourceManager::Initialize(GameContext& context, HWND window)
 
 	this->ModelRegister(context, window, ResourceID::Star, "Resources/Models/star.fbx");
 
-	this->CmoModelRegister(context, ResourceID::SkyDome, L"Resources/Models", L"Resources/Models/SkyDoom.cmo");
+	this->ModelRegister(context, window, ResourceID::SkyDome, "Resources/Models/Sky/SkyDoom.FBX");
 }
 
 std::weak_ptr<FBX_LOADER::FbxModel> ResourceManager::GetFbxModel(ResourceID id)

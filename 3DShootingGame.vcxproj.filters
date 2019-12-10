@@ -113,6 +113,9 @@
     <ClInclude Include="Game\FixedCameraComponent.h">
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Sky.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -177,6 +180,9 @@
     <ClCompile Include="Game\FixedCameraComponent.cpp">
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Sky.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -214,10 +220,10 @@
     <MeshContentTask Include="Resources\Models\f.FBX">
       <Filter>Assets</Filter>
     </MeshContentTask>
-    <MeshContentTask Include="Resources\Models\SkyDoom.FBX">
+    <MeshContentTask Include="Resources\Models\Panel\Panel1.FBX">
       <Filter>Assets</Filter>
     </MeshContentTask>
-    <MeshContentTask Include="Resources\Models\Panel1.FBX">
+    <MeshContentTask Include="Resources\Models\Sky\SkyDoom.FBX">
       <Filter>Assets</Filter>
     </MeshContentTask>
   </ItemGroup>

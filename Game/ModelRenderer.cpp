@@ -4,16 +4,16 @@
 #include "SceneManager.h"
 #include "FixedCameraComponent.h"
 
-void ModelRenderer::Initialize(GameContext & context)
+void CMOModelRenderer::Initialize(GameContext & context)
 {
 
 }
 
-void ModelRenderer::Update(GameContext & context)
+void CMOModelRenderer::Update(GameContext & context)
 {
 }
 
-void ModelRenderer::Render(GameContext & context)
+void CMOModelRenderer::Render(GameContext & context)
 {
 	auto& dr = context.GetDR();
 	auto& camera = context.Get<SceneManager>().GetActiveScene().Find(L"Camera")->GetComponent<FixedCamera>();
