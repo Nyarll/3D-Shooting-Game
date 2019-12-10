@@ -8,8 +8,6 @@
 #include "../DeviceResources.h"
 #include "../StepTimer.h"
 
-#include "../Game/GameCameraComponent.h"
-
 #include "TypeID.h"
 
 // <ServiceLocator ƒpƒ^[ƒ“>

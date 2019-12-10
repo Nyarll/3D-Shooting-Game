@@ -28,6 +28,10 @@ protected:
 	// <当たった対象の名称>
 	std::wstring m_hitObjectName = L"null";
 
+	// <描画用>
+	DirectX::SimpleMath::Matrix m_view;
+	DirectX::SimpleMath::Matrix m_proj;
+
 	// <デバッグ表示するかどうか>
 	static bool isDraw;
 
@@ -62,6 +66,12 @@ public:
 	std::wstring GetHitObjectName()
 	{
 		return m_hitObjectName;
+	}
+
+	void SetRenderMatrix(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
+	{
+		m_view = view;
+		m_proj = proj;
 	}
 
 	virtual std::wstring GetType()const override

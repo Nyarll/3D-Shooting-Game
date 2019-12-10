@@ -98,9 +98,6 @@
     <ClInclude Include="Game\SceneTitle.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameCameraComponent.h">
-      <Filter>Game\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Game\GameDirector.h">
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
@@ -111,6 +108,9 @@
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Game\ICameraComponent.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FixedCameraComponent.h">
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
@@ -165,9 +165,6 @@
     <ClCompile Include="Game\SceneTitle.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameCameraComponent.cpp">
-      <Filter>Game\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Game\GameDirector.cpp">
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
@@ -175,6 +172,9 @@
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelRenderer.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FixedCameraComponent.cpp">
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
   </ItemGroup>

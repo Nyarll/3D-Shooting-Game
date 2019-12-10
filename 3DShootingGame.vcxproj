@@ -184,7 +184,7 @@
     <ClInclude Include="Game\Collider.h" />
     <ClInclude Include="Game\ICameraComponent.h" />
     <ClInclude Include="Game\ModelRenderer.h" />
-    <ClInclude Include="Game\GameCameraComponent.h" />
+    <ClInclude Include="Game\FixedCameraComponent.h" />
     <ClInclude Include="Game\GameDirector.h" />
     <ClInclude Include="Game\GridComponent.h" />
     <ClInclude Include="Game\Scene.h" />
@@ -208,7 +208,7 @@
     <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="Game\Collider.cpp" />
     <ClCompile Include="Game\ModelRenderer.cpp" />
-    <ClCompile Include="Game\GameCameraComponent.cpp" />
+    <ClCompile Include="Game\FixedCameraComponent.cpp" />
     <ClCompile Include="Game\GameDirector.cpp" />
     <ClCompile Include="Game\GridComponent.cpp" />
     <ClCompile Include="Game\Scene.cpp" />

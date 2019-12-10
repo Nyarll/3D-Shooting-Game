@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameCameraComponent.h"
+#include "FixedCameraComponent.h"
 
 class GameDirector : public Component
 {

@@ -7,7 +7,7 @@
 #include "SceneManager.h"
 
 #include "GridComponent.h"
-#include "GameCameraComponent.h"
+#include "FixedCameraComponent.h"
 #include "GameDirector.h"
 #include "Stage.h"
 

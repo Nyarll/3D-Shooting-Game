@@ -2,7 +2,7 @@
 #include "ModelRenderer.h"
 
 #include "SceneManager.h"
-#include "GameCameraComponent.h"
+#include "FixedCameraComponent.h"
 
 void ModelRenderer::Initialize(GameContext & context)
 {

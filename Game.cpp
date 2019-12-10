@@ -23,7 +23,7 @@ using namespace DirectX::SimpleMath;
 
 using Microsoft::WRL::ComPtr;
 
-const int Game::PROGRESS_END = 5;
+const int Game::PROGRESS_END = 6;
 
 Game::Game() noexcept(false)
 {
@@ -97,26 +97,27 @@ void Game::InitDatas(HWND window, int width, int height)
 		Register(std::make_unique<EffectFactory>(device));
 		Get<EffectFactory>().SetDirectory(L"Resources/Models");
 		this->Progress();
-
-		// <ƒJƒƒ‰>
-		// Register(std::make_unique<DebugCamera>());
-		// Get<DebugCamera>().Initialize(*this);
 	}
 	Register(std::make_unique<ResourceManager>());
 	Get<ResourceManager>().Initialize(*this, window);
 	this->Progress();
 
 	Register(std::make_unique<SceneManager>());
-	auto& scene_manager = Get<SceneManager>();
-	//scene_manager.RegisterScene(new [Scene]);
-	scene_manager.RegisterScene(SceneID::SCENE_TITLE, SceneTitle::Create);
-	scene_manager.RegisterScene(SceneID::SCENE_PLAY, ScenePlay::Create);
-	this->Progress();
+	{
+		auto& scene_manager = Get<SceneManager>();
+		//scene_manager.RegisterScene(new [Scene]);
 
-	scene_manager.SetStartScene(*this, SceneID::SCENE_TITLE);
-	this->Progress();
+		scene_manager.RegisterScene(SceneID::SCENE_TITLE, SceneTitle::Create);
+		this->Progress();
 
-	// Progress : 5
+		scene_manager.RegisterScene(SceneID::SCENE_PLAY, ScenePlay::Create);
+		this->Progress();
+
+		scene_manager.SetStartScene(*this, SceneID::SCENE_TITLE);
+		this->Progress();
+	}
+
+	// Progress : 6
 }
 
 void Game::RenderInit(GameFont* font, int width, int height)

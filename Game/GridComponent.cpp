@@ -3,7 +3,7 @@
 #include "../Frameworks/GameObject.h"
 
 #include "SceneManager.h"
-#include "GameCameraComponent.h"
+#include "FixedCameraComponent.h"
 
 void GridComponent::Initialize(GameContext & context)
 {

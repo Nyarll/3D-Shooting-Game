@@ -1,5 +1,5 @@
 
-#include "GameCameraComponent.h"
+#include "FixedCameraComponent.h"
 
 FixedCamera::FixedCamera()
 {

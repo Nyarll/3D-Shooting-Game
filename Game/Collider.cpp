@@ -11,14 +11,12 @@ void Collider::Render(GameContext & context)
 {
 	if (isDraw)
 	{
-		auto& scene = context.Get<SceneManager>().GetActiveScene().Find(L"Camera");
-		auto& camera = scene->GetComponent<ICameraComponent>();
 		DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
 		world *= DirectX::SimpleMath::Matrix::CreateScale(m_scale);
 		world *= DirectX::SimpleMath::Matrix::CreateTranslation(gameObject->transform->localPosition + m_positionOffset);
 		m_colliderRange->Draw(world,
-			camera->GetViewMatrix(),
-			camera->GetProjectionMatrix(),
+			m_view,
+			m_proj,
 			DirectX::Colors::Red,
 			nullptr,
 			true);
