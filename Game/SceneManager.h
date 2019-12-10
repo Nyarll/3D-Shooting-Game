@@ -6,9 +6,9 @@
 enum SceneID
 {
 	SceneNone = -1,
-	//SceneTitle,
-	ScenePlay,
-	//SceneResult,
+	SCENE_TITLE,
+	SCENE_PLAY,
+	//SCENE_RESULT,
 
 	NumScenes
 };

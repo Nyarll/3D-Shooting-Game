@@ -44,12 +44,12 @@ public:
 		return DirectX::SimpleMath::Ray(DirectX::SimpleMath::Vector3(rayNear), DirectX::SimpleMath::Vector3(rayDirection));
 	}
 
-	virtual std::wstring GetType()const
+	virtual std::wstring GetType()const override
 	{
 		return L"Camera";
 	}
 
-	virtual std::wstring GetName()const
+	virtual std::wstring GetName()const override
 	{
 		return L"Camera";
 	}

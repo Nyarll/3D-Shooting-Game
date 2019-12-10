@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef GAMESPRITE_DEFINED
+#define GAMESPRITE_DEFINED
+
 #include "GameContext.h"
 
 #include <SimpleMath.h>
@@ -8,6 +11,8 @@
 #include <VertexTypes.h>
 #include <WICTextureLoader.h>
 #include <CommonStates.h>
+
+class GameContext;
 
 // <GameSprite2D>
 class GameSprite2D
@@ -26,7 +31,7 @@ public:
 
 	bool Load(GameContext& ctx, const wchar_t* file_name, float scale = 1.f);
 
-	void Draw(const DirectX::SimpleMath::Vector2& pos);
+	void Draw(GameContext& context, const DirectX::SimpleMath::Vector2& pos);
 };
 
 class GameSpritePolygon
@@ -66,3 +71,6 @@ public:
 		DirectX::SimpleMath::Matrix world, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj);
 
 };
+
+#endif
+// GameSprite

@@ -1,16 +1,26 @@
 
 #include "GridComponent.h"
+#include "../Frameworks/GameObject.h"
 
-#include "GameAreaComponent.h"
+#include "SceneManager.h"
+#include "GameCameraComponent.h"
 
 void GridComponent::Initialize(GameContext & context)
 {
-	context.Register(std::make_unique<InfinityGridFloor>());
-	context.Get<InfinityGridFloor>().init(context, 1.f, { AreaLimit.range.x, AreaLimit.range.z });
+	auto& dr = context.GetDR();
+	int floorSize = 10;
+	m_grid = std::make_unique<GridFloor>(dr.GetD3DDevice(),
+		dr.GetD3DDeviceContext(),
+		context.GetPtr<DirectX::CommonStates>(),
+		static_cast<float>(floorSize), floorSize); 
 }
 
 void GridComponent::Render(GameContext & context)
 {
-	context.Get<InfinityGridFloor>().draw(context);
+	auto& scene = context.Get<SceneManager>().GetActiveScene();
+	auto& camera = scene.Find(L"Camera")->GetComponent<GameCameraComponent>();
+
+	m_grid->draw(context.GetDR().GetD3DDeviceContext(),
+		camera->GetViewMatrix(), camera->GetProjectionMatrix());
 }
 

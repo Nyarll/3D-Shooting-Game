@@ -68,12 +68,6 @@
     <ClInclude Include="Game\GridComponent.h">
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="Game\SkyComponent.h">
-      <Filter>Game\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\BulletComponent.h">
-      <Filter>Game\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="GameSystem.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -107,16 +101,28 @@
     <ClInclude Include="Frameworks\GameSprite.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Game\PlayerComponent.h">
-      <Filter>Game\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameAreaComponent.h">
-      <Filter>Game\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Frameworks\ShaderFileImporter.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Game\Collider.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\SceneTitle.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameCameraComponent.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameDirector.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelRenderer.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ICameraComponent.h">
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
@@ -159,12 +165,6 @@
     <ClCompile Include="Game\GridComponent.cpp">
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="Game\SkyComponent.cpp">
-      <Filter>Game\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\BulletComponent.cpp">
-      <Filter>Game\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="GameSystem.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -177,16 +177,25 @@
     <ClCompile Include="Frameworks\GameSprite.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PlayerComponent.cpp">
-      <Filter>Game\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameAreaComponent.cpp">
-      <Filter>Game\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Frameworks\ShaderFileImporter.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Game\Collider.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\SceneTitle.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameCameraComponent.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameDirector.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelRenderer.cpp">
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,6 +236,9 @@
       <Filter>Assets</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Resources\Models\SkyDoom.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Resources\Models\Panel1.FBX">
       <Filter>Assets</Filter>
     </MeshContentTask>
   </ItemGroup>

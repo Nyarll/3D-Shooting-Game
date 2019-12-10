@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef COLLIDERS_DEFINED
+#define COLLIDERS_DEFINED
+
 #include "../Frameworks/Transform.h"
 
 #include "../Frameworks/GameContext.h"
@@ -137,3 +140,5 @@ public:
 		return m_bounding;
 	}
 };
+
+#endif

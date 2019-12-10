@@ -1,7 +1,7 @@
 
 #include "GameFont.h"
 
-bool GameFont::Load(GameContext & ctx, const wchar_t * file_name)
+bool GameFont::Load(GameContext & ctx, const wchar_t * file_name, float scale)
 {
 	auto device = ctx.GetDR().GetD3DDevice();
 	auto context = ctx.GetDR().GetD3DDeviceContext();
@@ -12,6 +12,8 @@ bool GameFont::Load(GameContext & ctx, const wchar_t * file_name)
 	if (!m_spriteBatch.get())return false;
 	m_spriteFont = std::make_unique<DirectX::SpriteFont>(device, file_name);
 	if (!m_spriteFont.get())return false;
+
+	m_scale = scale;
 
 	return true;
 }
@@ -35,11 +37,9 @@ void GameFont::Draw(DirectX::SimpleMath::Vector2 pos, DirectX::FXMVECTOR color, 
 	}
 	std::string result = std::string(formatted.get());
 
-	float scale = 0.75f;
-
 	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_state->NonPremultiplied());
 	m_spriteFont->DrawString(m_spriteBatch.get(), result.c_str(),
 		pos, color,
-		0, DirectX::SimpleMath::Vector3::Zero, scale);
+		0, DirectX::SimpleMath::Vector3::Zero, m_scale);
 	m_spriteBatch->End();
 }

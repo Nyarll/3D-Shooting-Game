@@ -12,6 +12,7 @@
 #include <thread>
 
 #include "Game/ScenePlay.h"
+#include "Game/SceneTitle.h"
 
 #include "Frameworks/GameSprite.h"
 
@@ -120,10 +121,11 @@ void Game::InitDatas(HWND window, int width, int height)
 	Register(std::make_unique<SceneManager>());
 	auto& scene_manager = Get<SceneManager>();
 	//scene_manager.RegisterScene(new [Scene]);
-	scene_manager.RegisterScene(SceneID::ScenePlay, ScenePlay::Create);
+	scene_manager.RegisterScene(SceneID::SCENE_TITLE, SceneTitle::Create);
+	scene_manager.RegisterScene(SceneID::SCENE_PLAY, ScenePlay::Create);
 	this->Progress();
 
-	scene_manager.SetStartScene(*this, SceneID::ScenePlay);
+	scene_manager.SetStartScene(*this, SceneID::SCENE_TITLE);
 	this->Progress();
 
 	// Progress : 7
@@ -131,27 +133,55 @@ void Game::InitDatas(HWND window, int width, int height)
 
 void Game::RenderInit(GameFont* font, int width, int height)
 {
-	std::unique_ptr<GameSprite2D> sprite = std::make_unique<GameSprite2D>();
-	sprite->Load(*this, L"Resources/Sprite/Flag_of_Austria-Hungary.png", 0.5f);
-
 	DirectX::SimpleMath::Vector2 pos((width / 2) - (width / 8), (height / 2));
-	DirectX::SimpleMath::Vector2 str_pos(static_cast<float>(width - sizeof("Data Loading...") * 12), static_cast<float>(height - 40));
+	DirectX::SimpleMath::Vector2 str_pos(static_cast<float>(width - sizeof("Data Loading...") * 10), static_cast<float>(height - 40 * 1.5f));
+
+	std::unique_ptr<GameSprite2D>	loadSprites[4];
+	for (int i = 0; i < 4; i++)
+	{
+		loadSprites[i] = std::make_unique<GameSprite2D>();
+	}
+	loadSprites[0]->Load(*this, L"Resources/Sprite/load0.png");
+	loadSprites[1]->Load(*this, L"Resources/Sprite/load1.png");
+	loadSprites[2]->Load(*this, L"Resources/Sprite/load2.png");
+	loadSprites[3]->Load(*this, L"Resources/Sprite/load3.png");
+
+	int cnt = 0;
 	while (m_initProgress < PROGRESS_END)
 	{
-		Clear(DirectX::Colors::DarkBlue);
+		Clear(DirectX::Colors::White);
 		m_deviceResources->PIXBeginEvent(L"Render");
 
-		// <•`‰æ>
-		
-		sprite->Draw(DirectX::SimpleMath::Vector2(width / 2, height / 2));
+		int n = 0;
 
-		font->Draw(str_pos, DirectX::Colors::White, "Data Loading...");
-		font->Draw(pos, DirectX::Colors::White, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
+		// <•`‰æ>
+		if (cnt < 10)
+		{
+			n = 0;
+		}
+		else if (cnt < 20)
+		{
+			n = 1;
+		}
+		else if (cnt < 30)
+		{
+			n = 2;
+		}
+		else if (cnt < 40)
+		{
+			n = 3;
+			cnt = 0;
+		}
+		
+		loadSprites[n]->Draw(*this, str_pos);
+		font->SetScale(0.75f);
+		font->Draw(pos, DirectX::Colors::Black, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
 
 		m_deviceResources->PIXEndEvent();
 
 		// Show the new frame.
 		m_deviceResources->Present();
+		cnt++;
 	}
 }
 

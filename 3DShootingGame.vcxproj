@@ -185,15 +185,17 @@
     <ClInclude Include="Frameworks\TypeID.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameSystem.h" />
-    <ClInclude Include="Game\BulletComponent.h" />
     <ClInclude Include="Game\Collider.h" />
-    <ClInclude Include="Game\GameAreaComponent.h" />
+    <ClInclude Include="Game\ICameraComponent.h" />
+    <ClInclude Include="Game\ModelRenderer.h" />
+    <ClInclude Include="Game\GameCameraComponent.h" />
+    <ClInclude Include="Game\GameDirector.h" />
     <ClInclude Include="Game\GridComponent.h" />
-    <ClInclude Include="Game\PlayerComponent.h" />
     <ClInclude Include="Game\Scene.h" />
     <ClInclude Include="Game\SceneManager.h" />
     <ClInclude Include="Game\ScenePlay.h" />
-    <ClInclude Include="Game\SkyComponent.h" />
+    <ClInclude Include="Game\SceneTitle.h" />
+    <ClInclude Include="Game\Stage.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StepTimer.h" />
   </ItemGroup>
@@ -211,15 +213,16 @@
     <ClCompile Include="Frameworks\ShaderFileImporter.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSystem.cpp" />
-    <ClCompile Include="Game\BulletComponent.cpp" />
     <ClCompile Include="Game\Collider.cpp" />
-    <ClCompile Include="Game\GameAreaComponent.cpp" />
+    <ClCompile Include="Game\ModelRenderer.cpp" />
+    <ClCompile Include="Game\GameCameraComponent.cpp" />
+    <ClCompile Include="Game\GameDirector.cpp" />
     <ClCompile Include="Game\GridComponent.cpp" />
-    <ClCompile Include="Game\PlayerComponent.cpp" />
     <ClCompile Include="Game\Scene.cpp" />
     <ClCompile Include="Game\SceneManager.cpp" />
     <ClCompile Include="Game\ScenePlay.cpp" />
-    <ClCompile Include="Game\SkyComponent.cpp" />
+    <ClCompile Include="Game\SceneTitle.cpp" />
+    <ClCompile Include="Game\Stage.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -270,6 +273,9 @@
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Resources\Models\f.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Models/%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
+    <MeshContentTask Include="Resources\Models\Panel1.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources/Models/%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="Resources\Models\SkyDoom.FBX">

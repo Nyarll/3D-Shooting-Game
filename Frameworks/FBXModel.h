@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef FBX_LOADER_DEFINED
+#define FBX_LOADER_DEFINED
+
 #include <vector>
 #include <string>
 #include <memory>
@@ -85,3 +88,5 @@ namespace FBX_LOADER
 			DirectX::SimpleMath::Matrix proj);
 	};
 }
+
+#endif

@@ -4,6 +4,8 @@
 #include "../StepTimer.h"
 #include "ShaderFileImporter.h"
 
+#include "GameContext.h"
+
 bool GameSprite2D::Load(GameContext& ctx, const wchar_t* file_name, float scale)
 {
 	auto context = ctx.GetDR().GetD3DDeviceContext();
@@ -32,9 +34,10 @@ bool GameSprite2D::Load(GameContext& ctx, const wchar_t* file_name, float scale)
 	return true;
 }
 
-void GameSprite2D::Draw(const DirectX::SimpleMath::Vector2& pos)
+void GameSprite2D::Draw(GameContext& context, const DirectX::SimpleMath::Vector2& pos)
 {
-	m_spriteBatch->Begin();
+	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, context.Get<DirectX::CommonStates>().NonPremultiplied());
+
 	m_spriteBatch->Draw(m_texture.Get(), pos - m_center, nullptr, DirectX::Colors::White, 0.f, { 0.f,0.f }, m_scale);
 	m_spriteBatch->End();
 }
@@ -92,7 +95,7 @@ void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Vector3 pos,
 {
 	auto context = ctx.GetDR().GetD3DDeviceContext();
 
-	//定数バッファで渡す値の設定
+	// <定数バッファで渡す値の設定>
 	ConstBuffer cbuff;
 	cbuff.matView = view.Transpose();;
 	cbuff.matProj = proj.Transpose();
@@ -107,11 +110,8 @@ void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Vector3 pos,
 
 	auto& states = ctx.Get<DirectX::CommonStates>();
 	ID3D11BlendState* blendstate = states.NonPremultiplied();
-	// 透明判定処理
 	context->OMSetBlendState(blendstate, nullptr, 0xFFFFFFFF);
-	// 深度バッファは参照のみ
 	context->OMSetDepthStencilState(states.DepthRead(), 0);
-	// カリング
 	context->RSSetState(states.CullNone());
 
 	// <定数バッファをシェーダに渡す>
@@ -120,7 +120,6 @@ void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Vector3 pos,
 	context->GSSetConstantBuffers(0, 1, cb);
 	context->PSSetConstantBuffers(0, 1, cb);
 
-	//サンプラー、シェーダ、画像をそれぞれ登録
 	ID3D11SamplerState* sampler[1] = { states.LinearWrap() };
 	context->PSSetSamplers(0, 1, sampler);
 	context->GSSetShader(m_GeometryShader.Get(), nullptr, 0);
@@ -128,7 +127,6 @@ void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Vector3 pos,
 	context->PSSetShader(m_PixelShader.Get(), nullptr, 0);
 	context->PSSetShaderResources(0, 1, m_texture.GetAddressOf());
 
-	//入力レイアウトを反映
 	context->IASetInputLayout(m_inputLayout.Get());
 
 	DirectX::VertexPositionColorTexture vertex =
