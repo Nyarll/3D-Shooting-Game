@@ -2,9 +2,6 @@
 
 #include "ScenePlay.h"
 
-#include "../Frameworks/DebugCamera.h"
-#include "../Frameworks/InfinityGridFloor.h"
-
 #include "../DeviceResources.h"
 #include "../Frameworks/ResourceManager.h"
 #include "SceneManager.h"
@@ -27,7 +24,7 @@ ScenePlay::~ScenePlay()
 void ScenePlay::Initialize(GameContext & context)
 {
 	auto& camera = this->AddGameObject(L"Camera");
-	camera->AddComponent<GameCameraComponent>();
+	camera->AddComponent<FixedCamera>();
 
 	auto& grid = this->AddGameObject(L"Grid");
 	grid->AddComponent<GridComponent>();

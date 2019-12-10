@@ -17,7 +17,7 @@ void GameDirector::Update(GameContext & context)
 void GameDirector::Render(GameContext & context)
 {
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
-	auto camera = scene.Find(L"Camera")->GetComponent<GameCameraComponent>();
+	auto camera = scene.Find(L"Camera")->GetComponent<FixedCamera>();
 
 	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateTranslation(camera->GetTargetPosition());
 	m_geo->Draw(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::Colors::Red);

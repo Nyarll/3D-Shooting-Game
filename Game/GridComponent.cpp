@@ -18,7 +18,7 @@ void GridComponent::Initialize(GameContext & context)
 void GridComponent::Render(GameContext & context)
 {
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
-	auto& camera = scene.Find(L"Camera")->GetComponent<GameCameraComponent>();
+	auto& camera = scene.Find(L"Camera")->GetComponent<FixedCamera>();
 
 	m_grid->draw(context.GetDR().GetD3DDeviceContext(),
 		camera->GetViewMatrix(), camera->GetProjectionMatrix());

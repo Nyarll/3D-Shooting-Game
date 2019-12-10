@@ -6,8 +6,6 @@
 #include "Game.h"
 
 #include "Frameworks/Object.h"
-#include "Frameworks/DebugCamera.h"
-#include "Frameworks/GridFloorWrapper.h"
 
 #include <thread>
 
@@ -25,7 +23,7 @@ using namespace DirectX::SimpleMath;
 
 using Microsoft::WRL::ComPtr;
 
-const int Game::PROGRESS_END = 7;
+const int Game::PROGRESS_END = 5;
 
 Game::Game() noexcept(false)
 {
@@ -103,16 +101,6 @@ void Game::InitDatas(HWND window, int width, int height)
 		// <ƒJƒƒ‰>
 		// Register(std::make_unique<DebugCamera>());
 		// Get<DebugCamera>().Initialize(*this);
-		Register(std::make_unique<DebugFollowCamera>(
-			DirectX::SimpleMath::Vector3(0, 2, -10),
-			DirectX::SimpleMath::Vector3(0, 0, 0),
-			window
-			)
-		);
-		this->Progress();
-
-		Get<DebugFollowCamera>().Initialize(*this);
-		this->Progress();
 	}
 	Register(std::make_unique<ResourceManager>());
 	Get<ResourceManager>().Initialize(*this, window);
@@ -128,7 +116,7 @@ void Game::InitDatas(HWND window, int width, int height)
 	scene_manager.SetStartScene(*this, SceneID::SCENE_TITLE);
 	this->Progress();
 
-	// Progress : 7
+	// Progress : 5
 }
 
 void Game::RenderInit(GameFont* font, int width, int height)

@@ -41,15 +41,6 @@
     <ClInclude Include="Frameworks\GameContext.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Frameworks\InfinityGridFloor.h">
-      <Filter>Framework\DebugTools</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\GridFloorWrapper.h">
-      <Filter>Framework\DebugTools</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\DebugCamera.h">
-      <Filter>Framework\DebugTools</Filter>
-    </ClInclude>
     <ClInclude Include="Frameworks\ResourceManager.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -72,9 +63,6 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Frameworks\GameObject.h">
-      <Filter>Framework\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Frameworks\Camera.h">
       <Filter>Framework\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Frameworks\Component.h">
@@ -138,12 +126,6 @@
     <ClCompile Include="Frameworks\GridFloor.cpp">
       <Filter>Framework\DebugTools</Filter>
     </ClCompile>
-    <ClCompile Include="Frameworks\GridFloorWrapper.cpp">
-      <Filter>Framework\DebugTools</Filter>
-    </ClCompile>
-    <ClCompile Include="Frameworks\DebugCamera.cpp">
-      <Filter>Framework\DebugTools</Filter>
-    </ClCompile>
     <ClCompile Include="Frameworks\ResourceManager.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -155,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="Game\Scene.cpp">
       <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Frameworks\InfinityGridFloor.cpp">
-      <Filter>Framework\DebugTools</Filter>
     </ClCompile>
     <ClCompile Include="Frameworks\GameFont.cpp">
       <Filter>Framework</Filter>

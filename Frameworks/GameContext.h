@@ -8,8 +8,7 @@
 #include "../DeviceResources.h"
 #include "../StepTimer.h"
 
-#include "Camera.h"
-#include "DebugCamera.h"
+#include "../Game/GameCameraComponent.h"
 
 #include "TypeID.h"
 
@@ -191,12 +190,5 @@ public:
 	DX::DeviceResources& GetDR()
 	{
 		return Get<DX::DeviceResources>();
-	}
-
-	
-
-	ICamera& GetFollowCamera()
-	{
-		return Get<DebugFollowCamera>();
 	}
 };

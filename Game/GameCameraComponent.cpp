@@ -1,17 +1,17 @@
 
 #include "GameCameraComponent.h"
 
-GameCameraComponent::GameCameraComponent()
+FixedCamera::FixedCamera()
 {
 }
 
-void GameCameraComponent::Initialize(GameContext & context)
+void FixedCamera::Initialize(GameContext & context)
 {
 	m_eye = DirectX::SimpleMath::Vector3(0.f, 5.f, 5.f);
 	m_target = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);
 }
 
-void GameCameraComponent::Update(GameContext & context)
+void FixedCamera::Update(GameContext & context)
 {
 	Move(context);
 	// <View Matrix>
@@ -27,7 +27,7 @@ void GameCameraComponent::Update(GameContext & context)
 	);
 }
 
-void GameCameraComponent::Move(GameContext& context)
+void FixedCamera::Move(GameContext& context)
 {
 	auto key = context.Get<DirectX::Keyboard>().GetState();
 	DirectX::SimpleMath::Vector3 move = DirectX::SimpleMath::Vector3::Zero;

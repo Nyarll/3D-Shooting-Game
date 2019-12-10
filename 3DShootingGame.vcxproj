@@ -165,17 +165,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DeviceResources.h" />
-    <ClInclude Include="Frameworks\Camera.h" />
     <ClInclude Include="Frameworks\Component.h" />
-    <ClInclude Include="Frameworks\DebugCamera.h" />
     <ClInclude Include="Frameworks\FbxModel.h" />
     <ClInclude Include="Frameworks\GameContext.h" />
     <ClInclude Include="Frameworks\GameFont.h" />
     <ClInclude Include="Frameworks\GameObject.h" />
     <ClInclude Include="Frameworks\GameSprite.h" />
     <ClInclude Include="Frameworks\GridFloor.h" />
-    <ClInclude Include="Frameworks\GridFloorWrapper.h" />
-    <ClInclude Include="Frameworks\InfinityGridFloor.h" />
     <ClInclude Include="Frameworks\Object.h" />
     <ClInclude Include="Frameworks\ObjectField.h" />
     <ClInclude Include="Frameworks\Property.h" />
@@ -201,13 +197,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp" />
-    <ClCompile Include="Frameworks\DebugCamera.cpp" />
     <ClCompile Include="Frameworks\FbxModel.cpp" />
     <ClCompile Include="Frameworks\GameFont.cpp" />
     <ClCompile Include="Frameworks\GameSprite.cpp" />
     <ClCompile Include="Frameworks\GridFloor.cpp" />
-    <ClCompile Include="Frameworks\GridFloorWrapper.cpp" />
-    <ClCompile Include="Frameworks\InfinityGridFloor.cpp" />
     <ClCompile Include="Frameworks\Object.cpp" />
     <ClCompile Include="Frameworks\ResourceManager.cpp" />
     <ClCompile Include="Frameworks\ShaderFileImporter.cpp" />

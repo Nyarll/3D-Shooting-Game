@@ -16,7 +16,7 @@ void ModelRenderer::Update(GameContext & context)
 void ModelRenderer::Render(GameContext & context)
 {
 	auto& dr = context.GetDR();
-	auto& camera = context.Get<SceneManager>().GetActiveScene().Find(L"Camera")->GetComponent<GameCameraComponent>();
+	auto& camera = context.Get<SceneManager>().GetActiveScene().Find(L"Camera")->GetComponent<FixedCamera>();
 
 	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateScale(gameObject->transform->localScale);
 	world *= DirectX::SimpleMath::Matrix::CreateFromQuaternion(gameObject->transform->localRotation);

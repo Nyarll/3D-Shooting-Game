@@ -2,14 +2,14 @@
 
 #include "ICameraComponent.h"
 
-class GameCameraComponent : public ICameraComponent
+class FixedCamera : public ICameraComponent
 {
 private:
 	DirectX::SimpleMath::Vector3 m_eye;
 	DirectX::SimpleMath::Vector3 m_target;
 
 public:
-	GameCameraComponent();
+	FixedCamera();
 
 	virtual void Initialize(GameContext& context)override;
 	virtual void Update(GameContext& context)override;
