@@ -7,6 +7,12 @@ class GameObject;
 // <Scene Play>
 class ScenePlay : public IScene
 {
+private:
+	bool DebugMode = true;
+	bool old;
+
+
+
 public:
 	ScenePlay();
 	virtual ~ScenePlay();

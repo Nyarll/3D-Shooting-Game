@@ -17,6 +17,6 @@ void SkyComponent::Render(GameContext & context)
 	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateScale(10.f);
 	world *= DirectX::SimpleMath::Matrix::CreateTranslation(gameObject->transform->localPosition);
 
-	context.Get<ResourceManager>().GetFbxModel(ResourceManager::ResourceID::SkyDome).lock()->Draw(context.GetDR().GetD3DDevice(),
-		context.GetDR().GetD3DDeviceContext(), world, camera->GetViewMatrix(), camera->GetProjectionMatrix());
+	/*context.Get<ResourceManager>().GetFbxModel(ResourceManager::ResourceID::SkyDome).lock()->Draw(context.GetDR().GetD3DDevice(),
+		context.GetDR().GetD3DDeviceContext(), world, camera->GetViewMatrix(), camera->GetProjectionMatrix());*/
 }

@@ -2,10 +2,19 @@
 
 #include "FixedCameraComponent.h"
 
+enum ActionState
+{
+	Idle = 0,
+	PlayerTurn,
+	EnemyTurn,
+	TurnEnd
+};
+
+// <ゲーム進行統括クラス>
 class GameDirector : public Component
 {
 private:
-	std::unique_ptr<DirectX::GeometricPrimitive>	m_geo;
+	ActionState m_nowAct;
 
 public:
 	virtual void Initialize(GameContext& context)override;
@@ -15,5 +24,10 @@ public:
 	virtual std::wstring GetName()const override
 	{
 		return L"GameDirector";
+	}
+
+	ActionState GetNowActionState()
+	{
+		return m_nowAct;
 	}
 };

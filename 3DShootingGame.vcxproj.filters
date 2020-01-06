@@ -23,6 +23,9 @@
     <Filter Include="Framework\Utility">
       <UniqueIdentifier>{09bc8fa7-db80-4731-ac64-99f7107d7cab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameUtility">
+      <UniqueIdentifier>{d3955a63-5131-4a59-82bc-fcdf80d171d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -116,6 +119,15 @@
     <ClInclude Include="Game\Sky.h">
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
+    <ClInclude Include="Game\MapChip.h">
+      <Filter>Game\GameUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\PlayerComponent.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EnemyComponent.h">
+      <Filter>Game\GameComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -183,6 +195,10 @@
     <ClCompile Include="Game\Sky.cpp">
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="Game\MapChip.cpp">
+      <Filter>Game\GameUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\PlayerComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

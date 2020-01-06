@@ -2,23 +2,44 @@
 #include "GameDirector.h"
 #include "SceneManager.h"
 
+#include "PlayerComponent.h"
+
 void GameDirector::Initialize(GameContext & context)
 {
-	m_geo = DirectX::GeometricPrimitive::CreateSphere(
-		context.GetDR().GetD3DDeviceContext(),
-		0.1f
-	);
+	m_nowAct = ActionState::Idle;
 }
 
 void GameDirector::Update(GameContext & context)
 {
+	auto& scene = context.Get<SceneManager>().GetActiveScene();
+
+	switch (m_nowAct)
+	{
+	case ActionState::Idle:
+		m_nowAct = ActionState::PlayerTurn;
+		break;
+
+	case ActionState::PlayerTurn:
+	{
+		auto& player = scene.Find(L"Player");
+		if (player->GetComponent<PlayerComponent>()->Move(context))
+		{
+			m_nowAct = ActionState::EnemyTurn;
+		}
+	}
+		break;
+
+	case ActionState::EnemyTurn:
+		m_nowAct = ActionState::TurnEnd;
+		break;
+
+	case ActionState::TurnEnd:
+		m_nowAct = ActionState::Idle;
+		break;
+	}
 }
 
 void GameDirector::Render(GameContext & context)
 {
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
-	auto camera = scene.Find(L"Camera")->GetComponent<FixedCamera>();
-
-	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateTranslation(camera->GetTargetPosition());
-	m_geo->Draw(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::Colors::Red);
 }

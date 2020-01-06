@@ -19,5 +19,6 @@ private:
 	void Move(GameContext& context);
 
 public:
+	const DirectX::SimpleMath::Vector3& GetEyePosition() { return m_eye; }
 	const DirectX::SimpleMath::Vector3& GetTargetPosition() { return m_target; }
 };

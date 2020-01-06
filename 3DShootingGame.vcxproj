@@ -182,11 +182,14 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameSystem.h" />
     <ClInclude Include="Game\Collider.h" />
+    <ClInclude Include="Game\EnemyComponent.h" />
     <ClInclude Include="Game\ICameraComponent.h" />
+    <ClInclude Include="Game\MapChip.h" />
     <ClInclude Include="Game\ModelRenderer.h" />
     <ClInclude Include="Game\FixedCameraComponent.h" />
     <ClInclude Include="Game\GameDirector.h" />
     <ClInclude Include="Game\GridComponent.h" />
+    <ClInclude Include="Game\PlayerComponent.h" />
     <ClInclude Include="Game\Scene.h" />
     <ClInclude Include="Game\SceneManager.h" />
     <ClInclude Include="Game\ScenePlay.h" />
@@ -208,10 +211,12 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="Game\Collider.cpp" />
+    <ClCompile Include="Game\MapChip.cpp" />
     <ClCompile Include="Game\ModelRenderer.cpp" />
     <ClCompile Include="Game\FixedCameraComponent.cpp" />
     <ClCompile Include="Game\GameDirector.cpp" />
     <ClCompile Include="Game\GridComponent.cpp" />
+    <ClCompile Include="Game\PlayerComponent.cpp" />
     <ClCompile Include="Game\Scene.cpp" />
     <ClCompile Include="Game\SceneManager.cpp" />
     <ClCompile Include="Game\ScenePlay.cpp" />
