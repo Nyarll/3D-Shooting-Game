@@ -5,10 +5,19 @@
 class FixedCamera : public ICameraComponent
 {
 private:
+	enum MODE
+	{
+		Normal,
+		FPS,
+	};
+
+private:
 	DirectX::SimpleMath::Vector3 m_eye;
 	DirectX::SimpleMath::Vector3 m_target;
 
 	GameObject* m_targetObject = nullptr;
+
+	MODE mode = MODE::Normal;
 
 public:
 	FixedCamera();
@@ -28,4 +37,7 @@ public:
 	{
 		m_targetObject = targetObject;
 	}
+
+	void ModeNormal() { mode = MODE::Normal; }
+	void ModeFPS() { mode = MODE::FPS; }
 };

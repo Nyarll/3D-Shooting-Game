@@ -12,6 +12,7 @@ private:
 	{
 		Free,
 		FollowPlayer,
+		FPS,
 	};
 
 private:

@@ -198,7 +198,9 @@
     <ClCompile Include="Game\MapChip.cpp">
       <Filter>Game\GameUtility</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PlayerComponent.cpp" />
+    <ClCompile Include="Game\PlayerComponent.cpp">
+      <Filter>Game\GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

@@ -11,8 +11,12 @@ private:
 	DirectX::SimpleMath::Vector2 m_v;
 
 	bool isMove = false;
+	int m_cnt = 0;
 
 	std::unique_ptr<DirectX::GeometricPrimitive>	m_geo;
+
+	DirectX::SimpleMath::Vector2 m_dir;
+	float m_angle = 0;
 
 	const int MOVE_DIV = 16;
 

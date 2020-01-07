@@ -12,6 +12,8 @@ void FixedCamera::Initialize(GameContext & context)
 	m_eye = DirectX::SimpleMath::Vector3(0.f, 5.f, 5.f);
 	m_target = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);
 
+	mode = MODE::Normal;
+
 	if (m_targetObject)
 	{
 		m_target = m_targetObject->transform->position;
@@ -21,7 +23,15 @@ void FixedCamera::Initialize(GameContext & context)
 
 void FixedCamera::Update(GameContext & context)
 {
-	Move(context);
+	switch (mode)
+	{
+	case MODE::Normal:
+		Move(context);
+		break;
+
+	case MODE::FPS:
+		break;
+	}
 	// <View Matrix>
 	m_view = DirectX::SimpleMath::Matrix::CreateLookAt(m_eye, m_target, DirectX::SimpleMath::Vector3::Up);
 

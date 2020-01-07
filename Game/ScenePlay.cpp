@@ -28,6 +28,7 @@ void ScenePlay::Initialize(GameContext & context)
 {
 	auto& camera = this->AddGameObject(L"Camera");
 	camera->AddComponent<FixedCamera>();
+	camera->GetComponent<FixedCamera>()->ModeNormal();
 
 	auto& grid = this->AddGameObject(L"Grid");
 	grid->AddComponent<GridComponent>();
@@ -69,13 +70,23 @@ void ScenePlay::Update(GameContext & context)
 			CameraMode = CAMERA_MODE::FollowPlayer;
 			auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
 			camera->SetTarget(this->Find(L"Player").GetWeakPtr().lock().get());
+			camera->ModeNormal();
 		}
 			break;
 
 		case CAMERA_MODE::FollowPlayer:
 		{
-			CameraMode = CAMERA_MODE::Free;
+			CameraMode = CAMERA_MODE::FPS;
 			auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
+			camera->ModeFPS();
+		}
+			break;
+
+		case CAMERA_MODE::FPS:
+		{
+			CameraMode = Free;
+			auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
+			camera->ModeNormal();
 			camera->SetTarget(nullptr);
 		}
 			break;
@@ -111,6 +122,11 @@ void ScenePlay::Render(GameContext & context)
 		case CAMERA_MODE::FollowPlayer:
 			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
 				"CameraMode : Follow the player");
+			break;
+
+		case CAMERA_MODE::FPS:
+			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
+				"CameraMode : FPS");
 			break;
 		}
 
