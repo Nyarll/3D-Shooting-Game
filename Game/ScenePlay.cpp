@@ -51,17 +51,41 @@ void ScenePlay::Update(GameContext & context)
 {
 	auto key = context.Get<DirectX::Keyboard>().GetState();
 	bool f3 = key.F3;
-	if (f3 && !old)
+	bool f5 = key.F5;
+
+	if (f3 && !f3_old)
 	{
 		if (DebugMode)
 			DebugMode = false;
 		else
 			DebugMode = true;
 	}
+	if (f5 && !f5_old)
+	{
+		switch (CameraMode)
+		{
+		case CAMERA_MODE::Free:
+		{
+			CameraMode = CAMERA_MODE::FollowPlayer;
+			auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
+			camera->SetTarget(this->Find(L"Player").GetWeakPtr().lock().get());
+		}
+			break;
+
+		case CAMERA_MODE::FollowPlayer:
+		{
+			CameraMode = CAMERA_MODE::Free;
+			auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
+			camera->SetTarget(nullptr);
+		}
+			break;
+		}
+	}
 
 	this->UpdateGameObject(context);
 
-	old = f3;
+	f3_old = f3;
+	f5_old = f5;
 }
 
 void ScenePlay::Render(GameContext & context)
@@ -77,6 +101,19 @@ void ScenePlay::Render(GameContext & context)
 		font.Draw({ 0,16 }, DirectX::Colors::White, "Camera : ( %.2f, %.2f )",
 			(camera->GetEyePosition().x),
 			(camera->GetEyePosition().z));
+		switch (CameraMode)
+		{
+		case CAMERA_MODE::Free:
+			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
+				"CameraMode : Free");
+			break;
+
+		case CAMERA_MODE::FollowPlayer:
+			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
+				"CameraMode : Follow the player");
+			break;
+		}
+
 		auto& player = this->Find(L"Player")->GetComponent<PlayerComponent>();
 		font.Draw({ 0,32 }, DirectX::Colors::White, "Player : ( %3d,%3d )",
 			(int)(player->GetGridPosition().x),

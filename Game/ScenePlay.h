@@ -8,9 +8,17 @@ class GameObject;
 class ScenePlay : public IScene
 {
 private:
-	bool DebugMode = true;
-	bool old;
+	enum CAMERA_MODE
+	{
+		Free,
+		FollowPlayer,
+	};
 
+private:
+	bool DebugMode = true;
+	CAMERA_MODE CameraMode = CAMERA_MODE::Free;
+	bool f3_old;
+	bool f5_old;
 
 
 public:

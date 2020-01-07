@@ -1,6 +1,8 @@
 
 #include "FixedCameraComponent.h"
 
+#include "../Frameworks/GameObject.h"
+
 FixedCamera::FixedCamera()
 {
 }
@@ -9,6 +11,12 @@ void FixedCamera::Initialize(GameContext & context)
 {
 	m_eye = DirectX::SimpleMath::Vector3(0.f, 5.f, 5.f);
 	m_target = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);
+
+	if (m_targetObject)
+	{
+		m_target = m_targetObject->transform->position;
+		m_eye = m_target + DirectX::SimpleMath::Vector3(0.f, 5.f, 5.f);
+	}
 }
 
 void FixedCamera::Update(GameContext & context)
@@ -52,4 +60,10 @@ void FixedCamera::Move(GameContext& context)
 
 	m_eye += move;
 	m_target += move;
+
+	if (m_targetObject)
+	{
+		m_target = m_targetObject->transform->position;
+		m_eye = m_target + DirectX::SimpleMath::Vector3(0.f, 5.f, 5.f);
+	}
 }

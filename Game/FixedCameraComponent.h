@@ -8,6 +8,8 @@ private:
 	DirectX::SimpleMath::Vector3 m_eye;
 	DirectX::SimpleMath::Vector3 m_target;
 
+	GameObject* m_targetObject = nullptr;
+
 public:
 	FixedCamera();
 
@@ -21,4 +23,9 @@ private:
 public:
 	const DirectX::SimpleMath::Vector3& GetEyePosition() { return m_eye; }
 	const DirectX::SimpleMath::Vector3& GetTargetPosition() { return m_target; }
+
+	void SetTarget(GameObject* targetObject)
+	{
+		m_targetObject = targetObject;
+	}
 };
