@@ -43,4 +43,8 @@ public:
 	{
 		return{ (float)m_x, (float)m_y };
 	}
+
+private:
+	void SpawnPlayer(GameContext& context);
+	void SpawnEnemy(GameContext& context);
 };

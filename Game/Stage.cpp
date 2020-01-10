@@ -9,6 +9,8 @@
 #include "FixedCameraComponent.h"
 #include "PlayerComponent.h"
 
+#include <thread>
+
 Stage::Stage()
 	: m_x(13)
 	, m_y(13)
@@ -41,21 +43,9 @@ void Stage::Initialize(GameContext & context)
 		}
 	}
 
-	while (true)
 	{
-		int x = rand() % m_x;
-		int y = rand() % m_y;
-
-		if (this->IsPassable(x, y))
-		{
-			auto& scene = context.Get<SceneManager>().GetActiveScene();
-			auto& player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
-
-			player->SetGridPosition(context, { (float)x, (float)y });
-			break;
-		}
+		this->SpawnPlayer(context);
 	}
-
 	DirectX::EffectFactory factory(dr.GetD3DDevice());
 	factory.SetDirectory(L"Resources/Models/Panel");
 	m_model = DirectX::Model::CreateFromCMO(dr.GetD3DDevice(), L"Resources/Models/Panel/Panel1.cmo", factory);
@@ -86,6 +76,24 @@ void Stage::Render(GameContext & context)
 				m_model->Draw(dr.GetD3DDeviceContext(), context.Get<DirectX::CommonStates>(),
 					world, camera->GetViewMatrix(), camera->GetProjectionMatrix());
 			}
+		}
+	}
+}
+
+void Stage::SpawnPlayer(GameContext & context)
+{
+	while (true)
+	{
+		int x = rand() % m_x;
+		int y = rand() % m_y;
+
+		if (this->IsPassable(x, y))
+		{
+			auto& scene = context.Get<SceneManager>().GetActiveScene();
+			auto& player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
+
+			player->SetGridPosition(context, { (float)x, (float)y });
+			break;
 		}
 	}
 }

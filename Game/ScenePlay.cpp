@@ -13,6 +13,9 @@
 #include "GameDirector.h"
 #include "Stage.h"
 #include "PlayerComponent.h"
+#include "EnemyComponent.h"
+
+#include "StatusComponent.h"
 
 #include "../Frameworks/GameFont.h"
 
@@ -41,6 +44,11 @@ void ScenePlay::Initialize(GameContext & context)
 
 	auto& player = this->AddGameObject(L"Player");
 	player->AddComponent<PlayerComponent>();
+	player->AddComponent<StatusComponent>("Player", 100, 25, 30);
+	player->GetComponent<StatusComponent>()->SetLevel(3);
+
+	auto& enemy = this->AddGameObject(L"Enemy");
+	enemy->AddComponent<EnemyComponent>();
 
 	auto& director = this->AddGameObject(L"Director");
 	director->AddComponent<GameDirector>();
@@ -56,10 +64,18 @@ void ScenePlay::Update(GameContext & context)
 
 	if (f3 && !f3_old)
 	{
-		if (DebugMode)
-			DebugMode = false;
-		else
-			DebugMode = true;
+		switch (DebugMode)
+		{
+		case DEBUG_MODE::ObjectDataMode:
+			DebugMode = DEBUG_MODE::PlayerDataMode;
+			break;
+		case DEBUG_MODE::PlayerDataMode:
+			DebugMode = DEBUG_MODE::NotDebugMode;
+			break;
+		case DEBUG_MODE::NotDebugMode:
+			DebugMode = DEBUG_MODE::ObjectDataMode;
+			break;
+		}
 	}
 	if (f5 && !f5_old)
 	{
@@ -72,7 +88,7 @@ void ScenePlay::Update(GameContext & context)
 			camera->SetTarget(this->Find(L"Player").GetWeakPtr().lock().get());
 			camera->ModeNormal();
 		}
-			break;
+		break;
 
 		case CAMERA_MODE::FollowPlayer:
 		{
@@ -80,7 +96,7 @@ void ScenePlay::Update(GameContext & context)
 			auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
 			camera->ModeFPS();
 		}
-			break;
+		break;
 
 		case CAMERA_MODE::FPS:
 		{
@@ -89,7 +105,7 @@ void ScenePlay::Update(GameContext & context)
 			camera->ModeNormal();
 			camera->SetTarget(nullptr);
 		}
-			break;
+		break;
 		}
 	}
 
@@ -103,37 +119,58 @@ void ScenePlay::Render(GameContext & context)
 {
 	this->RenderGameObject(context);
 
-	if (DebugMode)
+	switch (DebugMode)
 	{
-		auto& font = context.Get<GameFont>();
-
-		font.Draw({ 0,0 }, DirectX::Colors::White, "Play Scene");
-		auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
-		font.Draw({ 0,16 }, DirectX::Colors::White, "Camera : ( %.2f, %.2f )",
-			(camera->GetEyePosition().x),
-			(camera->GetEyePosition().z));
-		switch (CameraMode)
+	case ObjectDataMode:
 		{
-		case CAMERA_MODE::Free:
-			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
-				"CameraMode : Free");
-			break;
-
-		case CAMERA_MODE::FollowPlayer:
-			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
-				"CameraMode : Follow the player");
-			break;
-
-		case CAMERA_MODE::FPS:
-			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
-				"CameraMode : FPS");
-			break;
+			auto& font = context.Get<GameFont>();
+	
+			font.Draw({ 0,0 }, DirectX::Colors::White, "Play Scene");
+			auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
+			font.Draw({ 0,16 }, DirectX::Colors::White, "Camera : ( %.2f, %.2f )",
+				(camera->GetEyePosition().x),
+				(camera->GetEyePosition().z));
+			switch (CameraMode)
+			{
+			case CAMERA_MODE::Free:
+				font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
+					"CameraMode : Free");
+				break;
+	
+			case CAMERA_MODE::FollowPlayer:
+				font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
+					"CameraMode : Follow the player");
+				break;
+	
+			case CAMERA_MODE::FPS:
+				font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
+					"CameraMode : FPS");
+				break;
+			}
+	
+			auto& player = this->Find(L"Player")->GetComponent<PlayerComponent>();
+			font.Draw({ 0,32 }, DirectX::Colors::White, "Player : ( %3d,%3d )",
+				(int)(player->GetGridPosition().x),
+				(int)(player->GetGridPosition().y));
 		}
+		break;
+
+	case PlayerDataMode:
+		{
+		auto& font = context.Get<GameFont>();
+		auto& data = this->Find(L"Player")->GetComponent<StatusComponent>();
+		font.Draw({ 0,0 }, DirectX::Colors::White, "Name : " + data->GetEntityName());
+		font.Draw({ 0,20 }, DirectX::Colors::White, "Level : %d", data->GetLevel());
+		font.Draw({ 0,40 }, DirectX::Colors::GreenYellow, "HP : ( %3d / %3d )", data->GetNowHP(), data->GetMaxHP());
+		font.Draw({ 0,60 }, DirectX::Colors::Red, "ATK : %3d", data->GetATK());
+		font.Draw({ 0,80 }, DirectX::Colors::Blue, "DEF : %3d", data->GetDEF());
 
 		auto& player = this->Find(L"Player")->GetComponent<PlayerComponent>();
-		font.Draw({ 0,32 }, DirectX::Colors::White, "Player : ( %3d,%3d )",
+		font.Draw({ 0,120 }, DirectX::Colors::White, "Player : ( %3d,%3d )",
 			(int)(player->GetGridPosition().x),
 			(int)(player->GetGridPosition().y));
+		}
+		break;
 	}
 }
 

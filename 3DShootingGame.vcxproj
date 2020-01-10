@@ -165,6 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DeviceResources.h" />
+    <ClInclude Include="Frameworks\Astar.hpp" />
     <ClInclude Include="Frameworks\Component.h" />
     <ClInclude Include="Frameworks\FbxModel.h" />
     <ClInclude Include="Frameworks\GameContext.h" />
@@ -196,11 +197,13 @@
     <ClInclude Include="Game\SceneTitle.h" />
     <ClInclude Include="Game\Sky.h" />
     <ClInclude Include="Game\Stage.h" />
+    <ClInclude Include="Game\StatusComponent.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StepTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp" />
+    <ClCompile Include="Frameworks\Astar.cpp" />
     <ClCompile Include="Frameworks\FbxModel.cpp" />
     <ClCompile Include="Frameworks\GameFont.cpp" />
     <ClCompile Include="Frameworks\GameSprite.cpp" />
@@ -211,6 +214,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="Game\Collider.cpp" />
+    <ClCompile Include="Game\EnemyComponent.cpp" />
     <ClCompile Include="Game\MapChip.cpp" />
     <ClCompile Include="Game\ModelRenderer.cpp" />
     <ClCompile Include="Game\FixedCameraComponent.cpp" />
