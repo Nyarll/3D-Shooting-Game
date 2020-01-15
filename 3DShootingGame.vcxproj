@@ -176,6 +176,7 @@
     <ClInclude Include="Frameworks\Object.h" />
     <ClInclude Include="Frameworks\ObjectField.h" />
     <ClInclude Include="Frameworks\Property.h" />
+    <ClInclude Include="Frameworks\Random.h" />
     <ClInclude Include="Frameworks\ResourceManager.h" />
     <ClInclude Include="Frameworks\ShaderFileImporter.h" />
     <ClInclude Include="Frameworks\Transform.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Frameworks\GameSprite.cpp" />
     <ClCompile Include="Frameworks\GridFloor.cpp" />
     <ClCompile Include="Frameworks\Object.cpp" />
+    <ClCompile Include="Frameworks\Random.cpp" />
     <ClCompile Include="Frameworks\ResourceManager.cpp" />
     <ClCompile Include="Frameworks\ShaderFileImporter.cpp" />
     <ClCompile Include="Game.cpp" />

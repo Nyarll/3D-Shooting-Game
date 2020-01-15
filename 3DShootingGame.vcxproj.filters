@@ -137,6 +137,9 @@
     <ClInclude Include="Game\SceneTitle.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Frameworks\Random.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="Game\SceneTitle.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Random.cpp">
+      <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

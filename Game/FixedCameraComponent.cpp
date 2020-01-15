@@ -65,6 +65,14 @@ void FixedCamera::Move(GameContext& context)
 	{
 		move.z += 1;
 	}
+	if (key.Z)
+	{
+		move.y += 1;
+	}
+	if (key.X)
+	{
+		move.y -= 1;
+	}
 	move.Normalize();
 	move *= 0.05f;
 

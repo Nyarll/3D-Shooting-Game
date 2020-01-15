@@ -12,6 +12,17 @@ private:
 
 	std::unique_ptr<DirectX::Model>	m_model;
 
+	const int roomMinWidth = 5;
+	const int roomMaxWidth = 10;
+
+	const int roomMinHeight = 5;
+	const int roomMaxHeight = 10;
+
+	const int roomCountMin = 10;
+	const int roomCountMax = 15;
+
+	const int meetPointCount = 1;
+
 public:
 	Stage();
 
@@ -47,4 +58,9 @@ public:
 private:
 	void SpawnPlayer(GameContext& context);
 	void SpawnEnemy(GameContext& context);
+
+	void ResetMapData(int width, int height);
+	void CreateSpaceData();
+	bool CreateRoomData(int roomWidth, int roomHeight, int roomPointX, int roomPointY);
+	void CreateRoadData(int roadStartPointX, int roadStartPointY, int meetPointX, int meetPointY);
 };

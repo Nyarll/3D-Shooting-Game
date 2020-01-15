@@ -13,5 +13,5 @@ public:
 	const DirectX::SimpleMath::Vector3& GetPosition() { return m_position; }
 	bool IsPassable() { return m_isPassable; }
 
-
+	void SetPassable(bool passable) { m_isPassable = passable; }
 };
