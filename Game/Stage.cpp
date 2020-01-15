@@ -8,6 +8,7 @@
 #include "MapChip.h"
 #include "FixedCameraComponent.h"
 #include "PlayerComponent.h"
+#include "EnemyComponent.h"
 
 #include "../Frameworks/Random.h"
 
@@ -70,24 +71,106 @@ void Stage::ChangeStageData(GameContext& context)
 void Stage::SpawnPlayer(GameContext & context)
 {
 	Random random;
+	auto& scene = context.Get<SceneManager>().GetActiveScene();
+	auto& player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
+	auto& enemys = scene.FindAll(L"Enemy");
+
+	std::vector<DirectX::SimpleMath::Vector2> enemysPosition;
+
+	for (auto& e : enemys)
+	{
+		auto& ec = e->GetComponent<EnemyComponent>();
+		DirectX::SimpleMath::Vector2 ep = ec->GetGridPosition();
+		enemysPosition.push_back(ep);
+	}
+
+	bool isOver = false;
+
 	while (true)
 	{
 		int x = random.Range(0, m_x);
 		int y = random.Range(0, m_y);
 
-		if (this->IsPassable(x, y))
-		{
-			auto& scene = context.Get<SceneManager>().GetActiveScene();
-			auto& player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
+		isOver = false;
 
-			player->SetGridPosition(context, { (float)x, (float)y });
-			break;
+		for (auto& p : enemysPosition)
+		{
+			if (static_cast<int>(p.x) == x && static_cast<int>(p.y) == y)
+			{
+				isOver = true;
+				break;
+			}
+		}
+
+		if (!isOver)
+		{
+			if (this->IsPassable(x, y))
+			{
+				player->SetGridPosition(context, { (float)x, (float)y });
+				break;
+			}
 		}
 	}
 }
 
 void Stage::SpawnEnemy(GameContext & context)
 {
+	Random random;
+	auto& scene = context.Get<SceneManager>().GetActiveScene();
+	auto& player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
+	auto& enemys = scene.FindAll(L"Enemy");
+
+	DirectX::SimpleMath::Vector2 playerPosition = player->GetGridPosition();
+	std::vector<DirectX::SimpleMath::Vector2> enemysPosition;
+
+	for (auto& e : enemys)
+	{
+		auto& ec = e->GetComponent<EnemyComponent>();
+		DirectX::SimpleMath::Vector2 ep = ec->GetGridPosition();
+		enemysPosition.push_back(ep);
+	}
+
+	bool isOver = false;
+
+	for (int i = 0; i < enemys.size(); i++)
+	{
+		while (true)
+		{
+			int x = random.Range(0, m_x);
+			int y = random.Range(0, m_y);
+
+			isOver = false;
+
+			if (static_cast<int>(playerPosition.x) == x && static_cast<int>(playerPosition.y) == y)
+			{
+				isOver = true;
+			}
+
+			if (!isOver)
+			{
+				for (int j = 0; j < enemysPosition.size(); j++)
+				{
+					if (i != j)
+					{
+						if (static_cast<int>(enemysPosition[j].x) == x && static_cast<int>(enemysPosition[j].y) == y)
+						{
+							isOver = true;
+							break;
+						}
+					}
+				}
+			}
+
+			if (!isOver)
+			{
+				if (this->IsPassable(x, y))
+				{
+					enemys[i]->GetComponent<EnemyComponent>()->SetGridPosition(context, DirectX::SimpleMath::Vector2(x, y));
+					break;
+				}
+			}
+		}
+	}
 }
 
 void Stage::ResetMapData(int width, int height)

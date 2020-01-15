@@ -47,8 +47,11 @@ void ScenePlay::Initialize(GameContext & context)
 	player->AddComponent<StatusComponent>("Player", 100, 25, 30);
 	player->GetComponent<StatusComponent>()->SetLevel(3);
 
-	auto& enemy = this->AddGameObject(L"Enemy");
-	enemy->AddComponent<EnemyComponent>();
+	auto& enemy1 = this->AddGameObject(L"Enemy");
+	enemy1->AddComponent<EnemyComponent>();
+
+	auto& enemy2 = this->AddGameObject(L"Enemy");
+	enemy2->AddComponent<EnemyComponent>();
 
 	auto& director = this->AddGameObject(L"Director");
 	director->AddComponent<GameDirector>();

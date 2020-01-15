@@ -24,7 +24,6 @@ public:
 	bool Move(GameContext& context);
 
 	void SetGridPosition(GameContext& context, DirectX::SimpleMath::Vector2 gridPos);
-
 	DirectX::SimpleMath::Vector2 GetGridPosition()
 	{
 		return m_gridPosition;
