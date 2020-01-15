@@ -6,7 +6,7 @@
 class Stage : public Component
 {
 private:
-	int m_x, m_y;	// <ステージサイズ(デフォルトサイズは10)>
+	int m_x, m_y;	// <ステージサイズ>
 
 	std::vector<std::vector<MapChip>>	m_stage;	// <ステージデータ>
 
@@ -18,10 +18,13 @@ private:
 	const int roomMinHeight = 5;
 	const int roomMaxHeight = 10;
 
-	const int roomCountMin = 10;
-	const int roomCountMax = 15;
+	const int roomCountMin = 5;
+	const int roomCountMax = 10;
 
 	const int meetPointCount = 1;
+
+	const int mapSizeX = 75;
+	const int mapSizeY = 75;
 
 public:
 	Stage();
@@ -54,6 +57,8 @@ public:
 	{
 		return{ (float)m_x, (float)m_y };
 	}
+
+	void ChangeStageData(GameContext& context);
 
 private:
 	void SpawnPlayer(GameContext& context);

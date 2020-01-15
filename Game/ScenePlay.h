@@ -25,8 +25,8 @@ private:
 private:
 	DEBUG_MODE DebugMode = DEBUG_MODE::ObjectDataMode;
 	CAMERA_MODE CameraMode = CAMERA_MODE::Free;
-	bool f3_old;
-	bool f5_old;
+
+	bool debugKey[6];
 
 
 public:

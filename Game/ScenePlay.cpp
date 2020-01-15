@@ -59,10 +59,19 @@ void ScenePlay::Initialize(GameContext & context)
 void ScenePlay::Update(GameContext & context)
 {
 	auto key = context.Get<DirectX::Keyboard>().GetState();
+	bool f1 = key.F1;
 	bool f3 = key.F3;
 	bool f5 = key.F5;
 
-	if (f3 && !f3_old)
+	debugKey[0] = false;	// <ƒ_ƒ~[>
+
+	if (f1 && !debugKey[1])
+	{
+		auto& stage = this->Find(L"Stage")->GetComponent<Stage>();
+		stage->ChangeStageData(context);
+	}
+
+	if (f3 && !debugKey[3])
 	{
 		switch (DebugMode)
 		{
@@ -77,7 +86,7 @@ void ScenePlay::Update(GameContext & context)
 			break;
 		}
 	}
-	if (f5 && !f5_old)
+	if (f5 && !debugKey[5])
 	{
 		switch (CameraMode)
 		{
@@ -111,8 +120,9 @@ void ScenePlay::Update(GameContext & context)
 
 	this->UpdateGameObject(context);
 
-	f3_old = f3;
-	f5_old = f5;
+	debugKey[1] = f1;
+	debugKey[3] = f3;
+	debugKey[5] = f5;
 }
 
 void ScenePlay::Render(GameContext & context)

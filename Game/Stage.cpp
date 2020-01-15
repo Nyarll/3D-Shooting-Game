@@ -12,8 +12,8 @@
 #include "../Frameworks/Random.h"
 
 Stage::Stage()
-	: m_x(10)
-	, m_y(10)
+	: m_x(1)
+	, m_y(1)
 {
 }
 
@@ -24,30 +24,8 @@ void Stage::Initialize(GameContext & context)
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
 	auto& dr = context.GetDR();
 
-	//for (int y = 0; y < m_y; y++)
-	//{
-	//	m_stage.push_back(std::vector<MapChip>());
-	//	for (int x = 0; x < m_x; x++)
-	//	{
-	//		/*float _x = -(static_cast<float>(m_x) / 2.f) + static_cast<float>(x) + 0.5f;
-	//		float _y = -(static_cast<float>(m_y) / 2.f) + static_cast<float>(y) + 0.5f;*/
+	this->ChangeStageData(context);
 
-	//		if (x % 2 || y % 2)
-	//		{
-	//			m_stage[y].push_back(MapChip(x, y, true));
-	//		}
-	//		else
-	//		{
-	//			m_stage[y].push_back(MapChip(x, y, false));
-	//		}
-	//	}
-	//}
-	this->ResetMapData(50, 50);
-
-	{
-		this->SpawnPlayer(context);
-		this->SpawnEnemy(context);
-	}
 	DirectX::EffectFactory factory(dr.GetD3DDevice());
 	factory.SetDirectory(L"Resources/Models/Panel");
 	m_model = DirectX::Model::CreateFromCMO(dr.GetD3DDevice(), L"Resources/Models/Panel/Panel1.cmo", factory);
@@ -70,16 +48,23 @@ void Stage::Render(GameContext & context)
 	{
 		for (int x = 0; x < m_stage[y].size(); x++)
 		{
-			DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateScale(scale);
-			world *= DirectX::SimpleMath::Matrix::CreateTranslation(m_stage[y][x].GetPosition());
-
 			if (m_stage[y][x].IsPassable())
 			{
+				DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateScale(scale);
+				world *= DirectX::SimpleMath::Matrix::CreateTranslation(m_stage[y][x].GetPosition());
 				m_model->Draw(dr.GetD3DDeviceContext(), context.Get<DirectX::CommonStates>(),
 					world, camera->GetViewMatrix(), camera->GetProjectionMatrix());
 			}
 		}
 	}
+}
+
+void Stage::ChangeStageData(GameContext& context)
+{
+	this->ResetMapData(mapSizeX, mapSizeY);
+
+	this->SpawnPlayer(context);
+	this->SpawnEnemy(context);
 }
 
 void Stage::SpawnPlayer(GameContext & context)
@@ -197,7 +182,7 @@ void Stage::CreateRoadData(int roadStartPointX, int roadStartPointY, int meetPoi
 	{
 		isRight = true;
 	}
-	
+
 	bool isUnder = true;
 	if (roadStartPointY > meetPointY)
 	{

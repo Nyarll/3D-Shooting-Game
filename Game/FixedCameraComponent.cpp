@@ -30,6 +30,8 @@ void FixedCamera::Update(GameContext & context)
 		break;
 
 	case MODE::FPS:
+		m_eye = DirectX::SimpleMath::Vector3(25.f, 25.f, 75.f);
+		m_target = DirectX::SimpleMath::Vector3(m_eye.x, m_eye.y - 5.f, m_eye.z - 5);
 		break;
 	}
 	// <View Matrix>
