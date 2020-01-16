@@ -53,8 +53,11 @@ bool EnemyComponent::Move(GameContext & context)
 	float deg = DirectX::XMConvertToDegrees(m_angle);
 	m_angle = DirectX::XMConvertToRadians(deg + 90.f);
 
-	m_dir.x = cosf(m_angle);
-	m_dir.y = sinf(m_angle);
+	// ------<‚±‚±‚ç‚Ö‚ñ‚ÉˆÊ’uƒYƒŒ‚ÌŒ´ˆö‚ª‚ ‚é‚ÆŽv‚í‚ê‚é>------
+	m_dir.x = cosf(DirectX::XMConvertToRadians(deg));
+	m_dir.y = sinf(DirectX::XMConvertToRadians(deg));
+
+	//Move(context);
 
 	return false;
 }
@@ -100,8 +103,10 @@ void EnemyComponent::Render(GameContext & context)
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
 	auto camera = scene.Find(L"Camera")->GetComponent<FixedCamera>();
 
+	DirectX::SimpleMath::Vector3 pos(m_gridPosition.x, 0, m_gridPosition.y);
+
 	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
-	world *= DirectX::SimpleMath::Matrix::CreateFromAxisAngle(DirectX::SimpleMath::Vector3(0, 1, 0), m_angle);
-	world *= DirectX::SimpleMath::Matrix::CreateTranslation(gameObject->transform->position);
+	//world *= DirectX::SimpleMath::Matrix::CreateFromAxisAngle(DirectX::SimpleMath::Vector3(0, 1, 0), m_angle);
+	world *= DirectX::SimpleMath::Matrix::CreateTranslation(DirectX::SimpleMath::Vector3(pos));
 	m_geo->Draw(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::Colors::Red);
 }
