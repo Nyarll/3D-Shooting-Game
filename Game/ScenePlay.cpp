@@ -50,8 +50,8 @@ void ScenePlay::Initialize(GameContext & context)
 	auto& enemy1 = this->AddGameObject(L"Enemy");
 	enemy1->AddComponent<EnemyComponent>();
 
-	auto& enemy2 = this->AddGameObject(L"Enemy");
-	enemy2->AddComponent<EnemyComponent>();
+	//auto& enemy2 = this->AddGameObject(L"Enemy");
+	//enemy2->AddComponent<EnemyComponent>();
 
 	auto& director = this->AddGameObject(L"Director");
 	director->AddComponent<GameDirector>();
@@ -135,41 +135,41 @@ void ScenePlay::Render(GameContext & context)
 	switch (DebugMode)
 	{
 	case ObjectDataMode:
+	{
+		auto& font = context.Get<GameFont>();
+
+		font.Draw({ 0,0 }, DirectX::Colors::White, "Play Scene");
+		auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
+		font.Draw({ 0,16 }, DirectX::Colors::White, "Camera : ( %.2f, %.2f )",
+			(camera->GetEyePosition().x),
+			(camera->GetEyePosition().z));
+		switch (CameraMode)
 		{
-			auto& font = context.Get<GameFont>();
-	
-			font.Draw({ 0,0 }, DirectX::Colors::White, "Play Scene");
-			auto camera = this->Find(L"Camera")->GetComponent<FixedCamera>();
-			font.Draw({ 0,16 }, DirectX::Colors::White, "Camera : ( %.2f, %.2f )",
-				(camera->GetEyePosition().x),
-				(camera->GetEyePosition().z));
-			switch (CameraMode)
-			{
-			case CAMERA_MODE::Free:
-				font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
-					"CameraMode : Free");
-				break;
-	
-			case CAMERA_MODE::FollowPlayer:
-				font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
-					"CameraMode : Follow the player");
-				break;
-	
-			case CAMERA_MODE::FPS:
-				font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
-					"CameraMode : FPS");
-				break;
-			}
-	
-			auto& player = this->Find(L"Player")->GetComponent<PlayerComponent>();
-			font.Draw({ 0,32 }, DirectX::Colors::White, "Player : ( %3d,%3d )",
-				(int)(player->GetGridPosition().x),
-				(int)(player->GetGridPosition().y));
+		case CAMERA_MODE::Free:
+			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
+				"CameraMode : Free");
+			break;
+
+		case CAMERA_MODE::FollowPlayer:
+			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
+				"CameraMode : Follow the player");
+			break;
+
+		case CAMERA_MODE::FPS:
+			font.Draw({ sizeof("Camera : ( 000.00, 000.00 )") * 9, 16 }, DirectX::Colors::White,
+				"CameraMode : FPS");
+			break;
 		}
-		break;
+
+		auto& player = this->Find(L"Player")->GetComponent<PlayerComponent>();
+		font.Draw({ 0,32 }, DirectX::Colors::White, "Player : ( %3d,%3d )",
+			(int)(player->GetGridPosition().x),
+			(int)(player->GetGridPosition().y));
+	}
+	break;
 
 	case PlayerDataMode:
-		{
+	{
 		auto& font = context.Get<GameFont>();
 		auto& data = this->Find(L"Player")->GetComponent<StatusComponent>();
 		font.Draw({ 0,0 }, DirectX::Colors::White, "Name : " + data->GetEntityName());
@@ -182,8 +182,13 @@ void ScenePlay::Render(GameContext & context)
 		font.Draw({ 0,120 }, DirectX::Colors::White, "Player : ( %3d,%3d )",
 			(int)(player->GetGridPosition().x),
 			(int)(player->GetGridPosition().y));
-		}
-		break;
+
+		auto& e1 = this->Find(L"Enemy")->GetComponent<EnemyComponent>();
+		font.Draw({ 0, 140 }, DirectX::Colors::Red, "Enemy : ( %3d,%3d )",
+			(int)(e1->GetGridPosition().x),
+			(int)(e1->GetGridPosition().y));
+	}
+	break;
 	}
 }
 

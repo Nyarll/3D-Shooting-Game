@@ -3,6 +3,7 @@
 #include "SceneManager.h"
 
 #include "PlayerComponent.h"
+#include "EnemyComponent.h"
 
 void GameDirector::Initialize(GameContext & context)
 {
@@ -30,7 +31,16 @@ void GameDirector::Update(GameContext & context)
 		break;
 
 	case ActionState::EnemyTurn:
+	{
+		auto& enemys = scene.FindAll(L"Enemy");
+
+		for (auto& e : enemys)
+		{
+			e->GetComponent<EnemyComponent>()->Move(context);
+		}
+
 		m_nowAct = ActionState::TurnEnd;
+	}
 		break;
 
 	case ActionState::TurnEnd:
