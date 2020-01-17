@@ -57,7 +57,8 @@ bool EnemyComponent::Move(GameContext & context)
 	m_dir.x = cosf(DirectX::XMConvertToRadians(deg));
 	m_dir.y = sinf(DirectX::XMConvertToRadians(deg));
 
-	//Move(context);
+	m_dir.Normalize();
+	Move(context);
 
 	return false;
 }

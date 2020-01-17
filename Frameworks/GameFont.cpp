@@ -6,12 +6,14 @@ bool GameFont::Load(GameContext & ctx, const wchar_t * file_name, float scale)
 	auto device = ctx.GetDR().GetD3DDevice();
 	auto context = ctx.GetDR().GetD3DDeviceContext();
 
+	bool result = true;
+
 	m_state = std::make_unique<DirectX::CommonStates>(device);
-	if (!m_state.get())return false;
+	assert(m_state.get());
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
-	if (!m_spriteBatch.get())return false;
+	assert(m_spriteBatch.get());
 	m_spriteFont = std::make_unique<DirectX::SpriteFont>(device, file_name);
-	if (!m_spriteFont.get())return false;
+	assert(m_spriteFont.get());
 
 	m_scale = scale;
 

@@ -80,8 +80,14 @@ void Game::FirstInit(HWND window, int width, int height)
 	m_deviceResources->CreateWindowSizeDependentResources();
 	CreateWindowSizeDependentResources();
 
+	auto device = m_deviceResources->GetD3DDevice();
+
 	Register(std::make_unique<GameFont>());
-	Get<GameFont>().Load(*this, L"Resources/Fonts/Arial.spritefont");
+
+	bool result = Get<GameFont>().Load(*this, L"Resources/Fonts/Arial.spritefont");
+
+	assert(result && "Missing !");
+
 }
 
 void Game::InitDatas(HWND window, int width, int height)
@@ -89,6 +95,7 @@ void Game::InitDatas(HWND window, int width, int height)
 	auto device = m_deviceResources->GetD3DDevice();
 	auto context = m_deviceResources->GetD3DDeviceContext();
 	{
+
 		// <コモンステートの作成>
 		Register(std::make_unique<CommonStates>(device));
 		this->Progress();

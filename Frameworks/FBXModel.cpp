@@ -45,10 +45,10 @@ bool FBX_LOADER::FbxModel::Load(HWND hwnd, ID3D11Device * device,
 	// <シェーダの設定>
 	ID3DBlob *pCompileVS = NULL;
 	ID3DBlob *pCompilePS = NULL;
-	D3DCompileFromFile(L"shader.hlsl", NULL, NULL, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
+	D3DCompileFromFile(L"Resources/Shader/shader.hlsl", NULL, NULL, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
 	assert(pCompileVS && "pCompileVS is nullptr !");
 	(device->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader));
-	D3DCompileFromFile(L"shader.hlsl", NULL, NULL, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
+	D3DCompileFromFile(L"Resources/Shader/shader.hlsl", NULL, NULL, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
 	assert(pCompileVS && "pCompilePS is nullptr !");
 	(device->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader));
 
