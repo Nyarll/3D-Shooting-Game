@@ -10,6 +10,11 @@
 
 #include "../Frameworks/Astar.hpp"
 
+#include "StatusComponent.h"
+
+#include "../Frameworks/JsonImport.h"
+
+
 bool EnemyComponent::Move(GameContext & context)
 {
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
@@ -80,6 +85,28 @@ void EnemyComponent::Initialize(GameContext & context)
 
 	m_dir = { 0,1 };
 	m_angle = DirectX::XMConvertToRadians(180.f);
+
+	
+	std::ifstream ifs(jsonFileName);
+
+	if (!ifs)
+	{
+		gameObject->AddComponent<StatusComponent>();
+		return;
+	}
+
+	picojson::value value;
+	ifs >> value;
+
+	std::string name = JsonImport::get_as<std::string>(
+		JsonImport::get_value(value, "Name")
+		);
+
+	int HP = JsonImport::get_as<int>(JsonImport::get_value(value, "HP"));
+	int ATK = JsonImport::get_as<int>(JsonImport::get_value(value, "ATK"));
+	int DEF = JsonImport::get_as<int>(JsonImport::get_value(value, "DEF"));
+
+	gameObject->AddComponent<StatusComponent>(name, HP, ATK, DEF);
 }
 
 void EnemyComponent::Update(GameContext & context)

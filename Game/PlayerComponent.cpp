@@ -6,6 +6,8 @@
 #include "Stage.h"
 #include "FixedCameraComponent.h"
 
+#include "StatusComponent.h"
+
 bool PlayerComponent::Move(GameContext & context)
 {
 	auto& scene = context.Get<SceneManager>().GetActiveScene();

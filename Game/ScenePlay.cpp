@@ -49,6 +49,7 @@ void ScenePlay::Initialize(GameContext & context)
 
 	auto& enemy1 = this->AddGameObject(L"Enemy");
 	enemy1->AddComponent<EnemyComponent>();
+	enemy1->GetComponent<EnemyComponent>()->SetJsonFileName("Resources/Data/test.json");
 
 	//auto& enemy2 = this->AddGameObject(L"Enemy");
 	//enemy2->AddComponent<EnemyComponent>();
@@ -187,6 +188,9 @@ void ScenePlay::Render(GameContext & context)
 		font.Draw({ 0, 140 }, DirectX::Colors::Red, "Enemy : ( %3d,%3d )",
 			(int)(e1->GetGridPosition().x),
 			(int)(e1->GetGridPosition().y));
+
+		auto es = this->Find(L"Enemy")->GetComponent<StatusComponent>();
+		font.Draw({ 0, 160 }, DirectX::Colors::Red, "Name : " + es->GetEntityName());
 	}
 	break;
 	}

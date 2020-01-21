@@ -18,6 +18,7 @@ private:
 	float m_angle = 0;
 
 	const int MOVE_DIV = 16;
+	std::string jsonFileName = "";
 
 public:
 
@@ -28,6 +29,11 @@ public:
 	DirectX::SimpleMath::Vector2 GetGridPosition()
 	{
 		return m_gridPosition;
+	}
+
+	void SetJsonFileName(std::string fileName)
+	{
+		jsonFileName = fileName;
 	}
 
 	void Initialize(GameContext& context)override;
