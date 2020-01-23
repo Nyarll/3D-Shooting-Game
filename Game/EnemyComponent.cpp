@@ -14,6 +14,7 @@
 
 #include "../Frameworks/JsonImport.h"
 
+#include "../Frameworks/Random.h"
 
 bool EnemyComponent::Move(GameContext & context)
 {
@@ -21,49 +22,34 @@ bool EnemyComponent::Move(GameContext & context)
 	auto& stage = scene.Find(L"Stage")->GetComponent<Stage>();
 	auto& player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
 
-	// <現在向いている方向が通行可能かどうか>
-	auto vec = DirectX::SimpleMath::Vector2(static_cast<int>(m_gridPosition.x + m_dir.x), static_cast<int>(m_gridPosition.y + m_dir.y));
-	if (stage->IsPassable(vec.x, vec.y))
+	m_direction = static_cast<Direction>(this->GetMovingDirection(context));
+
+	DirectX::SimpleMath::Vector2 vel;
+
+	switch (m_direction)
 	{
-		auto pos = player->GetGridPosition();
-		// <プレイヤーがいるかどうか>
-		if (vec != pos)
-		{
-			bool isOver = false;
-			auto& enemys = scene.FindAll(L"Enemy");
-			for (int i = 0; i < enemys.size(); i++)
-			{
-				DirectX::SimpleMath::Vector2 epos = enemys[i]->GetComponent<EnemyComponent>()->GetGridPosition();
-				if (vec == epos)
-				{
-					isOver = true;
-					break;
-				}
-			}
-			if (!isOver)
-			{
-				m_gridOldPos = m_gridPosition;
-				m_gridPosition += m_dir;
-				float mx = (m_gridPosition.x - m_gridOldPos.x) / MOVE_DIV;
-				float my = (m_gridPosition.y - m_gridOldPos.y) / MOVE_DIV;
+	case Direction::Left:
+		vel = { -1,0 };
+		break;
 
-				m_v = { mx, my };
+	case Direction::Right:
+		vel = { 1,0 };
+		break;
 
-				isMove = true;
-				return true;
-			}
-		}
+	case Direction::Up:
+		vel = { 0,-1 };
+		break;
+
+	case Direction::Down:
+		vel = { 0, 1 };
+		break;
 	}
 
-	float deg = DirectX::XMConvertToDegrees(m_angle);
-	m_angle = DirectX::XMConvertToRadians(deg + 90.f);
+	m_gridPosition += vel;
 
-	// ------<ここらへんに位置ズレの原因があると思われる>------
-	m_dir.x = cosf(DirectX::XMConvertToRadians(deg));
-	m_dir.y = sinf(DirectX::XMConvertToRadians(deg));
+	return true;
 
-	m_dir.Normalize();
-	Move(context);
+
 
 	return false;
 }
@@ -84,9 +70,10 @@ void EnemyComponent::Initialize(GameContext & context)
 	);
 
 	m_dir = { 0,1 };
+	m_direction = Direction::Down;
 	m_angle = DirectX::XMConvertToRadians(180.f);
 
-	
+
 	std::ifstream ifs(jsonFileName);
 
 	if (!ifs)
@@ -131,10 +118,101 @@ void EnemyComponent::Render(GameContext & context)
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
 	auto camera = scene.Find(L"Camera")->GetComponent<FixedCamera>();
 
-	DirectX::SimpleMath::Vector3 pos(m_gridPosition.x, 0, m_gridPosition.y);
+	DirectX::SimpleMath::Vector3 pos(static_cast<float>((int)(m_gridPosition.x)), 0, static_cast<float>((int)(m_gridPosition.y)));
 
 	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::Identity;
-	//world *= DirectX::SimpleMath::Matrix::CreateFromAxisAngle(DirectX::SimpleMath::Vector3(0, 1, 0), m_angle);
+	world *= DirectX::SimpleMath::Matrix::CreateFromAxisAngle(DirectX::SimpleMath::Vector3(0, 1, 0), m_angle);
 	world *= DirectX::SimpleMath::Matrix::CreateTranslation(DirectX::SimpleMath::Vector3(pos));
 	m_geo->Draw(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::Colors::Red);
+}
+
+void EnemyComponent::GenerateRoute(GameContext & context)
+{
+	auto& scene = context.Get<SceneManager>().GetActiveScene();
+	auto& stage = scene.Find(L"Stage")->GetComponent<Stage>();
+	Random random;
+	DirectX::SimpleMath::Vector2 nextPoint = DirectX::SimpleMath::Vector2::Zero;
+	while (true)
+	{
+		int x = random.Range(0, stage->GetStageSize().x);
+		int y = random.Range(0, stage->GetStageSize().y);
+		nextPoint = { static_cast<float>(x),static_cast<float>(y) };
+		if (stage->IsPassable(x, y) && m_gridPosition != nextPoint)
+		{
+			break;
+		}
+	}
+	AStar::Generator generator;
+	int mapX = static_cast<int>(stage->GetStageSize().x);
+	int mapY = static_cast<int>(stage->GetStageSize().y);
+
+	generator.SetWorldSize({ mapX,mapY });
+	generator.SetHeuristic(AStar::Heuristic::euclidean);
+	generator.SetDiagonalMovement(false);
+
+	for (int y = 0; y < mapY; y++)
+	{
+		for (int x = 0; x < mapX; x++)
+		{
+			if (!stage->IsPassable(x, y))
+			{
+				generator.AddCollision({ x,y });
+			}
+		}
+	}
+
+	auto path = generator.FindPath({ static_cast<int>(m_gridPosition.x),static_cast<int>(m_gridPosition.y) },
+	{ static_cast<int>(nextPoint.x),static_cast<int>(nextPoint.y) });
+
+	for (auto& coordinate : path)
+	{
+		DirectX::SimpleMath::Vector2 p(static_cast<float>(coordinate.x), static_cast<float>(coordinate.y));
+		m_route.push_back(p);
+	}
+}
+
+int EnemyComponent::GetMovingDirection(GameContext& context)
+{
+	auto& scene = context.Get<SceneManager>().GetActiveScene();
+	auto& stage = scene.Find(L"Stage")->GetComponent<Stage>();
+
+	int ex = static_cast<int>(m_gridPosition.x);
+	int ey = static_cast<int>(m_gridPosition.y);
+
+	Direction gotoDirection = Direction::Left;
+
+	if (m_route.size() > 0)
+	{
+		for (int i = 0; i < m_route.size(); i++)
+		{
+			if (static_cast<int>(m_route[i].x) == (static_cast<int>(this->m_gridPosition.x) - 1) &&
+				static_cast<int>(m_route[i].y) == static_cast<int>(this->m_gridPosition.y))
+			{
+				return Left;
+			}
+			if (static_cast<int>(m_route[i].x) == (static_cast<int>(this->m_gridPosition.x) + 1) &&
+				static_cast<int>(m_route[i].y) == static_cast<int>(this->m_gridPosition.y))
+			{
+				return Right;
+			}
+			if ((static_cast<int>(m_route[i].x)) == static_cast<int>(this->m_gridPosition.x) &&
+				static_cast<int>(m_route[i].y) == (static_cast<int>(this->m_gridPosition.y) - 1))
+			{
+				return Up;
+			}
+			if ((static_cast<int>(m_route[i].x)) == static_cast<int>(this->m_gridPosition.x) &&
+				static_cast<int>(m_route[i].y) == (static_cast<int>(this->m_gridPosition.y) + 1))
+			{
+				return Down;
+			}
+		}
+
+		m_route.erase(m_route.begin());
+	}
+	else
+	{
+		this->GenerateRoute(context);
+	}
+
+	return this->GetMovingDirection(context);
 }

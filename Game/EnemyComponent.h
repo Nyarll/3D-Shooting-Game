@@ -1,10 +1,20 @@
 #pragma once
 
 #include "../Frameworks/Component.h"
+#include "../Frameworks/Astar.hpp"
 
 class EnemyComponent : public Component
 {
 private:
+	enum Direction
+	{
+		Left,
+		Right,
+		Up,
+		Down
+	}m_direction;
+
+
 	DirectX::SimpleMath::Vector2 m_gridOldPos;
 	DirectX::SimpleMath::Vector2 m_gridPosition;
 	DirectX::SimpleMath::Vector2 m_v;
@@ -16,6 +26,8 @@ private:
 
 	DirectX::SimpleMath::Vector2 m_dir;
 	float m_angle = 0;
+
+	std::vector<DirectX::SimpleMath::Vector2>	m_route;
 
 	const int MOVE_DIV = 16;
 	std::string jsonFileName = "";
@@ -39,4 +51,9 @@ public:
 	void Initialize(GameContext& context)override;
 	void Update(GameContext& context)override;
 	void Render(GameContext& context)override;
+
+	void GenerateRoute(GameContext& context);
+
+private:
+	int GetMovingDirection(GameContext& context);
 };
