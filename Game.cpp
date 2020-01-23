@@ -142,6 +142,9 @@ void Game::RenderInit(GameFont* font, int width, int height)
 	loadSprites[2]->Load(*this, L"Resources/Sprite/load2.png");
 	loadSprites[3]->Load(*this, L"Resources/Sprite/load3.png");
 
+	std::unique_ptr<GameSprite2D>	loadBackground = std::make_unique<GameSprite2D>();
+	loadBackground->Load(*this, L"Resources/Sprite/LELOGO_512.png");
+
 	int cnt = 0;
 	while (m_initProgress < PROGRESS_END)
 	{
@@ -169,6 +172,7 @@ void Game::RenderInit(GameFont* font, int width, int height)
 			cnt = 0;
 		}
 		
+		loadBackground->Draw(*this, { static_cast<float>(width / 2),static_cast<float>(height / 2) });
 		loadSprites[n]->Draw(*this, str_pos);
 		font->SetScale(0.75f);
 		font->Draw(pos, DirectX::Colors::Black, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
