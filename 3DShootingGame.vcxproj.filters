@@ -140,6 +140,9 @@
     <ClInclude Include="Frameworks\Random.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Frameworks\Adx2Le.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -221,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="Frameworks\Random.cpp">
       <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Adx2Le.cpp">
+      <Filter>Framework\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
