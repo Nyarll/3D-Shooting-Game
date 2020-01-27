@@ -29,6 +29,9 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{eddeafc9-f296-4f0d-addb-8c7c6eb8af48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{9b4939eb-bef5-46d5-aad3-f67d2874cb6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -255,10 +258,22 @@
     <FxCompile Include="Resources\Shader\GameSpritePolygonGS.hlsl">
       <Filter>Assets</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shader\ParticleGS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\ParticlePS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\ParticleVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\GameSpritePolygon.hlsli">
       <Filter>Assets</Filter>
+    </None>
+    <None Include="Resources\Shader\Particle.hlsli">
+      <Filter>Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
