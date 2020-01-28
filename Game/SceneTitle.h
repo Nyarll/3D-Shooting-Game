@@ -2,13 +2,13 @@
 
 #include "Scene.h"
 
-class GameSpriteEffect2D;
+class GameSpriteEffect;
 
 // <Scene Play>
 class SceneTitle : public IScene
 {
 private:
-	std::unique_ptr<GameSpriteEffect2D>	m_titleLogo;
+	std::unique_ptr<GameSpriteEffect>	m_titleLogo;
 
 public:
 	SceneTitle();

@@ -71,7 +71,7 @@ public:
 
 };
 
-class GameSpriteEffect2D
+class GameSpriteEffect
 {
 private:
 	struct ConstBuffer
@@ -110,7 +110,7 @@ public:
 	void Draw(GameContext& context, DirectX::SimpleMath::Matrix& world, DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj);
 
 	void Render(GameContext& context, DirectX::SimpleMath::Vector3 pos, DirectX::SimpleMath::Matrix& world, DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj);
-	void RenderFullWindow(GameContext& context, DirectX::SimpleMath::Vector2& pos);
+	void Render2D(GameContext& context, DirectX::SimpleMath::Vector2& pos);
 
 	void LoadShader(GameContext& context,
 		const wchar_t* pixelShaderFile = L"Resources/Shader/ParticlePS.cso",

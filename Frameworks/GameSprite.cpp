@@ -8,7 +8,9 @@
 
 #include "../Frameworks/BinaryFile.h"
 
-const std::vector<D3D11_INPUT_ELEMENT_DESC> GameSpriteEffect2D::INPUT_LAYOUT =
+#include "../GameSystem.h"
+
+const std::vector<D3D11_INPUT_ELEMENT_DESC> GameSpriteEffect::INPUT_LAYOUT =
 {
 	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, sizeof(DirectX::SimpleMath::Vector3), D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -151,7 +153,7 @@ void GameSpritePolygon::Draw(GameContext& ctx, DirectX::SimpleMath::Vector3 pos,
 	context->PSSetShader(nullptr, nullptr, 0);
 }
 
-bool GameSpriteEffect2D::Load(GameContext & context, const wchar_t * file_name, float scale)
+bool GameSpriteEffect::Load(GameContext & context, const wchar_t * file_name, float scale)
 {
 	auto& dr = context.GetDR();
 	auto device = dr.GetD3DDevice();
@@ -179,7 +181,7 @@ bool GameSpriteEffect2D::Load(GameContext & context, const wchar_t * file_name, 
 	return false;
 }
 
-void GameSpriteEffect2D::Render(GameContext & context, DirectX::SimpleMath::Vector3 pos, DirectX::SimpleMath::Matrix & world, DirectX::SimpleMath::Matrix & view, DirectX::SimpleMath::Matrix & proj)
+void GameSpriteEffect::Render(GameContext & context, DirectX::SimpleMath::Vector3 pos, DirectX::SimpleMath::Matrix & world, DirectX::SimpleMath::Matrix & view, DirectX::SimpleMath::Matrix & proj)
 {
 	m_vertex.clear();
 	DirectX::VertexPositionColorTexture vertex(pos,
@@ -190,19 +192,15 @@ void GameSpriteEffect2D::Render(GameContext & context, DirectX::SimpleMath::Vect
 	this->Draw(context, world, view, proj);
 }
 
-void GameSpriteEffect2D::RenderFullWindow(GameContext & context, DirectX::SimpleMath::Vector2 & pos)
+void GameSpriteEffect::Render2D(GameContext & context, DirectX::SimpleMath::Vector2 & pos)
 {
-	m_vertex.clear();
-	DirectX::VertexPositionColorTexture vertex(DirectX::SimpleMath::Vector3(pos.x, pos.y, 0),
-		DirectX::SimpleMath::Vector4::Zero,
-		DirectX::SimpleMath::Vector2::Zero);
-
-	m_vertex.push_back(vertex);
+	DirectX::SimpleMath::Vector2 windowSize = GameSystem::GetWindowSize();
+	DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3(pos.x / windowSize.x - 0.5f, pos.y / windowSize.y - 0.5f, 0);
 	DirectX::SimpleMath::Matrix identity = DirectX::SimpleMath::Matrix::Identity;
-	this->Draw(context, DirectX::SimpleMath::Matrix::CreateScale(2.f), identity, identity);
+	this->Render(context, position, DirectX::SimpleMath::Matrix::CreateScale(2.f), identity, identity);
 }
 
-void GameSpriteEffect2D::Draw(GameContext & context, DirectX::SimpleMath::Matrix& world, DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj)
+void GameSpriteEffect::Draw(GameContext & context, DirectX::SimpleMath::Matrix& world, DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj)
 {
 	auto& dr = context.GetDR();
 	auto deviceContext = dr.GetD3DDeviceContext();
@@ -264,7 +262,7 @@ void GameSpriteEffect2D::Draw(GameContext & context, DirectX::SimpleMath::Matrix
 	deviceContext->PSSetShader(nullptr, nullptr, 0);
 }
 
-void GameSpriteEffect2D::LoadShader(GameContext & context, const wchar_t * pixelShaderFile, const wchar_t * vertexShaderFile, const wchar_t * geometryShaderFile)
+void GameSpriteEffect::LoadShader(GameContext & context, const wchar_t * pixelShaderFile, const wchar_t * vertexShaderFile, const wchar_t * geometryShaderFile)
 {
 	BinaryFile PSData = BinaryFile::LoadFile(pixelShaderFile);
 	BinaryFile VSData = BinaryFile::LoadFile(vertexShaderFile);

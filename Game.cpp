@@ -95,6 +95,7 @@ void Game::InitDatas(HWND window, int width, int height)
 	auto device = m_deviceResources->GetD3DDevice();
 	auto context = m_deviceResources->GetD3DDeviceContext();
 	{
+		GameSystem::SetWindowSize(width, height);
 
 		// <コモンステートの作成>
 		Register(std::make_unique<CommonStates>(device));
