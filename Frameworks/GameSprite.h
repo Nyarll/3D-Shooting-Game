@@ -79,7 +79,7 @@ private:
 		DirectX::SimpleMath::Matrix		matWorld;
 		DirectX::SimpleMath::Matrix		matView;
 		DirectX::SimpleMath::Matrix		matProj;
-		DirectX::SimpleMath::Vector4	Time;
+		DirectX::SimpleMath::Vector4	Any;
 		DirectX::SimpleMath::Vector4	Mouse;
 	};
 
@@ -104,8 +104,12 @@ private:
 
 	std::vector<DirectX::VertexPositionColorTexture>  m_vertex;
 
+	DirectX::SimpleMath::Vector4 cbuf_time = DirectX::SimpleMath::Vector4::Zero;
+
+	float m_scale = 1.0f;
+
 public:
-	bool Load(GameContext& context, const wchar_t* file_name, float scale = 1.f);
+	bool Load(GameContext& context, const wchar_t* file_name, float scale = 2.f);
 
 	void Draw(GameContext& context, DirectX::SimpleMath::Matrix& world, DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj);
 
@@ -117,6 +121,11 @@ public:
 		const wchar_t* vertexShaderFile = L"Resources/Shader/ParticleVS.cso",
 		const wchar_t* geometryShaderFile = L"Resources/Shader/ParticleGS.cso"
 	);
+
+	void SetConstBuffer(float x = 1, float y = 1, float z = 1, float w = 1)
+	{
+		cbuf_time = DirectX::SimpleMath::Vector4(x, y, z, w);
+	}
 };
 
 #endif

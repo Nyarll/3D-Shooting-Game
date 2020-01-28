@@ -84,6 +84,9 @@ void Game::FirstInit(HWND window, int width, int height)
 
 	Register(std::make_unique<GameFont>());
 
+	// <コモンステートの作成>
+	Register(std::make_unique<CommonStates>(device));
+
 	bool result = Get<GameFont>().Load(*this, L"Resources/Fonts/Arial.spritefont");
 
 	assert(result && "Missing !");
@@ -96,9 +99,6 @@ void Game::InitDatas(HWND window, int width, int height)
 	auto context = m_deviceResources->GetD3DDeviceContext();
 	{
 		GameSystem::SetWindowSize(width, height);
-
-		// <コモンステートの作成>
-		Register(std::make_unique<CommonStates>(device));
 		this->Progress();
 
 		// <エフェクトファクトリ>
@@ -130,8 +130,12 @@ void Game::InitDatas(HWND window, int width, int height)
 
 void Game::RenderInit(GameFont* font, int width, int height)
 {
-	DirectX::SimpleMath::Vector2 pos((width / 2) - (width / 8), (height / 2));
+	DirectX::SimpleMath::Vector2 pos((width / 2) - (sizeof("Now Progress : 00 / 00") * 6), (height / 4) * 3);
 	DirectX::SimpleMath::Vector2 str_pos(static_cast<float>(width - sizeof("Data Loading...") * 10), static_cast<float>(height - 40 * 1.5f));
+
+	std::unique_ptr<GameSpriteEffect>	progressBar = std::make_unique<GameSpriteEffect>();
+	progressBar->Load(*this, L"Resources/Sprite/bar.png", 0.5f);
+	progressBar->LoadShader(*this, L"Resources/Shader/ProgressBarPS.cso", L"Resources/Shader/ParticleVS.cso", L"Resources/Shader/ProgressBarGS.cso");
 
 	std::unique_ptr<GameSprite2D>	loadSprites[4];
 	for (int i = 0; i < 4; i++)
@@ -147,6 +151,7 @@ void Game::RenderInit(GameFont* font, int width, int height)
 	loadBackground->Load(*this, L"Resources/Sprite/LELOGO_512.png");
 
 	int cnt = 0;
+	int count = 0;
 	while (m_initProgress < PROGRESS_END)
 	{
 		Clear(DirectX::Colors::White);
@@ -172,17 +177,22 @@ void Game::RenderInit(GameFont* font, int width, int height)
 			n = 3;
 			cnt = 0;
 		}
-		
-		loadBackground->Draw(*this, { static_cast<float>(width / 2),static_cast<float>(height / 2) });
+
+		loadBackground->Draw(*this, { static_cast<float>(width / 5),static_cast<float>(height / 4) });
 		loadSprites[n]->Draw(*this, str_pos);
+
+		progressBar->SetConstBuffer(static_cast<float>(m_initProgress), this->PROGRESS_END, count);
+		progressBar->Render2D(*this, DirectX::SimpleMath::Vector2(width / 2, -(height / 2)));
+
 		font->SetScale(0.75f);
-		font->Draw(pos, DirectX::Colors::Black, "Now Progress : %2d / %2d", m_initProgress, PROGRESS_END);
+		font->Draw(pos, DirectX::Colors::Black, "Now Progress : %2d / %2d", m_initProgress, this->PROGRESS_END);
 
 		m_deviceResources->PIXEndEvent();
 
 		// Show the new frame.
 		m_deviceResources->Present();
 		cnt++;
+		count++;
 	}
 }
 

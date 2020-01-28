@@ -17,6 +17,6 @@ cbuffer ConstBuffer	: register(b0)
 	matrix matWorld;
 	matrix matView;
 	matrix matProj;
-	float4 Time;
+	float4 Any;
 	float4 Mouse;
 };

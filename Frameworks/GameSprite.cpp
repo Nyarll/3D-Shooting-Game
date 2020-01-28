@@ -159,6 +159,8 @@ bool GameSpriteEffect::Load(GameContext & context, const wchar_t * file_name, fl
 	auto device = dr.GetD3DDevice();
 	auto deviceContext = dr.GetD3DDeviceContext();
 
+	m_scale = scale;
+
 	// <テクスチャ読み込み>
 	if (FAILED(DirectX::CreateWICTextureFromFile(device, file_name, nullptr, m_texture.GetAddressOf())))
 	{
@@ -197,7 +199,7 @@ void GameSpriteEffect::Render2D(GameContext & context, DirectX::SimpleMath::Vect
 	DirectX::SimpleMath::Vector2 windowSize = GameSystem::GetWindowSize();
 	DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3(pos.x / windowSize.x - 0.5f, pos.y / windowSize.y - 0.5f, 0);
 	DirectX::SimpleMath::Matrix identity = DirectX::SimpleMath::Matrix::Identity;
-	this->Render(context, position, DirectX::SimpleMath::Matrix::CreateScale(2.f), identity, identity);
+	this->Render(context, position, DirectX::SimpleMath::Matrix::CreateScale(m_scale), identity, identity);
 }
 
 void GameSpriteEffect::Draw(GameContext & context, DirectX::SimpleMath::Matrix& world, DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj)
@@ -212,9 +214,15 @@ void GameSpriteEffect::Draw(GameContext & context, DirectX::SimpleMath::Matrix& 
 	cbuff.matView = view.Transpose();
 	cbuff.matProj = proj.Transpose();
 	cbuff.matWorld = world.Transpose();
-	//Time		x:経過時間(トータル秒)	y:1Fの経過時間(秒）	z:反復（サインカーブ） w:未使用（暫定で１）
-	cbuff.Time = DirectX::SimpleMath::Vector4(timer.GetTotalSeconds(), timer.GetElapsedSeconds(), sinf(timer.GetTotalSeconds()), 1);
 
+	if (cbuf_time == DirectX::SimpleMath::Vector4::Zero)
+	{
+		cbuff.Any = DirectX::SimpleMath::Vector4(timer.GetTotalSeconds(), timer.GetElapsedSeconds(), sinf(timer.GetTotalSeconds()), 1);
+	}
+	else
+	{
+		cbuff.Any = cbuf_time;
+	}
 	auto& mouse = DirectX::Mouse::Get();
 	auto ms = mouse.GetState();
 	cbuff.Mouse = DirectX::SimpleMath::Vector4(static_cast<float>(ms.x) / 800.f, static_cast<float>(ms.y) / 600.f,

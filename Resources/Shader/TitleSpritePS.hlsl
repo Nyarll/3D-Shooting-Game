@@ -286,5 +286,16 @@ float4 main(PS_INPUT input) : SV_TARGET
 	float2 uv = input.Tex;
 	float4 output = tex.Sample(samLinear, uv);
 
+	float4 check = float4(0.5f, 0.5f, 0.5f, 1.f);
+	float4 chengeColor = float4((sin(Any.x + uv.x) + 1.f) / 2.f,
+		(cos(Any.x + uv.y) + 1.f) / 2.f,
+		(sin(uv.x + uv.y) + 1.f) / 2.f,
+		1.f);
+
+	if (output.r > check.r && output.g > check.g && output.b > check.b)
+	{
+		output = chengeColor;
+	}
+
 	return output;
 }
