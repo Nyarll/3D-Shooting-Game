@@ -170,6 +170,7 @@
     <ClInclude Include="DeviceResources.h" />
     <ClInclude Include="Frameworks\Adx2Le.h" />
     <ClInclude Include="Frameworks\Astar.hpp" />
+    <ClInclude Include="Frameworks\BinaryFile.h" />
     <ClInclude Include="Frameworks\Component.h" />
     <ClInclude Include="Frameworks\FbxModel.h" />
     <ClInclude Include="Frameworks\GameContext.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="DeviceResources.cpp" />
     <ClCompile Include="Frameworks\Adx2Le.cpp" />
     <ClCompile Include="Frameworks\Astar.cpp" />
+    <ClCompile Include="Frameworks\BinaryFile.cpp" />
     <ClCompile Include="Frameworks\FbxModel.cpp" />
     <ClCompile Include="Frameworks\GameFont.cpp" />
     <ClCompile Include="Frameworks\GameSprite.cpp" />

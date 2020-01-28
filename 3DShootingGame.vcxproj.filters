@@ -146,6 +146,9 @@
     <ClInclude Include="Frameworks\Adx2Le.h">
       <Filter>Framework\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Frameworks\BinaryFile.h">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -229,6 +232,9 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Frameworks\Adx2Le.cpp">
+      <Filter>Framework\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\BinaryFile.cpp">
       <Filter>Framework\Utility</Filter>
     </ClCompile>
   </ItemGroup>

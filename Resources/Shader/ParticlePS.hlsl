@@ -284,7 +284,7 @@ float4 oldTVportal(float2 inUV) {
 float4 main(PS_INPUT input) : SV_TARGET
 {
 	float2 uv = input.Tex;
-	float4 output = Tex.Sample(samLinear, uv);
+	float4 output = tex.Sample(samLinear, uv);
 
 	return output;
 }

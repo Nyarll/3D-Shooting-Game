@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "ADX2Le.h"
 #include <vector>
 
