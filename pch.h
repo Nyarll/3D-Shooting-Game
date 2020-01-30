@@ -5,6 +5,15 @@
 
 #pragma once
 
+// <Warning disable>
+#pragma warning(disable:4018)
+#pragma warning(disable:4244)
+#pragma warning(disable:4239)
+#pragma warning(disable:4189)
+#pragma warning(disable:4100)
+#pragma warning(disable:4996)
+#pragma warning(disable:4172)
+
 #include <WinSDKVer.h>
 #define _WIN32_WINNT 0x0601
 #include <SDKDDKVer.h>
@@ -52,13 +61,13 @@
 #include <stdexcept>
 
 #include <cstdio>
+#include <cmath>
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <iomanip>
 
-#include <algorithm>
 #include <random>
 
 #include <vector>

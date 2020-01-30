@@ -3,12 +3,15 @@
 #include "Scene.h"
 
 class GameSpriteEffect;
+class Fade;
 
 // <Scene Play>
 class SceneTitle : public IScene
 {
 private:
 	std::unique_ptr<GameSpriteEffect>	m_titleLogo;
+
+	std::unique_ptr<Fade>				m_fade;
 
 public:
 	SceneTitle();

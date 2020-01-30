@@ -16,6 +16,8 @@
 
 #include "GameSystem.h"
 
+#include "Game/Fade.h"
+
 extern void ExitGame();
 
 using namespace DirectX;
@@ -150,10 +152,19 @@ void Game::RenderInit(GameFont* font, int width, int height)
 	std::unique_ptr<GameSprite2D>	loadBackground = std::make_unique<GameSprite2D>();
 	loadBackground->Load(*this, L"Resources/Sprite/LELOGO_512.png");
 
+	bool importEnd = false;
 	int cnt = 0;
 	int count = 0;
-	while (m_initProgress < PROGRESS_END)
+
+	int interval = 180;
+
+	std::unique_ptr<Fade> fade = std::make_unique<Fade>();
+	fade->Initialize(*this);
+
+	while (true)
 	{
+		fade->Update(*this);
+
 		Clear(DirectX::Colors::White);
 		m_deviceResources->PIXBeginEvent(L"Render");
 
@@ -187,10 +198,28 @@ void Game::RenderInit(GameFont* font, int width, int height)
 		font->SetScale(0.75f);
 		font->Draw(pos, DirectX::Colors::Black, "Now Progress : %2d / %2d", m_initProgress, this->PROGRESS_END);
 
+		fade->Render(*this);
+
 		m_deviceResources->PIXEndEvent();
 
 		// Show the new frame.
 		m_deviceResources->Present();
+
+		if (m_initProgress >= PROGRESS_END && !importEnd)
+		{
+			importEnd = true;
+			fade->Start();
+		}
+
+		if (importEnd)
+		{
+			if (interval < 1)
+			{
+				break;
+			}
+			interval--;
+		}
+
 		cnt++;
 		count++;
 	}

@@ -196,6 +196,7 @@
     <ClInclude Include="GameSystem.h" />
     <ClInclude Include="Game\Collider.h" />
     <ClInclude Include="Game\EnemyComponent.h" />
+    <ClInclude Include="Game\Fade.h" />
     <ClInclude Include="Game\ICameraComponent.h" />
     <ClInclude Include="Game\MapChip.h" />
     <ClInclude Include="Game\ModelRenderer.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="Game\Collider.cpp" />
     <ClCompile Include="Game\EnemyComponent.cpp" />
+    <ClCompile Include="Game\Fade.cpp" />
     <ClCompile Include="Game\MapChip.cpp" />
     <ClCompile Include="Game\ModelRenderer.cpp" />
     <ClCompile Include="Game\FixedCameraComponent.cpp" />
@@ -260,6 +262,9 @@
     <Manifest Include="settings.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\Shader\FadePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="Resources\Shader\GameSpritePolygonGS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
