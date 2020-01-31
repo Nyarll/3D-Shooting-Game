@@ -27,7 +27,7 @@ float4 main(PS_INPUT input) : SV_TARGET
 	{
 		if (uv.x <= px)
 		{
-			output = float4(0, 1, 0, 1);
+			output = float4(0, 1, 0, 0.5f);
 		}
 	}
 

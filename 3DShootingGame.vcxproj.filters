@@ -110,9 +110,6 @@
     <ClInclude Include="Game\FixedCameraComponent.h">
       <Filter>Game\GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Sky.h">
-      <Filter>Game\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Game\MapChip.h">
       <Filter>Game\GameUtility</Filter>
     </ClInclude>
@@ -151,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Game\Fade.h">
       <Filter>Game\GameUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Sky.h">
+      <Filter>Game\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,9 +204,6 @@
     <ClCompile Include="Game\FixedCameraComponent.cpp">
       <Filter>Game\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Sky.cpp">
-      <Filter>Game\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Game\MapChip.cpp">
       <Filter>Game\GameUtility</Filter>
     </ClCompile>
@@ -242,6 +239,9 @@
     </ClCompile>
     <ClCompile Include="Game\Fade.cpp">
       <Filter>Game\GameUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Sky.cpp">
+      <Filter>Game\GameComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,7 @@
 
 #include "GridComponent.h"
 #include "ModelRenderer.h"
+#include "Sky.h"
 #include "FixedCameraComponent.h"
 #include "GameDirector.h"
 #include "Stage.h"
@@ -42,7 +43,8 @@ void ScenePlay::Initialize(GameContext & context)
 	auto& grid = this->AddGameObject(L"Grid");
 	grid->AddComponent<GridComponent>();
 
-	auto& back = this->AddGameObject(L"Back");
+	auto& sky = this->AddGameObject(L"Sky");
+	sky->AddComponent<SkyComponent>();
 
 	auto& stage = this->AddGameObject(L"Stage");
 	stage->AddComponent<Stage>();

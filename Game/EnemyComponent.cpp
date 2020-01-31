@@ -146,7 +146,7 @@ int EnemyComponent::GetMovingDirection(GameContext& context)
 		generator.SetHeuristic(AStar::Heuristic::euclidean);
 		generator.SetDiagonalMovement(false);	// ¡‰ñ‚ÍÎ‚ßˆÚ“®‚µ‚È‚¢‚Ì‚Å false
 
-												// •Ç‚ğ Astar ƒAƒ‹ƒSƒŠƒYƒ€‚Ö“o˜^‚·‚é
+		// •Ç‚ğ Astar ƒAƒ‹ƒSƒŠƒYƒ€‚Ö“o˜^‚·‚é
 		for (int y = 0; y < MapSizeY; y++)
 		{
 			for (int x = 0; x < MapSizeX; x++)
@@ -172,32 +172,29 @@ int EnemyComponent::GetMovingDirection(GameContext& context)
 		// ˆÚ“®•ûŒü‚ÌŒˆ’è
 		for (int i = 0; i < data.size(); i++)
 		{
-			// I’[
-			if (static_cast<int>(data[i].x) == static_cast<int>(this->GetGridPosition().x) &&
-				static_cast<int>(data[i].y) == static_cast<int>(this->GetGridPosition().y))
-			{
-				break;
-			}
-
 			if (static_cast<int>(data[i].x) == (static_cast<int>(this->GetGridPosition().x) - 1) &&
 				static_cast<int>(data[i].y) == static_cast<int>(this->GetGridPosition().y))
 			{
 				return Left;
 			}
-			if (static_cast<int>(data[i].x) == (static_cast<int>(this->GetGridPosition().x) + 1) &&
+			else if (static_cast<int>(data[i].x) == (static_cast<int>(this->GetGridPosition().x) + 1) &&
 				static_cast<int>(data[i].y) == static_cast<int>(this->GetGridPosition().y))
 			{
 				return Right;
 			}
-			if ((static_cast<int>(data[i].x)) == static_cast<int>(this->GetGridPosition().x) &&
+			else if ((static_cast<int>(data[i].x)) == static_cast<int>(this->GetGridPosition().x) &&
 				static_cast<int>(data[i].y) == (static_cast<int>(this->GetGridPosition().y) - 1))
 			{
 				return Up;
 			}
-			if ((static_cast<int>(data[i].x)) == static_cast<int>(this->GetGridPosition().x) &&
+			else if ((static_cast<int>(data[i].x)) == static_cast<int>(this->GetGridPosition().x) &&
 				static_cast<int>(data[i].y) == (static_cast<int>(this->GetGridPosition().y) + 1))
 			{
 				return Down;
+			}
+			else
+			{
+				return m_direction;
 			}
 		}
 	}
