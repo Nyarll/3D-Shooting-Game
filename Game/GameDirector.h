@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FixedCameraComponent.h"
+#include "../Frameworks/GameSprite.h"
 
 enum ActionState
 {
@@ -15,6 +16,8 @@ class GameDirector : public Component
 {
 private:
 	ActionState m_nowAct;
+
+	std::unique_ptr<GameSpriteEffect>	m_hpBar;
 
 public:
 	virtual void Initialize(GameContext& context)override;

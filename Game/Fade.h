@@ -10,6 +10,7 @@ private:
 	bool isStart = false;
 
 	int m_count = 0;
+	int m_speed = 2;
 
 	float m_alpha = 0.f;
 
@@ -30,4 +31,14 @@ public:
 	{
 		m_alpha = a;
 	}
+
+	void SetSpeed(int s)
+	{
+		if (s < 1)s = 1;
+		m_speed = s;
+	}
+
+	int GetCount() { return m_count; }
+
+	int GetBlackoutTime() { return 180 / m_speed; }
 };

@@ -16,6 +16,8 @@
 
 #include "../Frameworks/Random.h"
 
+#include "../GameSystem.h"
+
 bool EnemyComponent::Move(GameContext & context)
 {
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
@@ -48,10 +50,6 @@ bool EnemyComponent::Move(GameContext & context)
 	m_gridPosition += vel;
 
 	return true;
-
-
-
-	return false;
 }
 
 void EnemyComponent::SetGridPosition(GameContext & context, DirectX::SimpleMath::Vector2 gridPos)
@@ -126,93 +124,159 @@ void EnemyComponent::Render(GameContext & context)
 	m_geo->Draw(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::Colors::Red);
 }
 
-void EnemyComponent::GenerateRoute(GameContext & context)
-{
-	auto& scene = context.Get<SceneManager>().GetActiveScene();
-	auto& stage = scene.Find(L"Stage")->GetComponent<Stage>();
-	Random random;
-	DirectX::SimpleMath::Vector2 nextPoint = DirectX::SimpleMath::Vector2::Zero;
-	while (true)
-	{
-		int x = random.Range(0, stage->GetStageSize().x);
-		int y = random.Range(0, stage->GetStageSize().y);
-		nextPoint = { static_cast<float>(x),static_cast<float>(y) };
-		if (stage->IsPassable(x, y) && m_gridPosition != nextPoint)
-		{
-			break;
-		}
-	}
-	AStar::Generator generator;
-	int mapX = static_cast<int>(stage->GetStageSize().x);
-	int mapY = static_cast<int>(stage->GetStageSize().y);
-
-	generator.SetWorldSize({ mapX,mapY });
-	generator.SetHeuristic(AStar::Heuristic::euclidean);
-	generator.SetDiagonalMovement(false);
-
-	for (int y = 0; y < mapY; y++)
-	{
-		for (int x = 0; x < mapX; x++)
-		{
-			if (!stage->IsPassable(x, y))
-			{
-				generator.AddCollision({ x,y });
-			}
-		}
-	}
-
-	auto path = generator.FindPath({ static_cast<int>(m_gridPosition.x),static_cast<int>(m_gridPosition.y) },
-	{ static_cast<int>(nextPoint.x),static_cast<int>(nextPoint.y) });
-
-	for (auto& coordinate : path)
-	{
-		DirectX::SimpleMath::Vector2 p(static_cast<float>(coordinate.x), static_cast<float>(coordinate.y));
-		m_route.push_back(p);
-	}
-}
-
 int EnemyComponent::GetMovingDirection(GameContext& context)
 {
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
+	auto& player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
 	auto& stage = scene.Find(L"Stage")->GetComponent<Stage>();
 
-	int ex = static_cast<int>(m_gridPosition.x);
-	int ey = static_cast<int>(m_gridPosition.y);
+	int searchArea = 3;
+	int ex = static_cast<int>(this->GetGridPosition().x);
+	int ey = static_cast<int>(this->GetGridPosition().y);
+	int tx = static_cast<int>(player->GetGridPosition().x);
+	int ty = static_cast<int>(player->GetGridPosition().y);
 
-	Direction gotoDirection = Direction::Left;
-
-	if (m_route.size() > 0)
+	if ((ex - searchArea <= tx) && (ex + searchArea >= tx) &&
+		(ey - searchArea <= ty) && (ey + searchArea >= ty))
 	{
-		for (int i = 0; i < m_route.size(); i++)
+		AStar::Generator generator;
+		int MapSizeX = static_cast<int>(stage->GetStageSize().x);
+		int MapSizeY = static_cast<int>(stage->GetStageSize().y);
+		generator.SetWorldSize({ MapSizeX,MapSizeY });
+		generator.SetHeuristic(AStar::Heuristic::euclidean);
+		generator.SetDiagonalMovement(false);	// 今回は斜め移動しないので false
+
+												// 壁を Astar アルゴリズムへ登録する
+		for (int y = 0; y < MapSizeY; y++)
 		{
-			if (static_cast<int>(m_route[i].x) == (static_cast<int>(this->m_gridPosition.x) - 1) &&
-				static_cast<int>(m_route[i].y) == static_cast<int>(this->m_gridPosition.y))
+			for (int x = 0; x < MapSizeX; x++)
+			{
+				if (!stage->IsPassable(x, y))
+				{
+					generator.AddCollision({ x,y });
+				}
+			}
+		}
+
+		std::vector<DirectX::SimpleMath::Vector2> data;	// ルート情報
+		{
+			auto path = generator.FindPath({ static_cast<int>(this->GetGridPosition().x), static_cast<int>(this->GetGridPosition().y) },
+			{ static_cast<int>(player->GetGridPosition().x), static_cast<int>(player->GetGridPosition().y) });
+
+			for (auto& coordinate : path)
+			{
+				DirectX::SimpleMath::Vector2 back(coordinate.x, coordinate.y);
+				data.push_back(back);
+			}
+		}
+		// 移動方向の決定
+		for (int i = 0; i < data.size(); i++)
+		{
+			// 終端
+			if (static_cast<int>(data[i].x) == static_cast<int>(this->GetGridPosition().x) &&
+				static_cast<int>(data[i].y) == static_cast<int>(this->GetGridPosition().y))
+			{
+				break;
+			}
+
+			if (static_cast<int>(data[i].x) == (static_cast<int>(this->GetGridPosition().x) - 1) &&
+				static_cast<int>(data[i].y) == static_cast<int>(this->GetGridPosition().y))
 			{
 				return Left;
 			}
-			if (static_cast<int>(m_route[i].x) == (static_cast<int>(this->m_gridPosition.x) + 1) &&
-				static_cast<int>(m_route[i].y) == static_cast<int>(this->m_gridPosition.y))
+			if (static_cast<int>(data[i].x) == (static_cast<int>(this->GetGridPosition().x) + 1) &&
+				static_cast<int>(data[i].y) == static_cast<int>(this->GetGridPosition().y))
 			{
 				return Right;
 			}
-			if ((static_cast<int>(m_route[i].x)) == static_cast<int>(this->m_gridPosition.x) &&
-				static_cast<int>(m_route[i].y) == (static_cast<int>(this->m_gridPosition.y) - 1))
+			if ((static_cast<int>(data[i].x)) == static_cast<int>(this->GetGridPosition().x) &&
+				static_cast<int>(data[i].y) == (static_cast<int>(this->GetGridPosition().y) - 1))
 			{
 				return Up;
 			}
-			if ((static_cast<int>(m_route[i].x)) == static_cast<int>(this->m_gridPosition.x) &&
-				static_cast<int>(m_route[i].y) == (static_cast<int>(this->m_gridPosition.y) + 1))
+			if ((static_cast<int>(data[i].x)) == static_cast<int>(this->GetGridPosition().x) &&
+				static_cast<int>(data[i].y) == (static_cast<int>(this->GetGridPosition().y) + 1))
 			{
 				return Down;
 			}
 		}
-
-		m_route.erase(m_route.begin());
 	}
 	else
 	{
-		this->GenerateRoute(context);
-	}
+		int GotoDirection = Left;
+		switch (m_direction)
+		{
+		case Left:
+			if (stage->IsPassable(ex - 1, ey))
+			{
+				GotoDirection = Left;
+				break;
+			}
+			if (stage->IsPassable(ex, ey + 1))
+			{
+				GotoDirection = Down;
+				break;
+			}
+			if (stage->IsPassable(ex, ey - 1))
+			{
+				GotoDirection = Up;
+				break;
+			}
 
-	return this->GetMovingDirection(context);
+
+		case Right:
+			if (stage->IsPassable(ex + 1, ey))
+			{
+				GotoDirection = Right;
+				break;
+			}
+			if (stage->IsPassable(ex, ey - 1))
+			{
+				GotoDirection = Up;
+				break;
+			}
+			if (stage->IsPassable(ex, ey + 1))
+			{
+				GotoDirection = Down;
+				break;
+			}
+
+
+		case Up:
+			if (stage->IsPassable(ex + 1, ey))
+			{
+				GotoDirection = Right;
+				break;
+			}
+			if (stage->IsPassable(ex, ey - 1))
+			{
+				GotoDirection = Up;
+				break;
+			}
+			if (stage->IsPassable(ex - 1, ey))
+			{
+				GotoDirection = Left;
+				break;
+			}
+
+
+		case Down:
+			if (stage->IsPassable(ex - 1, ey))
+			{
+				GotoDirection = Left;
+				break;
+			}
+			if (stage->IsPassable(ex, ey + 1))
+			{
+				GotoDirection = Down;
+				break;
+			}
+			if (stage->IsPassable(ex + 1, ey))
+			{
+				GotoDirection = Right;
+				break;
+			}
+		}
+		return GotoDirection;
+	}
 }

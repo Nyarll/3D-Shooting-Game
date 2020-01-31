@@ -22,11 +22,11 @@ void Fade::Update(GameContext & context)
 			isStart = false;
 		}
 		if (m_count < 180)
-			m_alpha += 1.f / 180.f;
+			m_alpha += (1.f / 180.f) * m_speed;
 		if (m_count >= 180)
-			m_alpha -= 1.f / 180.f;
+			m_alpha -= (1.f / 180.f) * m_speed;
 
-		m_count++;
+		m_count += 1 * m_speed;
 	}
 	else
 	{

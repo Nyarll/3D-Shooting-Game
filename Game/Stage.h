@@ -41,9 +41,9 @@ public:
 
 	bool IsPassable(int x, int y)
 	{
-		if (x == m_x)
+		if (x >= m_x)
 			return false;
-		if (y == m_y)
+		if (y >= m_y)
 			return false;
 		if (x < 0)
 			return false;

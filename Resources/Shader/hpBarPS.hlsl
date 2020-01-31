@@ -10,8 +10,6 @@ float4 main(PS_INPUT input) : SV_TARGET
 	float2 uv = input.Tex;
 	float4 output = tex.Sample(samLinear, uv);
 
-	float t = Any.z;
-
 	if (uv.x < 0.02f || uv.x > 0.98f)
 	{
 		output = float4(0, 0, 0, 1);
@@ -29,7 +27,7 @@ float4 main(PS_INPUT input) : SV_TARGET
 	{
 		if (uv.x <= px)
 		{
-			output = float4(((sin(t / 30.f) + 1.0f) / 2.f), (sin((t + 120.f) / 30.f) + 1.0f) / 2.f, ((sin((t + 240.f) / 30.f) + 1.0f) / 2.f), 1);
+			output = float4(0, 1, 0, 1);
 		}
 	}
 

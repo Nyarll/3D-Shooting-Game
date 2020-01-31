@@ -8,7 +8,6 @@
 
 #include "GridComponent.h"
 #include "ModelRenderer.h"
-#include "Sky.h"
 #include "FixedCameraComponent.h"
 #include "GameDirector.h"
 #include "Stage.h"
@@ -18,6 +17,7 @@
 #include "StatusComponent.h"
 
 #include "../Frameworks/GameFont.h"
+#include "../Game/Fade.h"
 
 ScenePlay::ScenePlay()
 {
@@ -29,6 +29,12 @@ ScenePlay::~ScenePlay()
 
 void ScenePlay::Initialize(GameContext & context)
 {
+	m_fade = std::make_unique<Fade>();
+	m_fade->Initialize(context);
+	m_fade->SetCount(180);
+	m_fade->SetAlpha(1.f);
+	m_fade->Start();
+
 	auto& camera = this->AddGameObject(L"Camera");
 	camera->AddComponent<FixedCamera>();
 	camera->GetComponent<FixedCamera>()->ModeNormal();
@@ -36,8 +42,7 @@ void ScenePlay::Initialize(GameContext & context)
 	auto& grid = this->AddGameObject(L"Grid");
 	grid->AddComponent<GridComponent>();
 
-	auto& sky = this->AddGameObject(L"Sky");
-	sky->AddComponent<SkyComponent>();
+	auto& back = this->AddGameObject(L"Back");
 
 	auto& stage = this->AddGameObject(L"Stage");
 	stage->AddComponent<Stage>();
@@ -68,6 +73,8 @@ void ScenePlay::Update(GameContext & context)
 	bool f5 = key.F5;
 
 	debugKey[0] = false;	// <ƒ_ƒ~[>
+
+	m_fade->Update(context);
 
 	if (f1 && !debugKey[1])
 	{
@@ -194,6 +201,8 @@ void ScenePlay::Render(GameContext & context)
 	}
 	break;
 	}
+
+	m_fade->Render(context);
 }
 
 void ScenePlay::Finalize(GameContext & context)

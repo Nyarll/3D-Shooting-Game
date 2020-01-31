@@ -3,6 +3,7 @@
 #include "Scene.h"
 
 class GameObject;
+class Fade;
 
 // <Scene Play>
 class ScenePlay : public IScene
@@ -28,6 +29,7 @@ private:
 
 	bool debugKey[6];
 
+	std::unique_ptr<Fade>	m_fade;
 
 public:
 	ScenePlay();

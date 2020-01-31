@@ -12,6 +12,7 @@ private:
 	std::unique_ptr<GameSpriteEffect>	m_titleLogo;
 
 	std::unique_ptr<Fade>				m_fade;
+	bool changePlayScene = false;
 
 public:
 	SceneTitle();

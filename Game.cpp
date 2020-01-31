@@ -156,10 +156,10 @@ void Game::RenderInit(GameFont* font, int width, int height)
 	int cnt = 0;
 	int count = 0;
 
-	int interval = 180;
-
 	std::unique_ptr<Fade> fade = std::make_unique<Fade>();
 	fade->Initialize(*this);
+
+	int interval = fade->GetBlackoutTime();
 
 	while (true)
 	{

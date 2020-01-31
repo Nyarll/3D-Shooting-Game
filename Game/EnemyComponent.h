@@ -52,8 +52,6 @@ public:
 	void Update(GameContext& context)override;
 	void Render(GameContext& context)override;
 
-	void GenerateRoute(GameContext& context);
-
 private:
 	int GetMovingDirection(GameContext& context);
 };

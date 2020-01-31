@@ -36,10 +36,19 @@ void SceneTitle::Update(GameContext & context)
 
 	if (key.Space)
 	{
-		manager.RequestScene(SceneID::SCENE_PLAY);
+		changePlayScene = true;
+		m_fade->Start();
 	}
 
 	m_fade->Update(context);
+
+	if (changePlayScene)
+	{
+		if (m_fade->GetCount() > m_fade->GetBlackoutTime())
+		{
+			manager.RequestScene(SceneID::SCENE_PLAY);
+		}
+	}
 }
 
 void SceneTitle::Render(GameContext & context)
