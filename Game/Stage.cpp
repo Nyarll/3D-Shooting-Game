@@ -12,6 +12,9 @@
 
 #include "../Frameworks/Random.h"
 
+const int Stage::mapSizeX = 50;
+const int Stage::mapSizeY = 50;
+
 Stage::Stage()
 	: m_x(1)
 	, m_y(1)
@@ -30,10 +33,18 @@ void Stage::Initialize(GameContext & context)
 	DirectX::EffectFactory factory(dr.GetD3DDevice());
 	factory.SetDirectory(L"Resources/Models/Panel");
 	m_model = DirectX::Model::CreateFromCMO(dr.GetD3DDevice(), L"Resources/Models/Panel/Panel1.cmo", factory);
+
+	m_geometric = DirectX::GeometricPrimitive::CreateBox(dr.GetD3DDeviceContext(), DirectX::SimpleMath::Vector3(1.f, 0.25f, 1.f));
+	if (FAILED(DirectX::CreateWICTextureFromFile(dr.GetD3DDevice(), L"Resources/Sprite/Floor.png", nullptr, m_floorTexture.GetAddressOf())))
+	{
+		MessageBox(0, L"CreateWICTextureFromFile Failed.", NULL, MB_OK);
+		return;
+	}
 }
 
 void Stage::Update(GameContext & context)
 {
+	auto& scene = context.Get<SceneManager>().GetActiveScene();
 }
 
 void Stage::Render(GameContext & context)
@@ -43,19 +54,54 @@ void Stage::Render(GameContext & context)
 	auto& scene = context.Get<SceneManager>().GetActiveScene();
 	auto camera = scene.Find(L"Camera")->GetComponent<FixedCamera>();
 
-	float scale = 0.0285f;
+	auto player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
+	DirectX::SimpleMath::Vector2 playerPos = player->GetGridPosition();
+	int pgridX = static_cast<int>(playerPos.x);
 
+	std::vector<std::vector<MapChip*>> data;
+
+	// <•`‰æ‚Ì‚½‚ß‚ÌƒZƒbƒeƒBƒ“ƒO>
 	for (int y = 0; y < m_stage.size(); y++)
 	{
+		data.push_back(std::vector<MapChip*>());
 		for (int x = 0; x < m_stage[y].size(); x++)
 		{
 			if (m_stage[y][x].IsPassable())
 			{
-				DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateScale(scale);
-				world *= DirectX::SimpleMath::Matrix::CreateTranslation(m_stage[y][x].GetPosition());
-				m_model->Draw(dr.GetD3DDeviceContext(), context.Get<DirectX::CommonStates>(),
-					world, camera->GetViewMatrix(), camera->GetProjectionMatrix());
+				int gridX = static_cast<int>(m_stage[y][x].GetPosition().x);
+				int diffX = pgridX - gridX;
+
+				if (diffX < 0)
+					diffX *= (-1);
+
+				m_stage[y][x].SetDrawPrio(diffX);
+				data[y].push_back(&m_stage[y][x]);
 			}
+		}
+	}
+	// <•`‰æ‡‚ðŒˆ’è>
+	for (auto& d : data)
+	{
+		std::sort(d.begin(), d.end(),
+			[](const MapChip* a, const MapChip* b)
+		{
+			return a->GetDrawPrio() > b->GetDrawPrio();
+		});
+	}
+
+	float scale = 0.0285f;
+	scale = 1.f;
+
+	// <•`‰æ>
+	for (auto& object : data)
+	{
+		for (auto& obj : object)
+		{
+			DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateScale(scale);
+			world *= DirectX::SimpleMath::Matrix::CreateTranslation(obj->GetPosition());
+
+			m_geometric->Draw(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(),
+				DirectX::Colors::White, m_floorTexture.Get());
 		}
 	}
 }

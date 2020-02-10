@@ -11,6 +11,8 @@ private:
 	std::vector<std::vector<MapChip>>	m_stage;	// <ステージデータ>
 
 	std::unique_ptr<DirectX::Model>	m_model;
+	std::unique_ptr<DirectX::GeometricPrimitive>	m_geometric;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	m_floorTexture;
 
 	const int roomMinWidth = 5;
 	const int roomMaxWidth = 10;
@@ -23,8 +25,8 @@ private:
 
 	const int meetPointCount = 1;
 
-	const int mapSizeX = 75;
-	const int mapSizeY = 75;
+	static const int mapSizeX;
+	static const int mapSizeY;
 
 public:
 	Stage();
