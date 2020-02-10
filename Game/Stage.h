@@ -12,7 +12,6 @@ private:
 
 	std::unique_ptr<DirectX::Model>	m_model;
 	std::unique_ptr<DirectX::GeometricPrimitive>	m_geometric;
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	m_floorTexture;
 
 	const int roomMinWidth = 5;
 	const int roomMaxWidth = 10;

@@ -93,6 +93,8 @@ void Game::FirstInit(HWND window, int width, int height)
 
 	assert(result && "Missing !");
 
+	Register(std::make_unique<ResourceManager>());
+
 }
 
 void Game::InitDatas(HWND window, int width, int height)
@@ -108,7 +110,7 @@ void Game::InitDatas(HWND window, int width, int height)
 		Get<EffectFactory>().SetDirectory(L"Resources/Models");
 		this->Progress();
 	}
-	Register(std::make_unique<ResourceManager>());
+	
 	Get<ResourceManager>().Initialize(*this, window);
 	this->Progress();
 
@@ -132,7 +134,7 @@ void Game::InitDatas(HWND window, int width, int height)
 
 void Game::RenderInit(GameFont* font, int width, int height)
 {
-	DirectX::SimpleMath::Vector2 pos((width / 2) - (sizeof("Now Progress : 00 / 00") * 6), (height / 4) * 3);
+	DirectX::SimpleMath::Vector2 pos((width / 2) - (sizeof("Now Progress : 00 / 00") * 6), (height / 4) * 3 - 24);
 	DirectX::SimpleMath::Vector2 str_pos(static_cast<float>(width - sizeof("Data Loading...") * 10), static_cast<float>(height - 40 * 1.5f));
 
 	std::unique_ptr<GameSpriteEffect>	progressBar = std::make_unique<GameSpriteEffect>();
@@ -189,6 +191,10 @@ void Game::RenderInit(GameFont* font, int width, int height)
 			cnt = 0;
 		}
 
+		// <TODO : 右下でカメをローリングする> : <必須！！！>
+		{
+
+		}
 		loadBackground->Draw(*this, { static_cast<float>(width / 5),static_cast<float>(height / 4) });
 		loadSprites[n]->Draw(*this, str_pos);
 
@@ -197,7 +203,17 @@ void Game::RenderInit(GameFont* font, int width, int height)
 
 		font->SetScale(0.75f);
 		font->Draw(pos, DirectX::Colors::Black, "Now Progress : %2d / %2d", m_initProgress, this->PROGRESS_END);
+		int e = Get<ResourceManager>().GetProgressEnd();
+		if (m_initProgress >= 2 && Get<ResourceManager>().GetNowProgress() < Get<ResourceManager>().GetProgressEnd())
+		{
+			progressBar->SetConstBuffer(static_cast<float>(Get<ResourceManager>().GetNowProgress()), Get<ResourceManager>().GetProgressEnd(), count);
+			progressBar->Render2D(*this, DirectX::SimpleMath::Vector2(width / 2, -(height / 2) - 140));
 
+			font->Draw(DirectX::SimpleMath::Vector2((width / 2) - (sizeof("Now Resource Import : 00 / 00") * 6), (height / 4) * 3 + 14),
+				DirectX::Colors::Black, "Now Resource Import : %2d / %2d",
+				Get<ResourceManager>().GetNowProgress(),
+				Get<ResourceManager>().GetProgressEnd());
+		}
 		fade->Render(*this);
 
 		m_deviceResources->PIXEndEvent();

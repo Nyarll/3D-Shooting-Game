@@ -3,10 +3,10 @@ static const int vnum = 4;
 
 static const float4 offset_array[vnum] =
 {
-	float4(-0.5f, -0.25f, 0, 0),	// 左下
-	float4(-0.5f, +0.25f, 0, 0),	// 左上
-	float4(+0.5f, -0.25f, 0, 0),	// 右上
-	float4(+0.5f, +0.25f, 0, 0),	// 右下
+	float4(-0.5f, -0.05f, 0, 0),	// 左下
+	float4(-0.5f, +0.05f, 0, 0),	// 左上
+	float4(+0.5f, -0.05f, 0, 0),	// 右上
+	float4(+0.5f, +0.05f, 0, 0),	// 右下
 
 };
 

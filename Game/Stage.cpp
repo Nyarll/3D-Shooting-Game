@@ -11,6 +11,7 @@
 #include "EnemyComponent.h"
 
 #include "../Frameworks/Random.h"
+#include "../Frameworks/ResourceManager.h"
 
 const int Stage::mapSizeX = 50;
 const int Stage::mapSizeY = 50;
@@ -35,11 +36,6 @@ void Stage::Initialize(GameContext & context)
 	m_model = DirectX::Model::CreateFromCMO(dr.GetD3DDevice(), L"Resources/Models/Panel/Panel1.cmo", factory);
 
 	m_geometric = DirectX::GeometricPrimitive::CreateBox(dr.GetD3DDeviceContext(), DirectX::SimpleMath::Vector3(1.f, 0.25f, 1.f));
-	if (FAILED(DirectX::CreateWICTextureFromFile(dr.GetD3DDevice(), L"Resources/Sprite/Floor.png", nullptr, m_floorTexture.GetAddressOf())))
-	{
-		MessageBox(0, L"CreateWICTextureFromFile Failed.", NULL, MB_OK);
-		return;
-	}
 }
 
 void Stage::Update(GameContext & context)
@@ -101,7 +97,7 @@ void Stage::Render(GameContext & context)
 			world *= DirectX::SimpleMath::Matrix::CreateTranslation(obj->GetPosition());
 
 			m_geometric->Draw(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(),
-				DirectX::Colors::White, m_floorTexture.Get());
+				DirectX::Colors::White, context.Get<ResourceManager>().GetTexture(ResourceManager::TextureID::Floor));
 		}
 	}
 }
