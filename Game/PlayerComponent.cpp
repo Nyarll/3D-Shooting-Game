@@ -8,101 +8,6 @@
 
 #include "StatusComponent.h"
 
-bool PlayerComponent::Move(GameContext & context)
-{
-	auto& scene = context.Get<SceneManager>().GetActiveScene();
-	auto& stage = scene.Find(L"Stage")->GetComponent<Stage>();
-
-	auto key = context.Get<DirectX::Keyboard>().GetState();
-	bool is_move = false;
-
-	if (!isMove)
-	{
-		if (key.IsKeyDown(DirectX::Keyboard::Right))
-		{
-			if (stage->IsPassable(static_cast<int>(m_gridPosition.x + 1.f), static_cast<int>(m_gridPosition.y)))
-			{
-				m_gridOldPos = m_gridPosition;
-				m_gridPosition.x += 1;
-				isMove = is_move = true;
-
-				float mx = (m_gridPosition.x - m_gridOldPos.x) / MOVE_DIV;
-				float my = (m_gridPosition.y - m_gridOldPos.y) / MOVE_DIV;
-
-				m_v = { mx, my };
-				m_dir.x = 1;
-				m_dir.y = 0;
-
-				m_angle = DirectX::XMConvertToRadians(-90.f);
-			}
-		}
-		else if (key.IsKeyDown(DirectX::Keyboard::Left))
-		{
-			if (stage->IsPassable(static_cast<int>(m_gridPosition.x - 1.f), static_cast<int>(m_gridPosition.y)))
-			{
-				m_gridOldPos = m_gridPosition;
-				m_gridPosition.x -= 1;
-				isMove = is_move = true;
-
-				float mx = (m_gridPosition.x - m_gridOldPos.x) / MOVE_DIV;
-				float my = (m_gridPosition.y - m_gridOldPos.y) / MOVE_DIV;
-
-				m_v = { mx, my };
-				m_dir.x = -1;
-				m_dir.y = 0;
-
-				m_angle = DirectX::XMConvertToRadians(90.f);
-			}
-		}
-		else if (key.IsKeyDown(DirectX::Keyboard::Down))
-		{
-			if (stage->IsPassable(static_cast<int>(m_gridPosition.x), static_cast<int>(m_gridPosition.y + 1.f)))
-			{
-				m_gridOldPos = m_gridPosition;
-				m_gridPosition.y += 1;
-				isMove = is_move = true;
-
-				float mx = (m_gridPosition.x - m_gridOldPos.x) / MOVE_DIV;
-				float my = (m_gridPosition.y - m_gridOldPos.y) / MOVE_DIV;
-
-				m_v = { mx, my };
-				m_dir.x = 0;
-				m_dir.y = 1;
-
-				m_angle = DirectX::XMConvertToRadians(180.f);
-			}
-		}
-		else if (key.IsKeyDown(DirectX::Keyboard::Up))
-		{
-			if (stage->IsPassable(static_cast<int>(m_gridPosition.x), static_cast<int>(m_gridPosition.y - 1.f)))
-			{
-				m_gridOldPos = m_gridPosition;
-				m_gridPosition.y -= 1;
-				isMove = is_move = true;
-
-				float mx = (m_gridPosition.x - m_gridOldPos.x) / MOVE_DIV;
-				float my = (m_gridPosition.y - m_gridOldPos.y) / MOVE_DIV;
-
-				m_v = { mx, my };
-				m_dir.x = 0;
-				m_dir.y = -1;
-
-				m_angle = 0;
-			}
-		}
-	}
-
-	return is_move;
-}
-
-void PlayerComponent::SetGridPosition(GameContext & context, DirectX::SimpleMath::Vector2 gridPos)
-{
-	m_gridPosition = gridPos;
-	m_gridOldPos = m_gridPosition;
-
-	gameObject->transform->localPosition = { m_gridPosition.x, 0, m_gridPosition.y };
-}
-
 void PlayerComponent::Initialize(GameContext & context)
 {
 	m_geo = DirectX::GeometricPrimitive::CreateTeapot(
@@ -115,19 +20,7 @@ void PlayerComponent::Initialize(GameContext & context)
 
 void PlayerComponent::Update(GameContext & context)
 {
-	if (isMove)
-	{
-		m_gridOldPos += m_v;
-		gameObject->transform->localPosition = { m_gridOldPos.x, 0, m_gridOldPos.y };
-		m_cnt++;
-	}
-
-	if (m_cnt == MOVE_DIV)
-	{
-		m_v = DirectX::SimpleMath::Vector2::Zero;
-		isMove = false;
-		m_cnt = 0;
-	}
+	
 }
 
 void PlayerComponent::Render(GameContext & context)

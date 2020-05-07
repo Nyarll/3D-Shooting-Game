@@ -51,7 +51,7 @@ void Stage::Render(GameContext & context)
 	auto camera = scene.Find(L"Camera")->GetComponent<FixedCamera>();
 
 	auto player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
-	DirectX::SimpleMath::Vector2 playerPos = player->GetGridPosition();
+	DirectX::SimpleMath::Vector3 playerPos = player->gameObject->transform->position;
 	int pgridX = static_cast<int>(playerPos.x);
 
 	std::vector<std::vector<MapChip*>> data;
@@ -122,7 +122,8 @@ void Stage::SpawnPlayer(GameContext & context)
 	for (auto& e : enemys)
 	{
 		auto& ec = e->GetComponent<EnemyComponent>();
-		DirectX::SimpleMath::Vector2 ep = ec->GetGridPosition();
+		DirectX::SimpleMath::Vector3 e_position = ec->gameObject->transform->position;
+		DirectX::SimpleMath::Vector2 ep(e_position.x, e_position.z);
 		enemysPosition.push_back(ep);
 	}
 
@@ -148,7 +149,8 @@ void Stage::SpawnPlayer(GameContext & context)
 		{
 			if (this->IsPassable(x, y))
 			{
-				player->SetGridPosition(context, { (float)x, (float)y });
+				DirectX::SimpleMath::Vector3 pos(static_cast<float>(x), 0, static_cast<float>(y));
+				player->gameObject->transform->localPosition = pos;
 				break;
 			}
 		}
@@ -162,13 +164,13 @@ void Stage::SpawnEnemy(GameContext & context)
 	auto& player = scene.Find(L"Player")->GetComponent<PlayerComponent>();
 	auto& enemys = scene.FindAll(L"Enemy");
 
-	DirectX::SimpleMath::Vector2 playerPosition = player->GetGridPosition();
+	DirectX::SimpleMath::Vector2 playerPosition(player->gameObject->transform->localPosition.x, player->gameObject->transform->localPosition.z);
 	std::vector<DirectX::SimpleMath::Vector2> enemysPosition;
 
 	for (auto& e : enemys)
 	{
 		auto& ec = e->GetComponent<EnemyComponent>();
-		DirectX::SimpleMath::Vector2 ep = ec->GetGridPosition();
+		DirectX::SimpleMath::Vector2 ep(ec->gameObject->transform->localPosition.x, ec->gameObject->transform->localPosition.z);
 		enemysPosition.push_back(ep);
 	}
 
@@ -207,7 +209,7 @@ void Stage::SpawnEnemy(GameContext & context)
 			{
 				if (this->IsPassable(x, y))
 				{
-					enemys[i]->GetComponent<EnemyComponent>()->SetGridPosition(context, DirectX::SimpleMath::Vector2(x, y));
+					enemys[i]->transform->localPosition = DirectX::SimpleMath::Vector3(static_cast<float>(x), 0, static_cast<float>(y));
 					break;
 				}
 			}

@@ -170,11 +170,6 @@ void ScenePlay::Render(GameContext & context)
 				"CameraMode : FPS");
 			break;
 		}
-
-		auto& player = this->Find(L"Player")->GetComponent<PlayerComponent>();
-		font.Draw({ 0,32 }, DirectX::Colors::White, "Player : ( %3d,%3d )",
-			(int)(player->GetGridPosition().x),
-			(int)(player->GetGridPosition().y));
 	}
 	break;
 
@@ -187,16 +182,6 @@ void ScenePlay::Render(GameContext & context)
 		font.Draw({ 0,40 }, DirectX::Colors::GreenYellow, "HP : ( %3d / %3d )", data->GetNowHP(), data->GetMaxHP());
 		font.Draw({ 0,60 }, DirectX::Colors::Red, "ATK : %3d", data->GetATK());
 		font.Draw({ 0,80 }, DirectX::Colors::Blue, "DEF : %3d", data->GetDEF());
-
-		auto& player = this->Find(L"Player")->GetComponent<PlayerComponent>();
-		font.Draw({ 0,120 }, DirectX::Colors::White, "Player : ( %3d,%3d )",
-			(int)(player->GetGridPosition().x),
-			(int)(player->GetGridPosition().y));
-
-		auto& e1 = this->Find(L"Enemy")->GetComponent<EnemyComponent>();
-		font.Draw({ 0, 140 }, DirectX::Colors::Red, "Enemy : ( %3d,%3d )",
-			(int)(e1->GetGridPosition().x),
-			(int)(e1->GetGridPosition().y));
 
 		auto es = this->Find(L"Enemy")->GetComponent<StatusComponent>();
 		font.Draw({ 0, 160 }, DirectX::Colors::Red, "Name : " + es->GetEntityName());

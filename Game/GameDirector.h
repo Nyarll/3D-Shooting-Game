@@ -3,20 +3,10 @@
 #include "FixedCameraComponent.h"
 #include "../Frameworks/GameSprite.h"
 
-enum ActionState
-{
-	Idle = 0,
-	PlayerTurn,
-	EnemyTurn,
-	TurnEnd
-};
-
 // <ゲーム進行統括クラス>
 class GameDirector : public Component
 {
 private:
-	ActionState m_nowAct;
-
 	std::unique_ptr<GameSpriteEffect>	m_hpBar;
 
 public:
@@ -27,10 +17,5 @@ public:
 	virtual std::wstring GetName()const override
 	{
 		return L"GameDirector";
-	}
-
-	ActionState GetNowActionState()
-	{
-		return m_nowAct;
 	}
 };

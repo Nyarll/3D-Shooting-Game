@@ -28,7 +28,7 @@ namespace FBX_LOADER
 		DirectX::XMFLOAT3 Pos;
 	};
 
-	// <GPU(シェーダ側)へ送る数値をまとめた構造体>
+	// <GPU(シェーダ側)へ送る数値をまとめた構造体> 
 	struct CONSTANT_BUFFER {
 		DirectX::XMMATRIX mWVP;
 	};
